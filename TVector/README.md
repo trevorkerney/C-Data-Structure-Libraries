@@ -53,7 +53,7 @@ Returns the growth_multiplier.
 
 ### unsigned int reserve(const int& amount);
 
-Manually expands the vector's capacity. Returns amount of new spaces in vector's capacity. Trying to reserve more than the vector's maximum capacity does not throw an error, but simply reserves the maximum capacity. Any call to reserve when vector's capacity is at maximum size will immediately return 0.
+Manually expands the vector's capacity. Returns amount of new spaces in vector's capacity. Trying to reserve more than the vector's maximum capacity does not throw an error, but simply reserves the maximum capacity. Any call to reserve when the vector's capacity is at maximum size will immediately return 0.
 
 parameters:
 - amount: the new capacity of the vector.
