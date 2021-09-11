@@ -20,7 +20,7 @@ public:
 
     TVector(const unsigned int& p_initial_size = 2, const unsigned int& p_growth_multiplier = 2)
     {
-        if (p_initial_size >= 0 && p_initial_size < MAX_SIZE)
+        if (p_initial_size >= 2 && p_initial_size < MAX_SIZE)
         {
             i_vector = new type[p_initial_size];
             i_memory_size = p_initial_size;

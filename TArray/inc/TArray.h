@@ -21,7 +21,7 @@ public:
 
     TArray(int p_initial_size = 2)
     {
-        if (p_initial_size >= 0 && p_initial_size < this -> MAX_SIZE)
+        if (p_initial_size >= 2 && p_initial_size < this -> MAX_SIZE)
         {
             this -> i_array = new type[p_initial_size];
             this -> i_size = p_initial_size;

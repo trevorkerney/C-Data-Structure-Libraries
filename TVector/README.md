@@ -16,7 +16,7 @@ Maximum size (MAX_SIZE) of TVector is 65535.
 Allocates vector on the heap.
 
 parameters:
-- initial_size: the memory capacity initally allocated for the list. The default is 2. Throws error if less than 0 or greater than MAX_SIZE.
+- initial_size: the memory capacity initally allocated for the list. The default is 2. Throws error if less than 2 or greater than MAX_SIZE.
 - growth_multiplier: the capacity multiplier used for automatic resizing. The default is 2. (*READ void set_growth_multiplier(float p_multiplier);*).
 
 ## ~TVector(); (destructor)

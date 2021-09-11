@@ -18,7 +18,7 @@ Maximum size (MAX_SIZE) of TArray is 65535.
 Allocates array on the heap.
 
 parameters:
-- initial_size: the memory capacity initally allocated for the list. The default is 2. Throws error if less than 0 or greater than MAX_SIZE.
+- initial_size: the memory capacity initally allocated for the list. The default is 2. Throws error if less than 2 or greater than MAX_SIZE.
 
 ## ~TArray(); (destructor)
 
