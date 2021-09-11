@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdexcept>
 
 template <typename type>
@@ -7,7 +9,7 @@ private:
 
     type* i_array;
 
-    int i_size;
+    unsigned int i_size;
     void inc_size(int p_amount = 1)
     {
         i_size += p_amount;
@@ -26,7 +28,7 @@ public:
         }
         else
         {
-            throw std::runtime_error("Out of allowed TArray range: 0 - " + this ->  MAX_SIZE);
+            throw std::runtime_error("Out of allowed TArray range: 0 - " + this -> MAX_SIZE);
         }
     }
     ~TArray()
@@ -34,8 +36,6 @@ public:
         delete i_array;
     }
 
-
-    TArray& operator=(const TArray& p_obj);
     type& operator[](int p_index)
     {
         return this -> at(p_index);
@@ -53,6 +53,10 @@ public:
             throw std::runtime_error("Out of range");
         }
         return this -> i_array[p_index];
+    }
+    type& operator[](const int p_index) const
+    {
+        return at(p_index);
     }
 
     void reserve(int p_amount) noexcept(false)
