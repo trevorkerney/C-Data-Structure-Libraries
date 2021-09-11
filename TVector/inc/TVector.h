@@ -14,7 +14,7 @@ private:
 
     float i_growth_multiplier;
 
-    const unsigned int MAX_SIZE = 65535;
+    static const unsigned int MAX_SIZE = 65535;
 
 public:
 

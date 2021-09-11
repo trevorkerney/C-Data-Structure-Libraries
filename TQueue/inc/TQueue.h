@@ -16,7 +16,7 @@ public:
 
     TQueueNode(type p_value) 
     {
-        this -> i_value = p_value;
+        i_value = p_value;
     }
     ~TQueueNode()
     {
@@ -27,29 +27,29 @@ public:
     // return value held by node
     type value() const 
     {
-        return this -> i_value;
+        return i_value;
     }
     // returns pointer to node before this one
     TQueueNode<type>* prev() const
     {
-        return this -> i_prev;
+        return i_prev;
     }
     // returns pointer to node after this one
     TQueueNode<type>* next() const 
     {
-        return this -> i_next;
+        return i_next;
     }
 
 
     // sets prev pointer to parameter
     void set_prev(TQueueNode* p_prev)
     {
-        this -> i_prev = p_prev;
+        i_prev = p_prev;
     }
     // sets next pointer to parameter
     void set_next(TQueueNode* p_next)
     {
-        this -> i_next = p_next;
+        i_next = p_next;
     }
 
 };
@@ -65,26 +65,26 @@ private:
     // sets head pointer to parameter
     void set_head(TQueueNode<type>* p_head)
     {
-        this -> i_head = p_head;
+        i_head = p_head;
     }
     
     TQueueNode<type>* i_foot = nullptr;
     // sets foot pointer to parameter
     void set_foot(TQueueNode<type>* p_foot) 
     {
-        this -> i_foot = p_foot;
+        i_foot = p_foot;
     }
 
     int i_size = 0;
     // increments i_size
     void inc_size() 
     {
-        this -> i_size++;
+        i_size++;
     }
     // decrements i_size
     void dec_size() 
     {
-        this -> i_size--;
+        i_size--;
     }
 
 public:
@@ -96,10 +96,10 @@ public:
     ~TQueue()
     {
         TQueueNode<type>* prev_node = nullptr;
-        while(this -> i_head)
+        while(i_head)
         {
-            prev_node = this -> i_head;
-            this -> i_head = this -> i_head -> next();
+            prev_node = i_head;
+            i_head = i_head -> next();
             delete prev_node;
         }
     }
@@ -108,7 +108,7 @@ public:
     // returns size of queue
     int size() const
     {
-        return this -> i_size;
+        return i_size;
     }
 
 
@@ -117,11 +117,11 @@ public:
     {
         TQueueNode<type>* node = new TQueueNode<type>(p_obj);
 
-        if (this -> i_head)
+        if (i_head)
         {
-            this -> i_foot -> set_next(node);
+            i_foot -> set_next(node);
             node -> set_prev(i_foot);
-            this -> set_foot(node);
+            set_foot(node);
         }
         else
         {
@@ -134,22 +134,22 @@ public:
     type next(int p_quiet = 0) noexcept(false)
     {
         type value;
-        if (this -> i_head)
+        if (i_head)
         {
-            TQueueNode<type>* old_head = this -> i_head;
+            TQueueNode<type>* old_head = i_head;
             value = old_head -> value();
-            if (this -> i_head == this -> i_foot)
+            if (i_head == i_foot)
             {
                 set_head(nullptr);
                 set_foot(nullptr);
             }
             else
             {
-                this -> i_head = this -> i_head -> next();
-                this -> i_head -> set_prev(nullptr);
+                i_head = i_head -> next();
+                i_head -> set_prev(nullptr);
             }
             delete old_head;
-            this -> dec_size();
+            dec_size();
         }
         else
         {
