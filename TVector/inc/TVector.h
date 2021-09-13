@@ -2,6 +2,8 @@
 
 #include <stdexcept>
 
+#include <iostream>
+
 template <typename type>
 class TVector
 {
@@ -16,13 +18,34 @@ private:
 
     static const unsigned int MAX_SIZE = 65535;
 
+    void copy(const TVector& p_other)
+    {
+        ~TVector();
+        if (p_other.i_memory_size > 0)
+        {
+            i_vector = new type[p_other.i_memory_size];
+
+            for (int _i = 0; _i < p_other.i_size; _i++)
+            {
+                type obj = p_other[_i];
+                i_vector[_i] = obj;
+            }
+        }
+        i_memory_size = p_other.i_memory_size;
+        i_size = p_other.i_size;
+        i_growth_multiplier = p_other.i_growth_multiplier;
+    }
+
 public:
 
-    TVector(const unsigned int& p_initial_size = 2, const unsigned int& p_growth_multiplier = 2)
+    TVector(const unsigned int& p_initial_size = 0, const unsigned int& p_growth_multiplier = 2)
     {
-        if (p_initial_size >= 2 && p_initial_size < MAX_SIZE)
+        if (p_initial_size >= 0 && p_initial_size < MAX_SIZE)
         {
-            i_vector = new type[p_initial_size];
+            if (p_initial_size > 0)
+            {
+                reserve(p_initial_size);
+            }
             i_memory_size = p_initial_size;
             i_size = 0;
             i_growth_multiplier = p_growth_multiplier;
@@ -32,9 +55,28 @@ public:
             throw std::runtime_error("Out of allowed TArray range: 0 - " + MAX_SIZE);
         }
     }
+    TVector(const TVector& p_other)
+    {
+        i_memory_size = 0;
+        i_size = 0;
+        i_growth_multiplier = 2;
+        copy(p_other);
+    }
     ~TVector()
     {
-        delete i_vector;
+        if (i_memory_size > 0)
+        {
+            delete i_vector;
+        }
+    }
+
+    TVector& operator=(const TVector& p_other)
+    {
+        if (this != &p_other)
+        {
+            copy(p_other);
+        }    
+        return *this;    
     }
 
     type& at(const int& p_index) const noexcept(false)
@@ -96,21 +138,21 @@ public:
         if (i_memory_size > i_size)
         {
             type* new_array;
-            if (i_size > 2)
+            if (i_size > 0)
             {
                 new_array = new type[i_size];
-                i_memory_size = i_size;
+                
+                for (unsigned int _i = 0; _i < i_size; _i++)
+                {
+                    new_array[_i] = i_vector[_i];
+                }
+                i_vector = new_array;
             }
             else
             {
-                new_array = new type[2];
-                i_memory_size = 2;
+                delete i_vector;
             }
-            for (unsigned int _i = 0; _i < i_size; _i++)
-            {
-                new_array[_i] = i_vector[_i];
-            }
-            i_vector = new_array;
+            i_memory_size = i_size;
             return old_memory_size - i_size;
         }
         else
@@ -124,20 +166,24 @@ public:
         if (i_size < i_memory_size)
         {
             i_vector[i_size] = p_obj;
+            i_size++;
         }
         else
         {
-            if (i_memory_size != MAX_SIZE)
+            if (i_memory_size == 0)
             {
-                reserve(i_size * i_growth_multiplier);
-                push(p_obj);
+                reserve(1);
+            }
+            else if (i_memory_size != MAX_SIZE)
+            {
+                reserve(i_memory_size * i_growth_multiplier);
             }
             else
             {
                 throw std::runtime_error("Exceeded maximum capacity");
             }
+            push(p_obj);
         }
-        i_size++;
     }
 
     void push(const type* p_objs, const int& p_size)
