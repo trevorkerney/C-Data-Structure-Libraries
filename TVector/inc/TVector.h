@@ -353,7 +353,7 @@ public:
         switch(p_method)
         {
         case sortingMethod::quick:
-            quick_sort(0, i_size, p_negativity);
+            quick_sort(0, i_size);
             break;
         
         case sortingMethod::insertion:
