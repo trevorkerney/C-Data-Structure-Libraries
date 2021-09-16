@@ -41,16 +41,16 @@ private:
         i_growth_multiplier = p_other.i_growth_multiplier;
     }
 
-    int compare(const type& p_obj1, const type& p_obj2, const int& p_negativity = 1) const
+    int compare(const type& p_obj1, const type& p_obj2) const
     {
         throw std::runtime_error("There is no comparison function provided for this type.");
     }
 
-    void quick_sort(int p_low, int p_high, const int& p_negativity = 1)
+    void quick_sort(int p_low, int p_high)
     {
         if (p_low < p_high - 1)
         {
-            int pivot = partition(p_low, p_high, p_negativity);
+            int pivot = partition(p_low, p_high);
             quick_sort(p_low, pivot);
             quick_sort(pivot + 1, p_high);
         }
@@ -85,7 +85,7 @@ private:
         i_vector[p_index2] = obj;
     }
 
-    int partition(int p_low, int p_high, const int& p_negativity = 1)
+    int partition(int p_low, int p_high)
     {
         int pivot_index = median3(p_low, p_high / 2, p_high - 1);
         type pivot = i_vector[pivot_index];
@@ -96,11 +96,11 @@ private:
             do
             {
                 _i++;
-            } while (compare(i_vector[_i], pivot, p_negativity) <= 0 && _i < p_high);
+            } while (compare(i_vector[_i], pivot) <= 0 && _i < p_high);
             do
             {
                 _j--;
-            } while (compare(i_vector[_j], pivot, p_negativity) > 0);
+            } while (compare(i_vector[_j], pivot) > 0);
             if (_i < _j)
             {
                 if (_j == pivot_index)
@@ -348,7 +348,7 @@ public:
         return obj;
     }
 
-    void sort(const int& p_negativity = 1, const sortingMethod& p_method = sortingMethod::quick)
+    void sort(const sortingMethod& p_method = sortingMethod::quick)
     {
         switch(p_method)
         {
@@ -366,11 +366,11 @@ public:
 };
 
 template<>
-inline int TVector<int>::compare(const int& p_obj1, const int& p_obj2, const int& p_negativity) const
+inline int TVector<int>::compare(const int& p_obj1, const int& p_obj2) const
 {
     int comparison = p_obj1 - p_obj2;
     if (comparison != 0)
-        if (comparison > 0 != p_negativity < 0)
+        if (comparison > 0)
             return 1;
         else
             return -1;
@@ -379,11 +379,11 @@ inline int TVector<int>::compare(const int& p_obj1, const int& p_obj2, const int
 }
 
 template<>
-inline int TVector<float>::compare(const float& p_obj1, const float& p_obj2, const int& p_negativity) const
+inline int TVector<float>::compare(const float& p_obj1, const float& p_obj2) const
 {
     float comparison = p_obj1 - p_obj2;
     if (comparison != 0)
-        if (comparison > (float)0 != p_negativity < 0)
+        if (comparison > (float)0)
             return 1;
         else
             return -1;
@@ -392,11 +392,11 @@ inline int TVector<float>::compare(const float& p_obj1, const float& p_obj2, con
 }
 
 template<>
-inline int TVector<double>::compare(const double& p_obj1, const double& p_obj2, const int& p_negativity) const
+inline int TVector<double>::compare(const double& p_obj1, const double& p_obj2) const
 {
     double comparison = p_obj1 - p_obj2;
     if (comparison != 0)
-        if (comparison > (double)0 != p_negativity < 0)
+        if (comparison > (double)0)
             return 1;
         else
             return -1;
@@ -405,11 +405,11 @@ inline int TVector<double>::compare(const double& p_obj1, const double& p_obj2, 
 }
 
 template<>
-inline int TVector<std::string>::compare(const std::string& p_obj1, const std::string& p_obj2, const int& p_negativity) const
+inline int TVector<std::string>::compare(const std::string& p_obj1, const std::string& p_obj2) const
 {
     int comparison = p_obj1.compare(p_obj2);
     if (comparison != 0)
-        if (comparison > 0 != p_negativity < 0)
+        if (comparison > 0)
             return 1;
         else
             return -1;
