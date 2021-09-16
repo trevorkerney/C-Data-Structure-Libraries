@@ -366,7 +366,7 @@ public:
 };
 
 template<>
-int TVector<int>::compare(const int& p_obj1, const int& p_obj2, const int& p_negativity) const
+inline int TVector<int>::compare(const int& p_obj1, const int& p_obj2, const int& p_negativity) const
 {
     int comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -379,7 +379,7 @@ int TVector<int>::compare(const int& p_obj1, const int& p_obj2, const int& p_neg
 }
 
 template<>
-int TVector<float>::compare(const float& p_obj1, const float& p_obj2, const int& p_negativity) const
+inline int TVector<float>::compare(const float& p_obj1, const float& p_obj2, const int& p_negativity) const
 {
     float comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -392,7 +392,7 @@ int TVector<float>::compare(const float& p_obj1, const float& p_obj2, const int&
 }
 
 template<>
-int TVector<double>::compare(const double& p_obj1, const double& p_obj2, const int& p_negativity) const
+inline int TVector<double>::compare(const double& p_obj1, const double& p_obj2, const int& p_negativity) const
 {
     double comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -405,7 +405,7 @@ int TVector<double>::compare(const double& p_obj1, const double& p_obj2, const i
 }
 
 template<>
-int TVector<std::string>::compare(const std::string& p_obj1, const std::string& p_obj2, const int& p_negativity) const
+inline int TVector<std::string>::compare(const std::string& p_obj1, const std::string& p_obj2, const int& p_negativity) const
 {
     int comparison = p_obj1.compare(p_obj2);
     if (comparison != 0)
