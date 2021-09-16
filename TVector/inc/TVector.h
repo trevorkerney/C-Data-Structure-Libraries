@@ -14,7 +14,7 @@ private:
 
     type* i_vector;
 
-    unsigned int i_memory_size;
+    unsigned int i_capacity;
     unsigned int i_size;
 
     float i_growth_multiplier;
@@ -23,20 +23,20 @@ private:
 
     void copy(const TVector& p_other)
     {
-        if (p_other.i_memory_size > 0)
+        if (p_other.i_capacity > 0)
         {
-            if (i_memory_size > 0)
+            if (i_capacity > 0)
             {
                 delete[] i_vector;
             }
-            i_vector = new type[p_other.i_memory_size];
+            i_vector = new type[p_other.i_capacity];
 
             for (int _i = 0; _i < p_other.i_size; _i++)
             {
                 i_vector[_i] = p_other[_i];;
             }
         }
-        i_memory_size = p_other.i_memory_size;
+        i_capacity = p_other.i_capacity;
         i_size = p_other.i_size;
         i_growth_multiplier = p_other.i_growth_multiplier;
     }
@@ -128,7 +128,7 @@ public:
             }
             else
             {
-                i_memory_size = 0;
+                i_capacity = 0;
             }
         }
         else
@@ -138,19 +138,19 @@ public:
     }
     TVector(const TVector& p_other)
     {
-        i_memory_size = 0;
+        i_capacity = 0;
         i_size = 0;
         i_growth_multiplier = 2;
         copy(p_other);
     }
     ~TVector()
     {
-        if (i_memory_size > 0)
+        if (i_capacity > 0)
         {
             delete[] i_vector;
             i_vector = nullptr;
         }
-        i_memory_size = 0;
+        i_capacity = 0;
     }
 
     TVector& operator=(const TVector& p_other)
@@ -192,9 +192,9 @@ public:
 
     unsigned int reserve(const int& p_amount)
     {
-        unsigned int old_memory_size = i_memory_size;
+        unsigned int old_memory_size = i_capacity;
 
-        if ((p_amount == MAX_SIZE && i_memory_size == MAX_SIZE) || p_amount <= i_memory_size)
+        if ((p_amount == MAX_SIZE && i_capacity == MAX_SIZE) || p_amount <= i_capacity)
         {
             return 0;
         }
@@ -205,13 +205,13 @@ public:
             {
                 new_array[_i] = i_vector[_i];
             }
-            if (i_memory_size > 0)
+            if (i_capacity > 0)
             {
                 delete[] i_vector;
                 i_vector = nullptr;
             }
             i_vector = new_array;
-            i_memory_size = p_amount;
+            i_capacity = p_amount;
             return p_amount - old_memory_size;
         }
         else
@@ -222,8 +222,8 @@ public:
 
     unsigned int shrink()
     {
-        int old_memory_size = i_memory_size;
-        if (i_memory_size > i_size)
+        int old_memory_size = i_capacity;
+        if (i_capacity > i_size)
         {
             type* new_array;
             if (i_size > 0)
@@ -242,7 +242,7 @@ public:
                 delete[] i_vector;
                 i_vector = nullptr;
             }
-            i_memory_size = i_size;
+            i_capacity = i_size;
             return old_memory_size - i_size;
         }
         else
@@ -253,20 +253,20 @@ public:
 
     void push(const type& p_obj)
     {
-        if (i_size < i_memory_size)
+        if (i_size < i_capacity)
         {
             i_vector[i_size] = p_obj;
             i_size++;
         }
         else
         {
-            if (i_memory_size == 0)
+            if (i_capacity == 0)
             {
                 reserve(1);
             }
-            else if (i_memory_size < MAX_SIZE)
+            else if (i_capacity < MAX_SIZE)
             {
-                reserve(i_memory_size * i_growth_multiplier);
+                reserve(i_capacity * i_growth_multiplier);
             }
             else
             {
@@ -301,7 +301,7 @@ public:
     {
         type obj_swap1;
         type obj_swap2;
-        if (i_size < i_memory_size)
+        if (i_size < i_capacity)
         {
             obj_swap1 = at(p_index);
             at(p_index) = p_obj;
@@ -309,7 +309,7 @@ public:
         }
         else
         {
-            if (i_memory_size < MAX_SIZE)
+            if (i_capacity < MAX_SIZE)
             {
                 reserve(i_size * i_growth_multiplier);
                 obj_swap1 = at(p_index);
