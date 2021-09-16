@@ -1,51 +1,27 @@
 #include "../../inc/TVector.h"
 
 #include <iostream>
-#include <vector>
 
 int main()
 {
-    TVector<int> tv;
+    TVector<std::string> tvs;
 
-    tv.reserve(5);
+    tvs.reserve(5);
 
-    tv.push(4);
-    tv.push(7);
-    tv.push(52);
+    tvs.push("Indiana Jones");
+    tvs.push("Inception");
+    tvs.push("Star Wars");
+    tvs.push("Scarface");
+    tvs.push("Heat");
+    tvs.push("Hardball");
+    tvs.push("Harry Potter");
 
-    int num = tv.erase(0);
+    tvs.sort();
 
-    tv.insert(11, 1);
-    tv.insert(32, 0);
-
-    int num2 = tv.pull();
-
-    tv.shrink();
-
-    for (int _i = 0; _i < tv.size(); _i++)
+    for (int _i = 0; _i < tvs.size(); _i++)
     {
-        std::cout << tv[_i] << std::endl;
+        std::cout << tvs[_i] << std::endl;
     }
-    std::cout << "-----------" << std::endl;
 
-    TVector<int> tv2;
-    tv2 = tv;
-
-    tv.pull();
-    tv.pull();
-    tv.pull();
-
-    for (int _i = 0; _i < tv.size(); _i++)
-    {
-        std::cout << tv[_i] << std::endl;
-    }
-    std::cout << "-----------" << std::endl;
-
-    for (int _i = 0; _i < tv2.size(); _i++)
-    {
-        std::cout << tv2[_i] << std::endl;
-    }
-    std::cout << "-----------" << std::endl;
-
-    std::cout << "size: " << tv.size() << std::endl;
+    std::cout << "size: " << tvs.size() << std::endl;
 }
