@@ -19,7 +19,7 @@ private:
 
     float i_growth_multiplier;
 
-    static const unsigned int MAX_SIZE = 65535;
+    static const unsigned int MAX_CAPACITY = 65535;
 
     void copy(const TVector& p_other)
     {
@@ -116,15 +116,15 @@ private:
 
 public:
 
-    TVector(const unsigned int& p_initial_size = 0, const unsigned int& p_growth_multiplier = 2)
+    TVector(const unsigned int& p_initial_capacity = 0, const unsigned int& p_growth_multiplier = 2)
     {
-        if (p_initial_size >= 0 && p_initial_size < MAX_SIZE)
+        if (p_initial_capacity >= 0 && p_initial_capacity < MAX_CAPACITY)
         {
             i_size = 0;
             i_growth_multiplier = p_growth_multiplier;
-            if (p_initial_size > 0)
+            if (p_initial_capacity > 0)
             {
-                reserve(p_initial_size);
+                reserve(p_initial_capacity);
             }
             else
             {
@@ -133,7 +133,7 @@ public:
         }
         else
         {
-            throw std::runtime_error("Out of allowed TArray range: 0 - " + MAX_SIZE);
+            throw std::runtime_error("Out of allowed TArray range: 0 - " + MAX_CAPACITY);
         }
     }
     TVector(const TVector& p_other)
@@ -194,11 +194,11 @@ public:
     {
         unsigned int old_memory_size = i_capacity;
 
-        if ((p_amount == MAX_SIZE && i_capacity == MAX_SIZE) || p_amount <= i_capacity)
+        if ((p_amount == MAX_CAPACITY && i_capacity == MAX_CAPACITY) || p_amount <= i_capacity)
         {
             return 0;
         }
-        else if (p_amount <= MAX_SIZE)
+        else if (p_amount <= MAX_CAPACITY)
         {
             type* new_array = new type[p_amount];
             for (unsigned int _i = 0; _i < i_size; _i++)
@@ -216,7 +216,7 @@ public:
         }
         else
         {
-            return reserve(MAX_SIZE);
+            return reserve(MAX_CAPACITY);
         }
     }
 
@@ -264,7 +264,7 @@ public:
             {
                 reserve(1);
             }
-            else if (i_capacity < MAX_SIZE)
+            else if (i_capacity < MAX_CAPACITY)
             {
                 reserve(i_capacity * i_growth_multiplier);
             }
@@ -309,7 +309,7 @@ public:
         }
         else
         {
-            if (i_capacity < MAX_SIZE)
+            if (i_capacity < MAX_CAPACITY)
             {
                 reserve(i_size * i_growth_multiplier);
                 obj_swap1 = at(p_index);

@@ -6,7 +6,7 @@ Positioning: Objects pushed to end and pulled from end.
 
 Memory format: Sequential.
 
-Maximum size (MAX_SIZE) of TVector is 65535.
+Maximum capacity (MAX_CAPACITY) of TVector is 65535.
 
 ---
 
@@ -16,7 +16,7 @@ Maximum size (MAX_SIZE) of TVector is 65535.
 Initializes the vector.
 
 parameters:
-- initial_size: the memory capacity initally allocated for the list. The default is 0. Throws error if less than 0 or greater than the maximum size.
+- initial_size: the memory capacity initally allocated for the list. The default is 0. Throws error if less than 0 or greater than the maximum capacity.
 - growth_multiplier: the capacity multiplier used for automatic resizing. The default is 2. (*READ void set_growth_multiplier(float p_multiplier);*).
 
 ### TVector(const TVector& other); (copy constructor)
@@ -67,7 +67,7 @@ Returns the growth_multiplier.
 
 ### unsigned int reserve(const int& amount);
 
-Manually expands the vector's capacity. Returns amount of new spaces in vector's capacity. Trying to reserve more than the vector's maximum capacity does not throw an error, but simply reserves the maximum capacity. Any call to reserve when the vector's capacity is at maximum size will immediately return 0.
+Manually expands the vector's capacity. Returns amount of new spaces in vector's capacity. Trying to reserve more than the vector's maximum capacity does not throw an error, but simply reserves the maximum capacity. Any call to reserve when the vector's capacity is at maximum capacity will immediately return 0.
 
 parameters:
 - amount: the new capacity of the vector.
