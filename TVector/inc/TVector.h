@@ -348,7 +348,7 @@ public:
         return obj;
     }
 
-    void sort(const sortingMethod& p_method = sortingMethod::quick, const int& p_negativity = 1)
+    void sort(const int& p_negativity = 1, const sortingMethod& p_method = sortingMethod::quick)
     {
         switch(p_method)
         {
