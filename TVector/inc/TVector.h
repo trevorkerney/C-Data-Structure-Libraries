@@ -121,14 +121,11 @@ public:
         if (p_initial_capacity >= 0 && p_initial_capacity < MAX_CAPACITY)
         {
             i_size = 0;
+            i_capacity = 0;
             i_growth_multiplier = p_growth_multiplier;
             if (p_initial_capacity > 0)
             {
                 reserve(p_initial_capacity);
-            }
-            else
-            {
-                i_capacity = 0;
             }
         }
         else
