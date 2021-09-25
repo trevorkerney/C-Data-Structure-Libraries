@@ -4,7 +4,7 @@
 
 enum sortingMethod
 {
-    quick, insertion
+    quick, insertion, merge, shell
 };
 
 template<typename type>
@@ -45,17 +45,6 @@ private:
     {
         throw std::runtime_error("There is no comparison function provided for this type.");
     }
-
-    void quick_sort(int p_low, int p_high)
-    {
-        if (p_low < p_high - 1)
-        {
-            int pivot = partition(p_low, p_high);
-            quick_sort(p_low, pivot);
-            quick_sort(pivot + 1, p_high);
-        }
-    }
-
     int min(const int& p_i1, const int& p_i2) const
     {
         if (compare(i_vector[p_i2], i_vector[p_i1]) < 0)
@@ -63,19 +52,12 @@ private:
         else
             return p_i1;
     }
-
     int max(const int& p_i1, const int& p_i2) const
     {
         if (compare(i_vector[p_i1], i_vector[p_i2]) < 0)
             return p_i2;
         else
             return p_i1;
-    }
-
-    int median3(const int& p_i1, const int& p_i2, const int& p_i3) const
-    {
-        // algorithm provided by Gyorgy Szekely - https://stackoverflow.com/a/19027761
-        return max(min(p_i1, p_i2), min(max(p_i1, p_i2), p_i3));
     }
 
     void swap(const int& p_index1, const int& p_index2)
@@ -85,33 +67,48 @@ private:
         i_vector[p_index2] = obj;
     }
 
-    int partition(int p_low, int p_high)
+    void quick_sort(int p_low, int p_high)
     {
-        int pivot_index = median3(p_low, p_high / 2, p_high - 1);
-        type pivot = i_vector[pivot_index];
-        int _i = p_low - 1;
-        int _j = p_high;
-        while (_i < _j)
+        auto median3 = [&](const int& p_i1, const int& p_i2, const int& p_i3)
         {
-            do
+            // algorithm provided by Gyorgy Szekely - https://stackoverflow.com/a/19027761
+            return max(min(p_i1, p_i2), min(max(p_i1, p_i2), p_i3));
+        };
+        auto partition = [&](int p_low, int p_high)
+        { 
+            int pivot_index = median3(p_low, p_high / 2, p_high - 1);
+            type pivot = i_vector[pivot_index];
+            int _i = p_low - 1;
+            int _j = p_high;
+            while (_i < _j)
             {
-                _i++;
-            } while (compare(i_vector[_i], pivot) <= 0 && _i < p_high);
-            do
-            {
-                _j--;
-            } while (compare(i_vector[_j], pivot) > 0);
-            if (_i < _j)
-            {
-                if (_j == pivot_index)
+                do
                 {
-                    pivot_index = _i;
+                    _i++;
+                } while (compare(i_vector[_i], pivot) <= 0 && _i < p_high);
+                do
+                {
+                    _j--;
+                } while (compare(i_vector[_j], pivot) > 0);
+                if (_i < _j)
+                {
+                    if (_j == pivot_index)
+                    {
+                        pivot_index = _i;
+                    }
+                    swap(_i, _j);
                 }
-                swap(_i, _j);
             }
+            swap(pivot_index, _j);
+            return _j;
+        };
+
+        if (p_low < p_high - 1)
+        {
+            int pivot = partition(p_low, p_high);
+            quick_sort(p_low, pivot);
+            quick_sort(pivot + 1, p_high);
         }
-        swap(pivot_index, _j);
-        return _j;
     }
 
 public:
@@ -198,14 +195,13 @@ public:
         else if (p_amount <= MAX_CAPACITY)
         {
             type* new_array = new type[p_amount];
-            for (unsigned int _i = 0; _i < i_size; _i++)
-            {
-                new_array[_i] = i_vector[_i];
-            }
             if (i_capacity > 0)
             {
+                for (unsigned int _i = 0; _i < i_size; _i++)
+                {
+                    new_array[_i] = i_vector[_i];
+                }
                 delete[] i_vector;
-                i_vector = nullptr;
             }
             i_vector = new_array;
             i_capacity = p_amount;
@@ -355,6 +351,15 @@ public:
         
         case sortingMethod::insertion:
             //insertion_sort();
+            break;
+        
+        case sortingMethod::merge:
+            // merge_sort();
+            break;
+        
+        case sortingMethod::shell:
+            // shell_sort();
+            break;
 
         default:
             throw std::runtime_error("Invalid sorting method.");
