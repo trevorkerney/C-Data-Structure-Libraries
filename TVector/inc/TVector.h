@@ -45,7 +45,7 @@ private:
         i_growth_multiplier = p_other.i_growth_multiplier;
     }
 
-    int compare(const type& p_obj1, const type& p_obj2) const
+    virtual int compare(const type& p_obj1, const type& p_obj2) const
     {
         throw std::runtime_error("There is no comparison function provided for this type.");
     }
