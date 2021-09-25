@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+using std::string;
+using std::to_string;
+
 #include <stdexcept>
 
 enum sortingMethod
@@ -127,7 +131,7 @@ public:
         }
         else
         {
-            throw std::runtime_error("Out of allowed TArray range: 0 - " + MAX_CAPACITY);
+            throw std::runtime_error("Out of allowed TArray range: 0 - " + to_string(MAX_CAPACITY));
         }
     }
     TVector(const TVector& p_other)
