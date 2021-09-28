@@ -46,7 +46,7 @@ parameters:
 
 ### type& operator[](const int& index) const;
 
-Returns at(index);
+Returns value at index. Throws error if index is out of range.
 
 parameters:
 - index: the index at which the vector is accessed.
@@ -61,7 +61,7 @@ Sets the value the vector's capacity is multiplied by to obtain the size of the 
 
 ### float growth_multiplier() const;
 
-*read void set_growth_multiplier(float p_multiplier);*
+*READ void set_growth_multiplier(float p_multiplier);*
 
 Returns the growth_multiplier.
 
