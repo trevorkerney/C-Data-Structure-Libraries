@@ -1,0 +1,85 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "all: debug builds",
+            "command": "make DEBUG=1",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "all: release builds",
+            "command": "make",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "all: clean debug builds",
+            "command": "make clean DEBUG=1",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "all: clean release builds",
+            "command": "make clean",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "indev: debug build",
+            "command": "make DEBUG=1",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}/tests/indev"
+            },
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "indev: release build",
+            "command": "make",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}/tests/indev"
+            },
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "indev: clean debug build",
+            "command": "make clean DEBUG=1",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}/tests/indev"
+            },
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "indev: clean release build",
+            "command": "make clean",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}/tests/indev"
+            },
+            "group": "build"
+        }
+    ]
+}
