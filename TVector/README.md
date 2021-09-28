@@ -105,7 +105,7 @@ parameters:
 
 ### type erase(const int& index);
 
-Removes the object at index and shifts further object once torward the front.
+Removes the object at index and shifts further objects once torward the front.
 
 parameters:
 - index: the index at which the obj will be erased from the vector.
