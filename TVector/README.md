@@ -8,6 +8,9 @@ Memory format: Sequential.
 
 Maximum capacity (MAX_CAPACITY) of TVector is 65535.
 
+### Sorting Methods
+- quick
+
 ---
 
 ## Member Functions:
@@ -110,10 +113,9 @@ Removes the object at index and shifts further objects once torward the front.
 parameters:
 - index: the index at which the obj will be erased from the vector.
 
-### void sort(const sortingMethod& method = sortingMethod::quick, const int& negativity = 1);
+### void sort(const sortingMethod& method = sortingMethod::quick);
 
 Sorts the vector using the provided sorting and comparison methods. Throws error if sorting method provided is invalid.
 
 paramters:
 - method: the sorting method to use
-- negativity: the direction of the sort. If negative, the vector will be sorted in reverse. The default is 1.
