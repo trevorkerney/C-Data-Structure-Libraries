@@ -45,7 +45,7 @@ private:
         i_growth_multiplier = p_other.i_growth_multiplier;
     }
 
-    virtual int compare(const type& p_obj1, const type& p_obj2) const
+    int compare(const type& p_obj1, const type& p_obj2) const
     {
         throw std::runtime_error("There is no comparison function provided for this type.");
     }
@@ -261,11 +261,7 @@ public:
             {
                 reserve(1);
             }
-            else if (i_capacity < MAX_CAPACITY)
-            {
-                reserve(i_capacity * i_growth_multiplier);
-            }
-            else
+            else if (reserve(i_capacity * i_growth_multiplier) == 0)
             {
                 throw std::runtime_error("Exceeded maximum capacity");
             }
