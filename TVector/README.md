@@ -2,7 +2,7 @@
 
 My C++ Vector implementation.
 
-Positioning: Objects pushed to end and pulled from end.
+Positioning: Objects pushed to back and pulled from back.
 
 Memory format: Sequential.
 
@@ -78,14 +78,14 @@ Shrinks the capacity of the vector to the size of the vector.
 
 ### void push(const type& obj);
 
-Inserts a new object at the end of the vector. Throws error if vector is at maximum size.
+Inserts a new object at the back of the vector. Throws error if vector is at maximum size.
 
 parameters:
 - obj: the object to be inserted into the vector.
 
 ### void push(const type* objs, const int& size);
 
-Traverses through an array calling push(obj) on every object in the array.
+Traverses through an array pushing every object into the array.
 
 parameters:
 - objs: an array of objects.
@@ -93,11 +93,11 @@ parameters:
 
 ### type pull();
 
-Removes the object at the end of the vector. Returns removed object. Throws error if vector is empty.
+Removes the object at the back of the vector. Returns removed object. Throws error if vector is empty.
 
 ### void insert(const type& obj, const int& index);
 
-Inserts a new object at index and shifts further objects once torward the end. Throws error if vector is at maximum size.
+Inserts a new object at index and shifts further objects once torward the back. Throws error if vector is at maximum size.
 
 parameters:
 - obj: the object to be inserted into the vector.
@@ -117,4 +117,3 @@ Sorts the vector using the provided sorting and comparison methods. Throws error
 paramters:
 - method: the sorting method to use
 - negativity: the direction of the sort. If negative, the vector will be sorted in reverse. The default is 1.
-
