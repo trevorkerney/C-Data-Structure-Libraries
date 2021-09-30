@@ -45,18 +45,18 @@ private:
         i_growth_multiplier = p_other.i_growth_multiplier;
     }
 
-    int compare(const type& p_obj1, const type& p_obj2) const
+    inline int compare(const type& p_obj1, const type& p_obj2) const
     {
         throw std::runtime_error("There is no comparison function provided for this type.");
     }
-    int min(const int& p_i1, const int& p_i2) const
+    inline int min(const int& p_i1, const int& p_i2) const
     {
         if (compare(i_vector[p_i2], i_vector[p_i1]) < 0)
             return p_i2;
         else
             return p_i1;
     }
-    int max(const int& p_i1, const int& p_i2) const
+    inline int max(const int& p_i1, const int& p_i2) const
     {
         if (compare(i_vector[p_i1], i_vector[p_i2]) < 0)
             return p_i2;
@@ -64,7 +64,7 @@ private:
             return p_i1;
     }
 
-    void swap(const int& p_index1, const int& p_index2)
+    inline void swap(const int& p_index1, const int& p_index2)
     {
         type obj = i_vector[p_index1];
         i_vector[p_index1] = i_vector[p_index2];
