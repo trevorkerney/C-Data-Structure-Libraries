@@ -11,6 +11,10 @@ Maximum capacity (MAX_CAPACITY) of TVector is 65535.
 ### Sorting Methods
 - quick
 
+### Searching Methods
+- linear
+- binary
+
 ---
 
 ## Member Functions:
@@ -62,6 +66,9 @@ Returns current amount of objects in vector.
 
 Sets the value the vector's capacity is multiplied by to obtain the size of the new array to be allocated when automatically resizing.
 
+parameters:
+- multiplier: the capacity multiplier of the vector
+
 ### float growth_multiplier() const;
 
 *READ void set_growth_multiplier(float p_multiplier);*
@@ -112,6 +119,50 @@ Removes the object at index and shifts further objects once torward the front.
 
 parameters:
 - index: the index at which the obj will be erased from the vector.
+
+### int find(const type& searched, bool sorted = false, searchingMethod& searching_method = searchingMethod::binary) const;
+
+Finds and returns the value referred to by searched. If sorted is true, the searching method provided is used. If false, linear search is used.
+
+Use this find() function when the list doesn't need to be sorted beforehand. (i.e. it either already is sorted or doesn't need to be)
+
+parameters:
+- searched: the object to find.
+- sorted: whether or not the list is sorted.
+- searching_method: the searching method to use if the list is sorted.
+
+### int find(const type& searched, const sortingMethod& sorting_method, const searchingMethod& searching_method) const;
+
+Sorts the vector, then finds and returns the value referred to by searched.
+
+Use this find() function when you want the list to be sorted beforehand to optimize the search.
+
+parameters:
+- searched: the object to find.
+- sorting_method: the sorting method to use.
+- searching_method: the searching method to use.
+
+### bool contains(const type& searched, bool sorted = false, searchingMethod& searching_method = searchingMethod::binary) const;
+
+Returns whether or not the vector contains the value referred to by searched.
+
+Use this contains() function when the list doesn't need to be sorted beforehand. (i.e. it either already is sorted or doesn't need to be)
+
+parameters:
+- searched: the object to find.
+- sorted: whether or not the list is sorted.
+- searching_method: the searching method to use if the list is sorted..
+
+### bool contains(const type& searched, const sortingMethod& sorting_method, const searchingMethod& searching_method) const;
+
+Returns whether or not the vector contains the value referred to by searched.
+
+Use this contains() function when you want the list to be sorted beforehand to optimize the search.
+
+parameters:
+- searched: the object to find.
+- sorting_method: the sorting method to use.
+- searching_method: the searching method to use.
 
 ### void sort(const sortingMethod& method = sortingMethod::quick);
 

@@ -11,6 +11,11 @@ enum sortingMethod
     quick, insertion, merge, shell
 };
 
+enum searchingMethod
+{
+    linear, binary
+};
+
 template<typename type>
 class TVector
 {
@@ -113,6 +118,32 @@ private:
             quick_sort(p_low, pivot);
             quick_sort(pivot + 1, p_high);
         }
+    }
+
+    int linear_search(const type& p_searched) const
+    {
+        for (unsigned int _i = 0; _i < i_size; _i++)
+        {
+            if (compare(p_searched, i_vector[_i]) == 0)
+                return _i;
+        }
+        return -1;
+    }
+    int binary_search(const type& p_searched, int& p_low, int& p_high) const
+    {
+        if (p_high >= p_low)
+        {
+            int mid = (p_high - p_low) / 2 + p_low;
+
+            if (compare(i_vector[mid], p_searched) != 0)
+                if (compare(i_vector[mid], p_searched) > 0)
+                    return binary_search(p_searched, p_low, mid - 1);
+                else
+                    return binary_search(p_searched, mid + 1, p_high);
+            else
+                return mid;
+        }
+        return -1;
     }
 
 public:
@@ -268,7 +299,6 @@ public:
             push(p_obj);
         }
     }
-
     void push(const type* p_objs, const int& p_size)
     {
         for (int _i = 0; _i < p_size; _i++)
@@ -341,25 +371,67 @@ public:
         return obj;
     }
 
+    int find(const type& p_searched, bool p_sorted = false, searchingMethod& p_searching_method = searchingMethod::binary) const
+    {
+        if (p_sorted == true)
+        {
+            switch(p_searching_method)
+            {
+            case searchingMethod::linear:
+                return linear_search(p_searched);
+            
+            case searchingMethod::binary:
+                return binary_search(p_searched, 0, i_size);
+
+            default:
+                throw std::runtime_error("Invalid searching method.");
+            }
+        }
+        else
+        {
+            return linear_search(p_searched);
+        }
+    }
+    int find(const type& p_searched, const sortingMethod& p_sorting_method, const searchingMethod& p_searching_method) const
+    {
+        sort(p_sorting_method);
+        return find(p_searched, true, p_searching_method);
+    }
+
+    bool contains(const type& p_searched, bool p_sorted = false, searchingMethod& p_searching_method = searchingMethod::binary) const
+    {
+        if (find(p_searched, p_sorted, p_searching_method) >= 0)
+            return true;
+        else
+            return false;
+    }
+    bool contains(const type& p_searched, const sortingMethod& p_sorting_method, const searchingMethod& p_searching_method) const
+    {
+        if (find(p_searched, p_sorting_method, p_searching_method) >= 0)
+            return true;
+        else
+            return false;
+    }
+
     void sort(const sortingMethod& p_method = sortingMethod::quick)
     {
         switch(p_method)
         {
         case sortingMethod::quick:
             quick_sort(0, i_size);
-            break;
+            return;
         
         case sortingMethod::insertion:
             //insertion_sort();
-            break;
+            return;
         
         case sortingMethod::merge:
             // merge_sort();
-            break;
+            return;
         
         case sortingMethod::shell:
             // shell_sort();
-            break;
+            return;
 
         default:
             throw std::runtime_error("Invalid sorting method.");
@@ -367,8 +439,39 @@ public:
     }
 };
 
-template<>
-inline int TVector<int>::compare(const int& p_obj1, const int& p_obj2) const
+template<> inline int TVector<bool>::compare(const bool& p_obj1, const bool& p_obj2) const
+{
+    return 0;
+}
+template<> inline int TVector<char>::compare(const char& p_obj1, const char& p_obj2) const
+{
+    return 0;
+}
+// I added all the primitive types for reference. I may define these later.
+// https://www.cplusplus.com/reference/type_traits/is_fundamental/
+/*
+template<> inline int TVector<char16_t>::compare(const char16_t& p_obj1, const char16_t& p_obj2) const
+{
+    
+}
+template<> inline int TVector<char32_t>::compare(const char32_t& p_obj1, const char32_t& p_obj2) const
+{
+    
+}
+template<> inline int TVector<wchar_t>::compare(const wchar_t& p_obj1, const wchar_t& p_obj2) const
+{
+    
+}
+*/
+template<> inline int TVector<signed char>::compare(const signed char& p_obj1, const signed char& p_obj2) const
+{
+    return 0;
+}
+template<> inline int TVector<short>::compare(const short& p_obj1, const short& p_obj2) const
+{
+    return 0;
+}
+template<> inline int TVector<int>::compare(const int& p_obj1, const int& p_obj2) const
 {
     int comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -379,9 +482,35 @@ inline int TVector<int>::compare(const int& p_obj1, const int& p_obj2) const
     else
         return 0;
 }
-
-template<>
-inline int TVector<float>::compare(const float& p_obj1, const float& p_obj2) const
+template<> inline int TVector<long>::compare(const long& p_obj1, const long& p_obj2) const
+{
+    return 0;
+}
+template<> inline int TVector<long long>::compare(const long long& p_obj1, const long long& p_obj2) const
+{
+    return 0;
+}
+template<> inline int TVector<unsigned char>::compare(const unsigned char& p_obj1, const unsigned char& p_obj2) const
+{
+    return 0;
+}
+template<> inline int TVector<unsigned short>::compare(const unsigned short& p_obj1, const unsigned short& p_obj2) const
+{
+    return 0;
+}
+template<> inline int TVector<unsigned>::compare(const unsigned& p_obj1, const unsigned& p_obj2) const
+{
+    return 0;
+}
+template<> inline int TVector<unsigned long>::compare(const unsigned long& p_obj1, const unsigned long& p_obj2) const
+{
+    return 0;
+}
+template<> inline int TVector<unsigned long long>::compare(const unsigned long long& p_obj1, const unsigned long long& p_obj2) const
+{
+    return 0;
+}
+template<> inline int TVector<float>::compare(const float& p_obj1, const float& p_obj2) const
 {
     float comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -392,9 +521,7 @@ inline int TVector<float>::compare(const float& p_obj1, const float& p_obj2) con
     else
         return 0;
 }
-
-template<>
-inline int TVector<double>::compare(const double& p_obj1, const double& p_obj2) const
+template<> inline int TVector<double>::compare(const double& p_obj1, const double& p_obj2) const
 {
     double comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -405,9 +532,11 @@ inline int TVector<double>::compare(const double& p_obj1, const double& p_obj2) 
     else
         return 0;
 }
-
-template<>
-inline int TVector<std::string>::compare(const std::string& p_obj1, const std::string& p_obj2) const
+template<> inline int TVector<long double>::compare(const long double& p_obj1, const long double& p_obj2) const
+{
+    return 0;
+}
+template<> inline int TVector<std::string>::compare(const std::string& p_obj1, const std::string& p_obj2) const
 {
     int comparison = p_obj1.compare(p_obj2);
     if (comparison != 0)

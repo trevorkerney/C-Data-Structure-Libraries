@@ -1,6 +1,8 @@
 #include "../../inc/TVector.h"
 
 #include <iostream>
+using std::cout;
+using std::endl;
 
 class obj
 {
@@ -59,8 +61,8 @@ int main()
 
     for (int _i = 0; _i < tvs.size(); _i++)
     {
-        std::cout << tvs[_i].get_id() << std::endl;
+        cout << tvs[_i].get_id() << endl;
     }
 
-    std::cout << "size: " << tvs.size() << std::endl;
+    cout << "size: " << tvs.size() << endl;
 }
