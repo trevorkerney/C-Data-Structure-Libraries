@@ -33,6 +33,8 @@ private:
 
     float i_growth_multiplier;
 
+    bool sorted_guarantee = true;
+
     static const unsigned int MAX_CAPACITY = 65535;
 
     void copy(const TVector& p_other)
@@ -53,25 +55,26 @@ private:
         i_capacity = p_other.i_capacity;
         i_size = p_other.i_size;
         i_growth_multiplier = p_other.i_growth_multiplier;
+        sorted_guarantee = p_other.sorted_guarantee;
     }
 
     inline int compare(const type& p_obj1, const type& p_obj2) const
     {
         throw std::runtime_error("There is no comparison function provided for this type.");
     }
-    inline int min(const int& p_i1, const int& p_i2) const
+    inline int min(const int& p_index1, const int& p_index2) const
     {
-        if (compare(i_vector[p_i2], i_vector[p_i1]) < 0)
-            return p_i2;
+        if (compare(i_vector[p_index2], i_vector[p_index1]) < 0)
+            return p_index2;
         else
-            return p_i1;
+            return p_index1;
     }
-    inline int max(const int& p_i1, const int& p_i2) const
+    inline int max(const int& p_index1, const int& p_index2) const
     {
-        if (compare(i_vector[p_i1], i_vector[p_i2]) < 0)
-            return p_i2;
+        if (compare(i_vector[p_index1], i_vector[p_index2]) < 0)
+            return p_index2;
         else
-            return p_i1;
+            return p_index1;
     }
 
     inline void swap(const int& p_index1, const int& p_index2)
@@ -291,16 +294,16 @@ public:
 
     long find(const type& p_searched, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary) const
     {
+        if (sorted_guarantee == true)
+            p_sorted = true;
         if (p_sorted == true)
         {
             switch(p_searching_method)
             {
             case searchingMethod::linear:
                 return linear_search(p_searched);
-            
             case searchingMethod::binary:
                 return binary_search(p_searched, 0, i_size);
-
             default:
                 throw std::runtime_error("Invalid searching method.");
             }
@@ -318,6 +321,8 @@ public:
 
     bool contains(const type& p_searched, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary) const
     {
+        if (sorted_guarantee == true)
+            p_sorted = true;
         if (find(p_searched, p_sorted, p_searching_method) >= 0)
             return true;
         else
@@ -337,6 +342,7 @@ public:
         {
             i_vector[i_size] = p_obj;
             i_size++;
+            sorted_guarantee = false;
         }
         else
         {
@@ -385,6 +391,7 @@ public:
             obj_swap1 = at(p_index);
             at(p_index) = p_obj;
             i_size++;
+            sorted_guarantee = false;
         }
         else
         {
@@ -400,6 +407,8 @@ public:
 
     void emplace(const type& p_obj, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary)
     {
+        if (sorted_guarantee == true)
+            p_sorted = true;
         long sorted_index = find(p_obj, p_sorted, p_searching_method);
         if (sorted_index < 0)
             sorted_index = (sorted_index + 1) * -1;
@@ -434,6 +443,8 @@ public:
 
     type extract(const type& p_searched, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary)
     {
+        if (sorted_guarantee == true)
+            p_sorted = true;
         short index = find(p_searched, p_sorted, p_searching_method);
         if (index < 0)
             throw std::runtime_error("Object not present in TVector.");
@@ -455,23 +466,24 @@ public:
         {
         case sortingMethod::quick:
             quick_sort(0, i_size);
-            return;
+            break;
         
         case sortingMethod::insertion:
             //insertion_sort();
-            return;
+            break;
         
         case sortingMethod::merge:
             // merge_sort();
-            return;
+            break;
         
         case sortingMethod::shell:
             // shell_sort();
-            return;
+            break;
 
         default:
             throw std::runtime_error("Invalid sorting method.");
         }
+        sorted_guarantee = true;
     }
 };
 

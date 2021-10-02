@@ -36,21 +36,24 @@ explspec inline int TVector<obj>::compare(const obj& obj1, const obj& obj2) cons
 
 int main()
 {
-    long n1 = 16;
-    long n2 = 23;
-    long n3 = 5;
-    long n4 = 46;
-    long n5 = 12;
-    
     TVector<long> tvl;
 
     tvl.reserve(5);
 
-    tvl.push(n1);
-    tvl.push(n2);
-    tvl.push(n3);
-    tvl.push(n4);
-    tvl.push(n5);
+    tvl.push(16);
+    tvl.push(23);
+    tvl.push(5);
+    tvl.push(46);
+    tvl.push(12);
+
+    tvl.insert(32, 0);
+    tvl.insert(12, 4);
+
+    for (int _i = 0; _i < tvl.size(); _i++)
+    {
+        cout << tvl[_i] << endl; 
+    }
+    cout << "-----" << endl;
 
     int loc11 = tvl.find(23);
     int loc12 = tvl.find(13);
