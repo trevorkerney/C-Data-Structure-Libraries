@@ -1,19 +1,24 @@
 #pragma once
 
+#define explspec template<>
+
 #include <string>
 using std::string;
 using std::to_string;
 
 #include <stdexcept>
 
-enum sortingMethod
-{
-    quick, insertion, merge, shell
-};
+#include <cmath>
+using std::pow;
 
 enum searchingMethod
 {
     linear, binary
+};
+
+enum sortingMethod
+{
+    quick, insertion, merge, shell
 };
 
 template<typename type>
@@ -76,14 +81,45 @@ private:
         i_vector[p_index2] = obj;
     }
 
-    void quick_sort(int p_low, int p_high)
+    long linear_search(const type& p_searched) const
+    {
+        long num_of_lesser = -1;
+        for (unsigned int _i = 0; _i < i_size; _i++)
+        {
+            int comparison = compare(p_searched, i_vector[_i]);
+            if ((comparison) == 0)
+                return _i;
+            if (comparison > 0)
+                num_of_lesser--;
+        }
+        return num_of_lesser;
+    }
+    long binary_search(const type& p_searched, const int& p_low, const int& p_high, const long& internal_mid = 0) const
+    {
+        if (p_high >= p_low)
+        {
+            long mid = (p_high - p_low + 1) / 2 + p_low;
+
+            short comparison = compare(i_vector[mid], p_searched);
+            if (comparison != 0)
+                if (comparison < 0)
+                    return binary_search(p_searched, mid + 1, p_high, mid);
+                else
+                    return binary_search(p_searched, p_low, mid - 1, mid);
+            else
+                return mid;
+        }
+        return (internal_mid + 1) * -1;
+    }
+
+    void quick_sort(const int& p_low, const int& p_high)
     {
         auto median3 = [&](const int& p_i1, const int& p_i2, const int& p_i3)
         {
             // algorithm provided by Gyorgy Szekely - https://stackoverflow.com/a/19027761
             return max(min(p_i1, p_i2), min(max(p_i1, p_i2), p_i3));
         };
-        auto partition = [&](int p_low, int p_high)
+        auto partition = [&](const int& p_low, const int& p_high)
         { 
             int pivot_index = median3(p_low, p_high / 2, p_high - 1);
             type pivot = i_vector[pivot_index];
@@ -118,32 +154,6 @@ private:
             quick_sort(p_low, pivot);
             quick_sort(pivot + 1, p_high);
         }
-    }
-
-    int linear_search(const type& p_searched) const
-    {
-        for (unsigned int _i = 0; _i < i_size; _i++)
-        {
-            if (compare(p_searched, i_vector[_i]) == 0)
-                return _i;
-        }
-        return -1;
-    }
-    int binary_search(const type& p_searched, int& p_low, int& p_high) const
-    {
-        if (p_high >= p_low)
-        {
-            int mid = (p_high - p_low) / 2 + p_low;
-
-            if (compare(i_vector[mid], p_searched) != 0)
-                if (compare(i_vector[mid], p_searched) > 0)
-                    return binary_search(p_searched, p_low, mid - 1);
-                else
-                    return binary_search(p_searched, mid + 1, p_high);
-            else
-                return mid;
-        }
-        return -1;
     }
 
 public:
@@ -191,7 +201,7 @@ public:
         return *this;    
     }
 
-    type& at(const int& p_index) const
+    type& at(const long& p_index) const
     {
         if (p_index < 0 || p_index > i_size)
         {
@@ -199,7 +209,7 @@ public:
         }
         return i_vector[p_index];
     }
-    type& operator[](const int& p_index) const
+    type& operator[](const long& p_index) const
     {
         return at(p_index);
     }
@@ -219,7 +229,7 @@ public:
         return i_growth_multiplier;
     }
 
-    unsigned int reserve(const int& p_amount)
+    unsigned int reserve(const long& p_amount)
     {
         unsigned int old_memory_size = i_capacity;
 
@@ -279,99 +289,7 @@ public:
         }
     }
 
-    void push(const type& p_obj)
-    {
-        if (i_size < i_capacity)
-        {
-            i_vector[i_size] = p_obj;
-            i_size++;
-        }
-        else
-        {
-            if (i_capacity == 0)
-            {
-                reserve(1);
-            }
-            else if (reserve(i_capacity * i_growth_multiplier) == 0)
-            {
-                throw std::runtime_error("Exceeded maximum capacity");
-            }
-            push(p_obj);
-        }
-    }
-    void push(const type* p_objs, const int& p_size)
-    {
-        for (int _i = 0; _i < p_size; _i++)
-        {
-            push(p_objs[_i]);
-        }
-    }
-
-    type pull()
-    {
-        if (i_size != 0)
-        {
-            type& obj = i_vector[--i_size];
-            return obj;
-        }
-        else
-        {
-            throw std::runtime_error("TVector is empty");
-        }
-    }
-
-    void insert(const type& p_obj, const int& p_index)
-    {
-        type obj_swap1;
-        type obj_swap2;
-        if (i_size < i_capacity)
-        {
-            obj_swap1 = at(p_index);
-            at(p_index) = p_obj;
-            i_size++;
-        }
-        else
-        {
-            if (i_capacity < MAX_CAPACITY)
-            {
-                reserve(i_size * i_growth_multiplier);
-                obj_swap1 = at(p_index);
-                at(p_index) = p_obj;
-                i_size++;
-            }
-            else
-            {
-                throw std::runtime_error("Exceeded maximum capacity");
-            }
-        }
-        for (int _i = p_index + 1; _i < i_size; _i++)
-        {
-            obj_swap2 = i_vector[_i];
-            i_vector[_i] = obj_swap1;
-            obj_swap1 = obj_swap2;
-        }
-    }
-
-    type erase(const int& p_index)
-    {
-        type obj;
-        if (i_size > 0)
-        {
-            obj = at(p_index);
-        }
-        else
-        {
-            throw std::runtime_error("TVector is empty");
-        }
-        for (int _i = p_index; _i < i_size - 1; _i++)
-        {
-            i_vector[_i] = i_vector[_i + 1];
-        }
-        i_size--;
-        return obj;
-    }
-
-    int find(const type& p_searched, bool p_sorted = false, searchingMethod& p_searching_method = searchingMethod::binary) const
+    long find(const type& p_searched, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary) const
     {
         if (p_sorted == true)
         {
@@ -392,13 +310,13 @@ public:
             return linear_search(p_searched);
         }
     }
-    int find(const type& p_searched, const sortingMethod& p_sorting_method, const searchingMethod& p_searching_method) const
+    long find(const type& p_searched, const sortingMethod& p_sorting_method, const searchingMethod& p_searching_method) const
     {
         sort(p_sorting_method);
         return find(p_searched, true, p_searching_method);
     }
 
-    bool contains(const type& p_searched, bool p_sorted = false, searchingMethod& p_searching_method = searchingMethod::binary) const
+    bool contains(const type& p_searched, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary) const
     {
         if (find(p_searched, p_sorted, p_searching_method) >= 0)
             return true;
@@ -411,6 +329,124 @@ public:
             return true;
         else
             return false;
+    }
+
+    void push(const type& p_obj)
+    {
+        if (i_size < i_capacity)
+        {
+            i_vector[i_size] = p_obj;
+            i_size++;
+        }
+        else
+        {
+            if (i_capacity == 0)
+            {
+                reserve(1);
+            }
+            else if (reserve(i_capacity * i_growth_multiplier) == 0)
+            {
+                throw std::runtime_error("Exceeded maximum capacity");
+            }
+            push(p_obj);
+        }
+    }
+    void push(const type* p_objs, const long& p_size)
+    {
+        for (int _i = 0; _i < p_size; _i++)
+        {
+            push(p_objs[_i]);
+        }
+    }
+
+    type pull()
+    {
+        if (i_size != 0)
+        {
+            type& obj = i_vector[--i_size];
+            return obj;
+        }
+        else
+        {
+            throw std::runtime_error("TVector is empty");
+        }
+    }
+
+    void insert(const type& p_obj, const long& p_index)
+    {
+        type obj_swap1;
+        type obj_swap2;
+        if (i_capacity < MAX_CAPACITY)
+        {
+            if (i_size == i_capacity)
+            {
+                reserve(i_size * i_growth_multiplier);
+            }
+            obj_swap1 = at(p_index);
+            at(p_index) = p_obj;
+            i_size++;
+        }
+        else
+        {
+            throw std::runtime_error("Exceeded maximum capacity");
+        }
+        for (int _i = p_index + 1; _i < i_size; _i++)
+        {
+            obj_swap2 = i_vector[_i];
+            i_vector[_i] = obj_swap1;
+            obj_swap1 = obj_swap2;
+        }
+    }
+
+    void emplace(const type& p_obj, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary)
+    {
+        long sorted_index = find(p_obj, p_sorted, p_searching_method);
+        if (sorted_index < 0)
+            sorted_index = (sorted_index + 1) * -1;
+        insert(p_obj, sorted_index);
+    }
+    void emplace(const type& p_obj, const sortingMethod& p_sorting_method, const searchingMethod& p_searching_method)
+    {
+        long sorted_index = find(p_obj, p_sorting_method, p_searching_method);
+        if (sorted_index < 0)
+            sorted_index = (sorted_index + 1) * -1;
+        insert(p_obj, sorted_index);
+    }
+
+    type erase(const long& p_index)
+    {
+        type obj;
+        if (i_size > 0)
+        {
+            obj = at(p_index);
+        }
+        else
+        {
+            throw std::runtime_error("TVector is empty");
+        }
+        for (int _i = p_index; _i < i_size - 1; _i++)
+        {
+            i_vector[_i] = i_vector[_i + 1];
+        }
+        i_size--;
+        return obj;
+    }
+
+    type extract(const type& p_searched, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary)
+    {
+        short index = find(p_searched, p_sorted, p_searching_method);
+        if (index < 0)
+            throw std::runtime_error("Object not present in TVector.");
+        else
+            return erase(index);
+    }
+    type extract(const type& p_searched, const sortingMethod& p_sorting_method, const searchingMethod& p_searching_method)
+    {
+        short index = find(p_searched, p_sorting_method, p_searching_method);
+        if (index < 0)
+            throw std::runtime_error("Object not present in TVector.");
+        else
+            return erase(index);
     }
 
     void sort(const sortingMethod& p_method = sortingMethod::quick)
@@ -439,39 +475,7 @@ public:
     }
 };
 
-template<> inline int TVector<bool>::compare(const bool& p_obj1, const bool& p_obj2) const
-{
-    return 0;
-}
-template<> inline int TVector<char>::compare(const char& p_obj1, const char& p_obj2) const
-{
-    return 0;
-}
-// I added all the primitive types for reference. I may define these later.
-// https://www.cplusplus.com/reference/type_traits/is_fundamental/
-/*
-template<> inline int TVector<char16_t>::compare(const char16_t& p_obj1, const char16_t& p_obj2) const
-{
-    
-}
-template<> inline int TVector<char32_t>::compare(const char32_t& p_obj1, const char32_t& p_obj2) const
-{
-    
-}
-template<> inline int TVector<wchar_t>::compare(const wchar_t& p_obj1, const wchar_t& p_obj2) const
-{
-    
-}
-*/
-template<> inline int TVector<signed char>::compare(const signed char& p_obj1, const signed char& p_obj2) const
-{
-    return 0;
-}
-template<> inline int TVector<short>::compare(const short& p_obj1, const short& p_obj2) const
-{
-    return 0;
-}
-template<> inline int TVector<int>::compare(const int& p_obj1, const int& p_obj2) const
+explspec inline int TVector<bool>::                 compare(const bool& p_obj1,                 const bool& p_obj2)                 const
 {
     int comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -482,35 +486,200 @@ template<> inline int TVector<int>::compare(const int& p_obj1, const int& p_obj2
     else
         return 0;
 }
-template<> inline int TVector<long>::compare(const long& p_obj1, const long& p_obj2) const
+explspec inline int TVector<char>::                 compare(const char& p_obj1,                 const char& p_obj2)                 const
 {
-    return 0;
+    short comparison = p_obj1 - p_obj2;
+    if (comparison != 0)
+        if (comparison > 0)
+            return 1;
+        else
+            return -1;
+    else
+        return 0;
 }
-template<> inline int TVector<long long>::compare(const long long& p_obj1, const long long& p_obj2) const
+explspec inline int TVector<char16_t>::             compare(const char16_t& p_obj1,             const char16_t& p_obj2)             const
 {
-    return 0;
+    short comparison = p_obj1 - p_obj2;
+    if (comparison != 0)
+        if (comparison > 0)
+            return 1;
+        else
+            return -1;
+    else
+        return 0;
 }
-template<> inline int TVector<unsigned char>::compare(const unsigned char& p_obj1, const unsigned char& p_obj2) const
+explspec inline int TVector<char32_t>::             compare(const char32_t& p_obj1,             const char32_t& p_obj2)             const
 {
-    return 0;
+    short comparison = p_obj1 - p_obj2;
+    if (comparison != 0)
+        if (comparison > 0)
+            return 1;
+        else
+            return -1;
+    else
+        return 0;
 }
-template<> inline int TVector<unsigned short>::compare(const unsigned short& p_obj1, const unsigned short& p_obj2) const
+explspec inline int TVector<wchar_t>::              compare(const wchar_t& p_obj1,              const wchar_t& p_obj2)              const
 {
-    return 0;
+    short comparison = p_obj1 - p_obj2;
+    if (comparison != 0)
+        if (comparison > 0)
+            return 1;
+        else
+            return -1;
+    else
+        return 0;
 }
-template<> inline int TVector<unsigned>::compare(const unsigned& p_obj1, const unsigned& p_obj2) const
+explspec inline int TVector<signed char>::          compare(const signed char& p_obj1,          const signed char& p_obj2)          const
 {
-    return 0;
+    int comparison = p_obj1 - p_obj2;
+    if (comparison != 0)
+        if (comparison > 0)
+            return 1;
+        else
+            return -1;
+    else
+        return 0;
 }
-template<> inline int TVector<unsigned long>::compare(const unsigned long& p_obj1, const unsigned long& p_obj2) const
+explspec inline int TVector<short>::                compare(const short& p_obj1,                const short& p_obj2)                const
 {
-    return 0;
+    short comparison = p_obj1 - p_obj2;
+    if (comparison != 0)
+        if (comparison > 0)
+            return 1;
+        else
+            return -1;
+    else
+        return 0;
 }
-template<> inline int TVector<unsigned long long>::compare(const unsigned long long& p_obj1, const unsigned long long& p_obj2) const
+explspec inline int TVector<int>::                  compare(const int& p_obj1,                  const int& p_obj2)                  const
 {
-    return 0;
+    int comparison = p_obj1 - p_obj2;
+    if (comparison != 0)
+        if (comparison > 0)
+            return 1;
+        else
+            return -1;
+    else
+        return 0;
 }
-template<> inline int TVector<float>::compare(const float& p_obj1, const float& p_obj2) const
+explspec inline int TVector<long>::                 compare(const long& p_obj1,                 const long& p_obj2)                 const
+{
+    long comparison = p_obj1 - p_obj2;
+    if (comparison != 0)
+        if (comparison > 0)
+            return 1;
+        else
+            return -1;
+    else
+        return 0;
+}
+explspec inline int TVector<long long>::            compare(const long long& p_obj1,            const long long& p_obj2)            const
+{
+    long long comparison = p_obj1 - p_obj2;
+    if (comparison != 0)
+        if (comparison > 0)
+            return 1;
+        else
+            return -1;
+    else
+        return 0;
+}
+explspec inline int TVector<unsigned char>::        compare(const unsigned char& p_obj1,        const unsigned char& p_obj2)        const
+{
+    int comparison = p_obj1 - p_obj2;
+    if (comparison != 0)
+        if (comparison > 0)
+            return 1;
+        else
+            return -1;
+    else
+        return 0;
+}
+explspec inline int TVector<unsigned short>::       compare(const unsigned short& p_obj1,       const unsigned short& p_obj2)       const
+{
+    int comparison = p_obj1 - p_obj2;
+    if (comparison != 0)
+        if (comparison > 0)
+            return 1;
+        else
+            return -1;
+    else
+        return 0;
+}
+explspec inline int TVector<unsigned>::             compare(const unsigned& p_obj1,             const unsigned& p_obj2)             const
+{
+    int comparison = p_obj1 - p_obj2;
+    if (comparison != 0)
+        if (comparison > 0)
+            return 1;
+        else
+            return -1;
+    else
+        return 0;
+}
+explspec inline int TVector<unsigned long>::        compare(const unsigned long& p_obj1,        const unsigned long& p_obj2)        const
+{
+    long comparison = p_obj1 - p_obj2;
+    if (comparison != 0)
+        if (comparison > 0)
+            return 1;
+        else
+            return -1;
+    else
+        return 0;
+}
+explspec inline int TVector<unsigned long long>::   compare(const unsigned long long& p_obj1,   const unsigned long long& p_obj2)   const
+{
+    unsigned long long num1 = p_obj1;
+    int num1_digits = 1;
+    while (num1 /= 10)
+        num1_digits++;
+
+    unsigned long long num2 = p_obj2;
+    int num2_digits = 1;
+    while (num2 /= 10)
+        num2_digits++;
+
+    if (num1_digits > num2_digits)
+    {
+        return 1;
+    }
+    else if (num1_digits < num2_digits)
+    {
+        return -1;
+    }
+    else
+    {
+        unsigned short highest_digit = 0;
+        for (int _i = 0; _i < num1_digits; _i++)
+        {
+            unsigned long long current_power = pow(10, num1_digits) - _i;
+            unsigned short num1_digit = (p_obj1 - p_obj1 % current_power) / current_power;
+            unsigned short num2_digit = (p_obj2 - p_obj2 % current_power) / current_power;
+            if (num1_digit > num2_digit)
+            {
+                return 1;
+            }
+            else if (num1_digit < num2_digit)
+            {
+                return -1;
+            }
+        }
+        return 0;
+    }
+
+
+    unsigned short comparison = p_obj1 - p_obj2;
+    if (comparison != 0)
+        if (comparison > 0)
+            return 1;
+        else
+            return -1;
+    else
+        return 0;
+}
+explspec inline int TVector<float>::                compare(const float& p_obj1,                const float& p_obj2)                const
 {
     float comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -521,7 +690,7 @@ template<> inline int TVector<float>::compare(const float& p_obj1, const float& 
     else
         return 0;
 }
-template<> inline int TVector<double>::compare(const double& p_obj1, const double& p_obj2) const
+explspec inline int TVector<double>::               compare(const double& p_obj1,               const double& p_obj2)               const
 {
     double comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -532,11 +701,11 @@ template<> inline int TVector<double>::compare(const double& p_obj1, const doubl
     else
         return 0;
 }
-template<> inline int TVector<long double>::compare(const long double& p_obj1, const long double& p_obj2) const
+explspec inline int TVector<long double>::          compare(const long double& p_obj1,          const long double& p_obj2)          const
 {
     return 0;
 }
-template<> inline int TVector<std::string>::compare(const std::string& p_obj1, const std::string& p_obj2) const
+explspec inline int TVector<string>::               compare(const string& p_obj1,               const string& p_obj2)               const
 {
     int comparison = p_obj1.compare(p_obj2);
     if (comparison != 0)

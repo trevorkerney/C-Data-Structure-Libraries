@@ -21,10 +21,9 @@ public:
     }
 };
 
-template<>
-inline int TVector<obj>::compare(const obj& p_obj1, const obj& p_obj2) const
+explspec inline int TVector<obj>::compare(const obj& obj1, const obj& obj2) const
 {
-    int comparison = p_obj1.get_id() - p_obj2.get_id();
+    int comparison = obj1.get_id() - obj2.get_id();
     
     if (comparison != 0)
         if (comparison > 0)
@@ -37,32 +36,48 @@ inline int TVector<obj>::compare(const obj& p_obj1, const obj& p_obj2) const
 
 int main()
 {
-    obj obj1(3);
-    obj obj2(5);
-    obj obj3(8);
-    obj obj4(11);
-    obj obj5(17);
+    long n1 = 16;
+    long n2 = 23;
+    long n3 = 5;
+    long n4 = 46;
+    long n5 = 12;
+    
+    TVector<long> tvl;
 
-    obj objs[5];
-    int nums[5];
+    tvl.reserve(5);
 
-    TVector<obj> tvs;
+    tvl.push(n1);
+    tvl.push(n2);
+    tvl.push(n3);
+    tvl.push(n4);
+    tvl.push(n5);
 
-    tvs.reserve(5);
+    int loc11 = tvl.find(23);
+    int loc12 = tvl.find(13);
+    int loc21 = tvl.find(14);
+    int loc22 = tvl.find(25);
 
-    tvs.push(obj3);
-    tvs.push(obj4);
-    tvs.push(obj2);
-    tvs.push(obj1);
+    tvl.sort();
 
-    tvs.insert(obj5, 0);
+    int loc111 = tvl.find(23, true);
+    int loc122 = tvl.find(13, true);
+    int loc211 = tvl.find(14, true);
+    int loc221 = tvl.find(25, true);
 
-    tvs.sort();
-
-    for (int _i = 0; _i < tvs.size(); _i++)
+    for (int _i = 0; _i < tvl.size(); _i++)
     {
-        cout << tvs[_i].get_id() << endl;
+        cout << tvl[_i] << endl; 
+    }
+    cout << "-----" << endl;
+
+    tvl.emplace(37, true);
+    tvl.emplace(69, true);
+    tvl.emplace(2, true);
+
+    for (int _i = 0; _i < tvl.size(); _i++)
+    {
+        cout << tvl[_i] << endl; 
     }
 
-    cout << "size: " << tvs.size() << endl;
+    cout << "size: " << tvl.size() << endl;
 }
