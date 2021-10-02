@@ -101,7 +101,7 @@ private:
     {
         if (p_high >= p_low)
         {
-            long mid = (p_high - p_low + 1) / 2 + p_low;
+            long mid = (p_high - p_low) / 2 + p_low;
 
             short comparison = compare(i_vector[mid], p_searched);
             if (comparison != 0)

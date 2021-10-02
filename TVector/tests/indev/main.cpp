@@ -62,10 +62,12 @@ int main()
 
     tvl.sort();
 
-    int loc111 = tvl.find(23, true);
-    int loc122 = tvl.find(13, true);
-    int loc211 = tvl.find(14, true);
-    int loc221 = tvl.find(25, true);
+    int loc111 = tvl.find(23);
+    int loc122 = tvl.find(13);
+    int loc211 = tvl.find(14);
+    int loc221 = tvl.find(25);
+
+    int location = tvl.find(37);
 
     for (int _i = 0; _i < tvl.size(); _i++)
     {
@@ -73,9 +75,17 @@ int main()
     }
     cout << "-----" << endl;
 
-    tvl.emplace(37, true);
-    tvl.emplace(69, true);
-    tvl.emplace(2, true);
+    tvl.emplace(69);
+    tvl.emplace(37);
+    tvl.emplace(2);
+    tvl.emplace(104);
+    tvl.emplace(3734);
+    tvl.emplace(22);
+    tvl.emplace(1);
+    tvl.emplace(753);
+    tvl.emplace(85);
+    tvl.emplace(667);
+    tvl.emplace(854);
 
     for (int _i = 0; _i < tvl.size(); _i++)
     {
