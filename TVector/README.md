@@ -12,7 +12,7 @@ Maximum capacity (MAX_CAPACITY) of TVector is 65535.
 - linear
 - binary
 
-### Sorting Algotithms
+### Sorting Algorithms
 - quick (single pivot, found with median of 3)
 
 The use of searching and sorting functions with TVectors of non-[fundamental types](https://www.cplusplus.com/reference/type_traits/is_fundamental/) requires explicit specialization of the private compare() method. The template is as follows:
