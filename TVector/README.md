@@ -43,7 +43,7 @@ Replace all instances of "myType" with the name of the type/class.
 
 (c): constructor
 
-(~): destructor
+(d): destructor
 
 (=): assignment operator
 
@@ -69,7 +69,7 @@ parameters:
 - other: the TVector to copy.
 
 ---
-### ~TVector(); (~)
+### ~TVector(); (d)
 
 Deallocates the memory allocated to the vector, if any.
 
