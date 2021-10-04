@@ -33,7 +33,7 @@ int TVector<myType>::compare(const myType& obj1, const myType& obj2) const
         return 0;
 }
 ```
-This must be implemented after the inclusion of TVector and before any function that uses searching/sorting methods.
+This must be implemented after the inclusion of TVector and before the use of any function that uses searching/sorting methods.
 
 Replace all instances of "myType" with the name of the type/class.
 
