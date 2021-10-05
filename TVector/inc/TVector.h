@@ -47,7 +47,7 @@ private:
             }
             i_vector = new type[p_other.i_capacity];
 
-            for (int _i = 0; _i < p_other.i_size; _i++)
+            for (unsigned int _i = 0; _i < p_other.i_size; _i++)
             {
                 i_vector[_i] = p_other[_i];;
             }
@@ -321,8 +321,6 @@ public:
 
     bool contains(const type& p_searched, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary) const
     {
-        if (sorted_guarantee == true)
-            p_sorted = true;
         if (find(p_searched, p_sorted, p_searching_method) >= 0)
             return true;
         else
@@ -407,8 +405,6 @@ public:
 
     void emplace(const type& p_obj, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary)
     {
-        if (sorted_guarantee == true)
-            p_sorted = true;
         long sorted_index = find(p_obj, p_sorted, p_searching_method);
         if (sorted_index < 0)
             sorted_index = (sorted_index + 1) * -1;
@@ -443,8 +439,6 @@ public:
 
     type extract(const type& p_searched, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary)
     {
-        if (sorted_guarantee == true)
-            p_sorted = true;
         short index = find(p_searched, p_sorted, p_searching_method);
         if (index < 0)
             throw std::runtime_error("Object not present in TVector.");
