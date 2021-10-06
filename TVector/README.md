@@ -317,5 +317,3 @@ Sorts the vector using the provided sorting and comparison methods. Throws error
 
 paramters:
 - method: the sorting method to use. The default is quick sort.
-
----
