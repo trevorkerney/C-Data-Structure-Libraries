@@ -674,7 +674,6 @@ explspec short TVector<unsigned long long>::    compare(const unsigned long long
         return 0;
     }
 
-
     unsigned short comparison = p_obj1 - p_obj2;
     if (comparison != 0)
         if (comparison > 0)
