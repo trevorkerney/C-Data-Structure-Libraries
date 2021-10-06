@@ -200,7 +200,7 @@ public:
         {
             copy(p_other);
         }    
-        return *this;    
+        return *this;
     }
 
     type& at(const long& p_index) const
