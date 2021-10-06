@@ -17,8 +17,7 @@ Maximum capacity (MAX_CAPACITY) of TVector is 65535.
 
 The use of searching and sorting functions with TVectors of non-[fundamental types](https://www.cplusplus.com/reference/type_traits/is_fundamental/) requires explicit specialization of the private compare() method. The template is as follows:
 ```
-explspec inline
-int TVector<myType>::compare(const myType& obj1, const myType& obj2) const
+explspec short TVector<myType>::compare(const myType& obj1, const myType& obj2) const
 {
     int comparison =    /* DO COMPARISON HERE */;
 
