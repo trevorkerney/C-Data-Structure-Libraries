@@ -132,7 +132,7 @@ Shrinks the capacity of the vector to the size of the vector.
 ---
 ### long find(const type& searched, bool sorted = false, const searchingMethod& searching_method = searchingMethod::binary) const;
 
-Finds and returns the value referred to by searched. If sorted is true, the searching method provided is used. If false, linear search is used.
+Finds and returns the index of the value referred to by searched. If sorted is true, the searching method provided is used. If false, linear search is used.
 
 Use this find() function when the list doesn't need to be sorted beforehand. (i.e. it either already is sorted or doesn't need to be)
 
@@ -144,7 +144,7 @@ parameters:
 ---
 ### long find(const type& searched, const sortingMethod& sorting_method, const searchingMethod& searching_method) const; (s/s)
 
-Sorts the vector, then finds and returns the value referred to by searched.
+Sorts the vector, then finds and returns the index of the value referred to by searched.
 
 Use this find() function when you want the list to be sorted beforehand to optimize the search.
 
