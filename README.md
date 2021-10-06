@@ -14,20 +14,6 @@ Essentially a basic array with resizing functions.
 - Parallelism: N/A (will be per-index synchronized).
 - Memory Format: Sequential.
 
-### TQueue (incomplete)
-Queue implementation, objects pushed to end and pulled from start.
-
-- Positioning: managed.
-- Parallelism: N/A (will be synchronized).
-- Memory Format: Nonsequential, linear.
-
-### TStack (AKA TLinkedVector) (incomplete)
-Stack implementation, objects pushed to top and pulled from top.
-
-- Positioning: managed.
-- Parallelism: N/A (will be synchronized).
-- Memory Format: Nonsequential, linear.
-
 ### TVector
 Multipurpose sequential array implementation with lots of access methods and optimizations for specialized use.
 
@@ -35,8 +21,13 @@ Multipurpose sequential array implementation with lots of access methods and opt
 - Parallelism: N/A (will be synchronized).
 - Memory Format: Sequential.
 
+### TBD
+- TQueue
+- TStack
+
 ---
 ## Monitoring
 
-### State Machine (TBD)
-### Subject/Observer (TBD)
+### TBD
+- State Machine
+- Subject/Observer
