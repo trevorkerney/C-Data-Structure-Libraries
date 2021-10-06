@@ -192,7 +192,6 @@ public:
             delete[] i_vector;
             i_vector = nullptr;
         }
-        i_capacity = 0;
     }
 
     TVector& operator=(const TVector& p_other)
