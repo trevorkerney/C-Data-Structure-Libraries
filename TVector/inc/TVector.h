@@ -58,18 +58,18 @@ private:
         sorted_guarantee = p_other.sorted_guarantee;
     }
 
-    inline int compare(const type& p_obj1, const type& p_obj2) const
+    inline short compare(const type& p_obj1, const type& p_obj2) const
     {
         throw std::runtime_error("There is no comparison function provided for this type.");
     }
-    inline int min(const int& p_index1, const int& p_index2) const
+    inline unsigned int min(const unsigned int& p_index1, const unsigned int& p_index2) const
     {
         if (compare(i_vector[p_index2], i_vector[p_index1]) < 0)
             return p_index2;
         else
             return p_index1;
     }
-    inline int max(const int& p_index1, const int& p_index2) const
+    inline unsigned int max(const unsigned int& p_index1, const unsigned int& p_index2) const
     {
         if (compare(i_vector[p_index1], i_vector[p_index2]) < 0)
             return p_index2;
@@ -77,7 +77,7 @@ private:
             return p_index1;
     }
 
-    inline void swap(const int& p_index1, const int& p_index2)
+    inline void swap(const unsigned int& p_index1, const unsigned int& p_index2)
     {
         type obj = i_vector[p_index1];
         i_vector[p_index1] = i_vector[p_index2];
@@ -481,7 +481,7 @@ public:
     }
 };
 
-explspec inline int TVector<bool>::                 compare(const bool& p_obj1,                 const bool& p_obj2)                 const
+explspec short TVector<bool>::                  compare(const bool& p_obj1,                 const bool& p_obj2)                 const
 {
     int comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -492,7 +492,7 @@ explspec inline int TVector<bool>::                 compare(const bool& p_obj1, 
     else
         return 0;
 }
-explspec inline int TVector<char>::                 compare(const char& p_obj1,                 const char& p_obj2)                 const
+explspec short TVector<char>::                  compare(const char& p_obj1,                 const char& p_obj2)                 const
 {
     short comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -503,7 +503,7 @@ explspec inline int TVector<char>::                 compare(const char& p_obj1, 
     else
         return 0;
 }
-explspec inline int TVector<char16_t>::             compare(const char16_t& p_obj1,             const char16_t& p_obj2)             const
+explspec short TVector<char16_t>::              compare(const char16_t& p_obj1,             const char16_t& p_obj2)             const
 {
     short comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -514,7 +514,7 @@ explspec inline int TVector<char16_t>::             compare(const char16_t& p_ob
     else
         return 0;
 }
-explspec inline int TVector<char32_t>::             compare(const char32_t& p_obj1,             const char32_t& p_obj2)             const
+explspec short TVector<char32_t>::              compare(const char32_t& p_obj1,             const char32_t& p_obj2)             const
 {
     short comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -525,7 +525,7 @@ explspec inline int TVector<char32_t>::             compare(const char32_t& p_ob
     else
         return 0;
 }
-explspec inline int TVector<wchar_t>::              compare(const wchar_t& p_obj1,              const wchar_t& p_obj2)              const
+explspec short TVector<wchar_t>::               compare(const wchar_t& p_obj1,              const wchar_t& p_obj2)              const
 {
     short comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -536,7 +536,7 @@ explspec inline int TVector<wchar_t>::              compare(const wchar_t& p_obj
     else
         return 0;
 }
-explspec inline int TVector<signed char>::          compare(const signed char& p_obj1,          const signed char& p_obj2)          const
+explspec short TVector<signed char>::           compare(const signed char& p_obj1,          const signed char& p_obj2)          const
 {
     int comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -547,7 +547,7 @@ explspec inline int TVector<signed char>::          compare(const signed char& p
     else
         return 0;
 }
-explspec inline int TVector<short>::                compare(const short& p_obj1,                const short& p_obj2)                const
+explspec short TVector<short>::                 compare(const short& p_obj1,                const short& p_obj2)                const
 {
     short comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -558,7 +558,7 @@ explspec inline int TVector<short>::                compare(const short& p_obj1,
     else
         return 0;
 }
-explspec inline int TVector<int>::                  compare(const int& p_obj1,                  const int& p_obj2)                  const
+explspec short TVector<int>::                   compare(const int& p_obj1,                  const int& p_obj2)                  const
 {
     int comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -569,7 +569,7 @@ explspec inline int TVector<int>::                  compare(const int& p_obj1,  
     else
         return 0;
 }
-explspec inline int TVector<long>::                 compare(const long& p_obj1,                 const long& p_obj2)                 const
+explspec short TVector<long>::                  compare(const long& p_obj1,                 const long& p_obj2)                 const
 {
     long comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -580,7 +580,7 @@ explspec inline int TVector<long>::                 compare(const long& p_obj1, 
     else
         return 0;
 }
-explspec inline int TVector<long long>::            compare(const long long& p_obj1,            const long long& p_obj2)            const
+explspec short TVector<long long>::             compare(const long long& p_obj1,            const long long& p_obj2)            const
 {
     long long comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -591,7 +591,7 @@ explspec inline int TVector<long long>::            compare(const long long& p_o
     else
         return 0;
 }
-explspec inline int TVector<unsigned char>::        compare(const unsigned char& p_obj1,        const unsigned char& p_obj2)        const
+explspec short TVector<unsigned char>::         compare(const unsigned char& p_obj1,        const unsigned char& p_obj2)        const
 {
     int comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -602,7 +602,7 @@ explspec inline int TVector<unsigned char>::        compare(const unsigned char&
     else
         return 0;
 }
-explspec inline int TVector<unsigned short>::       compare(const unsigned short& p_obj1,       const unsigned short& p_obj2)       const
+explspec short TVector<unsigned short>::        compare(const unsigned short& p_obj1,       const unsigned short& p_obj2)       const
 {
     int comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -613,7 +613,7 @@ explspec inline int TVector<unsigned short>::       compare(const unsigned short
     else
         return 0;
 }
-explspec inline int TVector<unsigned>::             compare(const unsigned& p_obj1,             const unsigned& p_obj2)             const
+explspec short TVector<unsigned>::              compare(const unsigned& p_obj1,             const unsigned& p_obj2)             const
 {
     int comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -624,7 +624,7 @@ explspec inline int TVector<unsigned>::             compare(const unsigned& p_ob
     else
         return 0;
 }
-explspec inline int TVector<unsigned long>::        compare(const unsigned long& p_obj1,        const unsigned long& p_obj2)        const
+explspec short TVector<unsigned long>::         compare(const unsigned long& p_obj1,        const unsigned long& p_obj2)        const
 {
     long comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -635,7 +635,7 @@ explspec inline int TVector<unsigned long>::        compare(const unsigned long&
     else
         return 0;
 }
-explspec inline int TVector<unsigned long long>::   compare(const unsigned long long& p_obj1,   const unsigned long long& p_obj2)   const
+explspec short TVector<unsigned long long>::    compare(const unsigned long long& p_obj1,   const unsigned long long& p_obj2)   const
 {
     unsigned long long num1 = p_obj1;
     int num1_digits = 1;
@@ -685,7 +685,7 @@ explspec inline int TVector<unsigned long long>::   compare(const unsigned long 
     else
         return 0;
 }
-explspec inline int TVector<float>::                compare(const float& p_obj1,                const float& p_obj2)                const
+explspec short TVector<float>::                 compare(const float& p_obj1,                const float& p_obj2)                const
 {
     float comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -696,7 +696,7 @@ explspec inline int TVector<float>::                compare(const float& p_obj1,
     else
         return 0;
 }
-explspec inline int TVector<double>::               compare(const double& p_obj1,               const double& p_obj2)               const
+explspec short TVector<double>::                compare(const double& p_obj1,               const double& p_obj2)               const
 {
     double comparison = p_obj1 - p_obj2;
     if (comparison != 0)
@@ -707,11 +707,11 @@ explspec inline int TVector<double>::               compare(const double& p_obj1
     else
         return 0;
 }
-explspec inline int TVector<long double>::          compare(const long double& p_obj1,          const long double& p_obj2)          const
+explspec short TVector<long double>::           compare(const long double& p_obj1,          const long double& p_obj2)          const
 {
     return 0;
 }
-explspec inline int TVector<string>::               compare(const string& p_obj1,               const string& p_obj2)               const
+explspec short TVector<string>::                compare(const string& p_obj1,               const string& p_obj2)               const
 {
     int comparison = p_obj1.compare(p_obj2);
     if (comparison != 0)

@@ -21,7 +21,7 @@ public:
     }
 };
 
-explspec inline int TVector<obj>::compare(const obj& obj1, const obj& obj2) const
+explspec short TVector<obj>::compare(const obj& obj1, const obj& obj2) const
 {
     int comparison = obj1.get_id() - obj2.get_id();
     
@@ -40,14 +40,14 @@ int main()
 
     tvl.reserve(5);
 
-    tvl.push(16);
-    tvl.push(23);
-    tvl.push(5);
-    tvl.push(46);
-    tvl.push(12);
+    tvl.push(16L);
+    tvl.push(23L);
+    tvl.push(5L);
+    tvl.push(46L);
+    tvl.push(12L);
 
-    tvl.insert(32, 0);
-    tvl.insert(12, 4);
+    tvl.insert(32L, 0);
+    tvl.insert(12L, 4);
 
     for (int _i = 0; _i < tvl.size(); _i++)
     {
@@ -55,19 +55,19 @@ int main()
     }
     cout << "-----" << endl;
 
-    int loc11 = tvl.find(23);
-    int loc12 = tvl.find(13);
-    int loc21 = tvl.find(14);
-    int loc22 = tvl.find(25);
+    int loc11 = tvl.find(23L);
+    int loc12 = tvl.find(13L);
+    int loc21 = tvl.find(14L);
+    int loc22 = tvl.find(25L);
 
     tvl.sort();
 
-    int loc111 = tvl.find(23);
-    int loc122 = tvl.find(13);
-    int loc211 = tvl.find(14);
-    int loc221 = tvl.find(25);
+    int loc111 = tvl.find(23L);
+    int loc122 = tvl.find(13L);
+    int loc211 = tvl.find(14L);
+    int loc221 = tvl.find(25L);
 
-    int location = tvl.find(37);
+    int location = tvl.find(37L);
 
     for (int _i = 0; _i < tvl.size(); _i++)
     {
@@ -75,22 +75,22 @@ int main()
     }
     cout << "-----" << endl;
 
-    tvl.emplace(69);
-    tvl.emplace(37);
-    tvl.emplace(2);
-    tvl.emplace(104);
-    tvl.emplace(3734);
-    tvl.emplace(22);
-    tvl.emplace(1);
-    tvl.emplace(753);
-    tvl.emplace(85);
-    tvl.emplace(667);
-    tvl.emplace(854);
+    tvl.emplace(69L);
+    tvl.emplace(37L);
+    tvl.emplace(2L);
+    tvl.emplace(104L);
+    tvl.emplace(3734L);
+    tvl.emplace(22L);
+    tvl.emplace(1L);
+    tvl.emplace(753L);
+    tvl.emplace(85L);
+    tvl.emplace(667L);
+    tvl.emplace(854L);
 
     for (int _i = 0; _i < tvl.size(); _i++)
     {
         cout << tvl[_i] << endl; 
     }
 
-    cout << "size: " << tvl.size() << endl;
+    cout << "size: " << tvl.size() << " hello there" << endl;
 }
