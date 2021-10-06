@@ -1,5 +1,6 @@
 # Monitoring
 
-## State Machine (TBD)
-
-## Subject/Observer (TBD)
+---
+## TBD
+- State Machine
+- Subject/Observer

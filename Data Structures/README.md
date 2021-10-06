@@ -18,22 +18,6 @@ Essentially a basic array with resizing functions.
 - find - finds and returns the index of a value.
 
 ---
-## TQueue (incomplete)
-Queue implementation, objects pushed to end and pulled from start.
-
-- Positioning: managed.
-- Parallelism: N/A (will be synchronized).
-- Memory Format: Nonsequential, linear.
-
----
-## TStack (AKA TLinkedVector) (incomplete)
-Stack implementation, objects pushed to top and pulled from top.
-
-- Positioning: managed.
-- Parallelism: N/A (will be synchronized).
-- Memory Format: Nonsequential, linear.
-
----
 ## TVector
 Multipurpose sequential array implementation with lots of access methods and optimizations for specialized use.
 
@@ -65,3 +49,8 @@ Multipurpose sequential array implementation with lots of access methods and opt
 - erase - removes the object at an index and shifts further objects once torward the front.
 - extract - finds, removes, and returns a value, and shifts all further elements once torward the front.
 - sort - sorts the vector.
+
+---
+## TBD
+- TQueue
+- TStack
