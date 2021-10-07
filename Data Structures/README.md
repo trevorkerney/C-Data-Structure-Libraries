@@ -14,7 +14,7 @@ Essentially a basic array with resizing functions.
 - at - returns value at an index.
 - operator[] - returns value at an index.
 - capacity - returns the capacity of the array.
-- reserve - manually expands the array's capacity.
+- reserve - expands the array's capacity.
 - find - finds and returns the index of a value.
 
 ---
