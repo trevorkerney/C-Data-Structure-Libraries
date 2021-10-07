@@ -1,10 +1,10 @@
-#include "../../inc/TQueue.h"
+#include "../../inc/TUDLList.h"
 
 #include <iostream>
 
 int main()
 {
-    TQueue<int> tq;
+    TUDLList<int> tq;
 
     tq.push_back(1);
     tq.push_back(2);

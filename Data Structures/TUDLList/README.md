@@ -1,8 +1,8 @@
-# TQueue
+# TUDLList
 
 This implementation is incomplete.
 
-My C++ Queue implementation.
+My C++ Unbounded Doubly Linked List implementation.
 
 managed positioning
 synchronized access
