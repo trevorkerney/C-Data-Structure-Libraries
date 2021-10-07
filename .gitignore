@@ -1,2 +1,5 @@
 # OS File Structure
 .DS_Store
+
+# Environment Variables
+/.vscode/
