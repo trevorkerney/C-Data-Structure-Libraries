@@ -161,7 +161,7 @@ private:
 
 public:
 
-    TVector(const unsigned int& p_initial_capacity = 0, const unsigned int& p_growth_multiplier = 2)
+    TVector(const unsigned int& p_initial_capacity = 0, const float& p_growth_multiplier = 2)
     {
         if (p_initial_capacity >= 0 && p_initial_capacity < MAX_CAPACITY)
         {

@@ -51,7 +51,7 @@ Replace all instances of "myType" with the name of the type/class.
 (s/s): uses searching and/or sorting
 
 ---
-### TVector(const unsigned int& initial_size = 0, const unsigned int& growth_multiplier = 2); (c)
+### TVector(const unsigned int& initial_size = 0, const float& growth_multiplier = 2); (c)
 
 Initializes the vector.
 
