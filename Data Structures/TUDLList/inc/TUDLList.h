@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../TVector/inc/TVector.h"
+
 #include <iostream>
 #include <exception>
 
@@ -29,20 +31,24 @@ private:
     TUDLListNode<type>* i_front = nullptr;
     TUDLListNode<type>* i_back = nullptr;
 
+    TVector<TUDLListIterator<type>*> i_iterators;
+
 public:
 
-    TUDLList()
-    {
-
-    }
+    TUDLList() {}
     ~TUDLList()
     {
-        TUDLListNode<type>* prev_node = nullptr;
+        TUDLListNode<type>* prev = nullptr;
         while(i_front)
         {
-            prev_node = i_front;
+            prev = i_front;
             i_front = i_front->next;
-            delete prev_node;
+            delete prev;
+        }
+
+        for (unsigned int _i = 0; _i < i_iterators.size(); _i++)
+        {
+            delete i_iterators[_i];
         }
     }
 
@@ -72,13 +78,9 @@ public:
         TUDLListNode<type>* node = new TUDLListNode<type>(p_obj);
         if (i_front)
         {
-            i_front -> prev = node;
-            node -> next = i_front;
+            i_front->prev = node;
+            node->next = i_front;
             i_front = node;
-
-            i_back -> next = node;
-            node -> prev = i_back;
-            i_back = node;
         }
         else
         {
@@ -103,6 +105,10 @@ public:
                 delete i_back;
                 i_front = nullptr;
                 i_back = nullptr;
+                for (unsigned int _i = 0; _i < i_iterators.size(); _i++)
+                {
+                    delete i_iterators[_i];
+                }
             }
             else
             {
@@ -129,6 +135,10 @@ public:
                 delete i_front;
                 i_front = nullptr;
                 i_back = nullptr;
+                for (unsigned int _i = 0; _i < i_iterators.size(); _i++)
+                {
+                    delete i_iterators[_i];
+                }
             }
             else
             {
@@ -143,6 +153,14 @@ public:
         }
         return value;
     }
+
+    TUDLListIterator<type>* iterator(const short& p_start = 0)
+    {
+        TUDLListIterator<type>* iter = new TUDLListIterator<type>(this, p_start);
+        i_iterators.push(iter);
+        return iter;
+    }
+
 };
 
 template <typename type>
@@ -151,20 +169,33 @@ class TUDLListIterator
 friend class TUDLList<type>;
 private:
 
-    TUDLListNode<type>* prev_node = nullptr;
-    TUDLListNode<type>* node = nullptr;
-    TUDLListNode<type>* next_node;
+    TUDLList<type>* i_master;
 
-    TUDLListIterator(const TUDLList<type>& p_tudllist)
+    TUDLListNode<type>* i_prev;
+    TUDLListNode<type>* node = nullptr;
+    TUDLListNode<type>* i_next;
+
+    TUDLListIterator(TUDLList<type>* p_tudllist, const short& p_start = 0)
     {
-        next_node = p_tudllist->i_front;
+        i_master = p_tudllist;
+        if (p_start >= 0)
+        {
+            i_prev = nullptr;
+            i_next = i_master->i_front;
+        }
+        else
+        {
+            i_next = nullptr;
+            i_prev = i_master->i_back;
+        }
     }
+    ~TUDLListIterator() {}
 
 public:
 
     bool has_next() const
     {
-        if (next_node)
+        if (i_next)
         {
             return true;
         }
@@ -172,15 +203,15 @@ public:
     }
     type next()
     {
-        prev_node = node;
-        node = next_node;
-        next_node = node->next_node;
+        i_prev = node;
+        node = i_next;
+        i_next = node->next;
         return node->value;
     }
 
     bool has_prev() const
     {
-        if (prev_node)
+        if (i_prev)
         {
             return true;
         }
@@ -188,15 +219,21 @@ public:
     }
     type prev()
     {
-        next_node = node;
-        node = prev_node;
-        prev_node = node->prev_node;
+        i_next = node;
+        node = i_prev;
+        i_prev = node->prev;
         return node->value;
     }
 
     type value()
     {
         return node->value;
+    }
+
+    void clear()
+    {
+        i_master->i_iterators.extract(this);
+        delete this;
     }
 
 };
