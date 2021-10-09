@@ -41,7 +41,7 @@ public:
         while(i_front)
         {
             prev_node = i_front;
-            i_front = i_front -> next;
+            i_front = i_front->next;
             delete prev_node;
         }
     }
@@ -51,8 +51,8 @@ public:
         TUDLListNode<type>* node = new TUDLListNode<type>(p_obj);
         if (i_back)
         {
-            i_back -> next = node;
-            node -> prev = i_back;
+            i_back->next = node;
+            node->prev = i_back;
             i_back = node;
         }
         else
@@ -91,13 +91,39 @@ public:
         for (unsigned int _i = 0; _i < p_size; _i++)
             push_front(p_objs[_i]);
     }
+    
+    type pop_back()
+    {
+        type value;
+        if (i_back)
+        {
+            value = i_back->value;
+            if (i_front == i_back)
+            {
+                delete i_back;
+                i_front = nullptr;
+                i_back = nullptr;
+            }
+            else
+            {
+                i_back = i_back->prev;
+                delete i_back->next;
+                i_back->next = nullptr;
+            }
+        }
+        else
+        {
+            throw std::runtime_error("TUDLList is empty");
+        }
+        return value;
+    }
 
-    type next()
+    type pop_front()
     {
         type value;
         if (i_front)
         {
-            value = i_front -> value;
+            value = i_front->value;
             if (i_front == i_back)
             {
                 delete i_front;
@@ -106,39 +132,39 @@ public:
             }
             else
             {
-                i_front = i_front -> next;
-                delete i_front -> prev;
-                i_front -> prev = nullptr;
+                i_front = i_front->next;
+                delete i_front->prev;
+                i_front->prev = nullptr;
             }
         }
         else
         {
-            throw std::runtime_error("Queue is empty");
+            throw std::runtime_error("TUDLList is empty");
         }
         return value;
     }
-    
 };
 
 template <typename type>
 class TUDLListIterator
 {
+friend class TUDLList<type>;
 private:
 
-    TUDLListNode<type>* prev = nullptr;
+    TUDLListNode<type>* prev_node = nullptr;
     TUDLListNode<type>* node = nullptr;
-    TUDLListNode<type>* next;
-
-public:
+    TUDLListNode<type>* next_node;
 
     TUDLListIterator(const TUDLList<type>& p_tudllist)
     {
-        next = p_tudllist->i_front;
+        next_node = p_tudllist->i_front;
     }
+
+public:
 
     bool has_next() const
     {
-        if (next)
+        if (next_node)
         {
             return true;
         }
@@ -146,15 +172,15 @@ public:
     }
     type next()
     {
-        prev = node;
-        node = next;
-        next = node->next;
+        prev_node = node;
+        node = next_node;
+        next_node = node->next_node;
         return node->value;
     }
 
     bool has_prev() const
     {
-        if (prev)
+        if (prev_node)
         {
             return true;
         }
@@ -162,9 +188,9 @@ public:
     }
     type prev()
     {
-        next = node;
-        node = prev;
-        prev = node->prev;
+        next_node = node;
+        node = prev_node;
+        prev_node = node->prev_node;
         return node->value;
     }
 
