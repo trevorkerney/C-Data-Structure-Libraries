@@ -478,6 +478,7 @@ public:
         }
         sorted_guarantee = true;
     }
+
 };
 
 explspec short TVector<bool>::                  compare(const bool& p_obj1,                 const bool& p_obj2)                 const
