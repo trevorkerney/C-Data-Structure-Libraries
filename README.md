@@ -5,6 +5,8 @@
        src="https://scan.coverity.com/projects/23919/badge.svg"/>
 </a>
 
+---
+
 I'm writing these to gain greater control and knowledge of my code.
 
 All of these fall under the MIT license unless there is a different license within the design pattern's directory.
