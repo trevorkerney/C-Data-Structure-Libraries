@@ -10,4 +10,4 @@ indev:
 .PHONY: clean
 
 clean:
-	cd tests/indev && make clean
+	cd tests/indev && make clean DEBUG=$(DEBUG)

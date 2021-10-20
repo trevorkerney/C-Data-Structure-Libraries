@@ -19,7 +19,7 @@ ifeq ($(OS),Windows_NT)
 else
 	MKBINDIR=mkdir -p $(BINDIR)
 	XX=
-	CLEAN=-rm $(BINDIR)/*
+	CLEAN=rm -rf $(BINDIR)
 endif
 
 all: $(BINDIR) $(BINDIR)/$(NAME)
