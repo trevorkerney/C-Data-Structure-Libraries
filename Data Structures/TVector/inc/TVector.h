@@ -28,14 +28,14 @@ private:
 
     type* i_vector = nullptr;
 
-    unsigned i_capacity;
-    unsigned i_size = 0;
+    size_t i_capacity;
+    size_t i_size = 0;
 
     float i_growth_multiplier;
 
     bool sorted_guarantee = true;
 
-    static const unsigned MAX_CAPACITY = 65535;
+    static const size_t MAX_CAPACITY = 65535;
 
     void copy(const TVector& p_other)
     {
@@ -63,14 +63,14 @@ private:
     {
         throw std::runtime_error("There is no comparison function provided for this type.");
     }
-    inline unsigned min(const unsigned& p_index1, const unsigned& p_index2) const
+    inline size_t min(const size_t& p_index1, const size_t& p_index2) const
     {
         if (compare(i_vector[p_index2], i_vector[p_index1]) < 0)
             return p_index2;
         else
             return p_index1;
     }
-    inline unsigned max(const unsigned& p_index1, const unsigned& p_index2) const
+    inline size_t max(const size_t& p_index1, const size_t& p_index2) const
     {
         if (compare(i_vector[p_index1], i_vector[p_index2]) < 0)
             return p_index2;
@@ -78,7 +78,7 @@ private:
             return p_index1;
     }
 
-    inline void swap(const unsigned& p_index1, const unsigned& p_index2)
+    inline void swap(const size_t& p_index1, const size_t& p_index2)
     {
         type obj = i_vector[p_index1];
         i_vector[p_index1] = i_vector[p_index2];
@@ -98,7 +98,7 @@ private:
         }
         return num_of_lesser;
     }
-    long binary_search(const type& p_searched, const int& p_low, const int& p_high, const long& internal_mid = 0) const
+    long binary_search(const type& p_searched, const size_t& p_low, const size_t& p_high, const long& internal_mid = 0) const
     {
         if (p_high >= p_low)
         {
@@ -159,7 +159,7 @@ private:
 
 public:
 
-    TVector(const unsigned& p_initial_capacity = 0, const float& p_growth_multiplier = 2.0f)
+    TVector(const size_t& p_initial_capacity = 0, const float& p_growth_multiplier = 2.0f)
     : i_capacity(p_initial_capacity)
     , i_growth_multiplier(p_growth_multiplier)
     {
@@ -193,18 +193,18 @@ public:
         return *this;
     }
 
-    type& at(const long& p_index) const
+    type& at(const size_t& p_index) const
     {
-        if (p_index < 0 || p_index > i_size)
+        if (p_index > i_size)
             throw std::invalid_argument("Parameter index out of range. ATT 0 - " + to_string(i_size));
         return i_vector[p_index];
     }
-    type& operator[](const long& p_index) const
+    type& operator[](const size_t& p_index) const
     {
         return at(p_index);
     }
 
-    unsigned size() const
+    size_t size() const
     {
         return i_size;
     }
@@ -221,29 +221,28 @@ public:
         return i_growth_multiplier;
     }
 
-    unsigned reserve(const long& p_amount)
+    size_t reserve(const size_t& p_amount)
     {
-        unsigned old_memory_size = i_capacity;
+        size_t old_memory_size = i_capacity;
+
         if ((p_amount == MAX_CAPACITY && i_capacity == MAX_CAPACITY) || p_amount <= i_capacity)
             return 0;
-        else if (p_amount <= MAX_CAPACITY)
-        {
-            type* new_array = new type[p_amount];
-            if (i_capacity > 0)
-            {
-                for (size_t _i = 0; _i < i_size; _i++)
-                    new_array[_i] = i_vector[_i];
-                delete[] i_vector;
-            }
-            i_vector = new_array;
-            i_capacity = p_amount;
-            return p_amount - old_memory_size;
-        }
-        else
+        else if (p_amount > MAX_CAPACITY)
             return reserve(MAX_CAPACITY);
+
+        type* new_array = new type[p_amount];
+        for (size_t _i = 0; _i < i_size; _i++)
+            new_array[_i] = i_vector[_i];
+
+        if (i_capacity > 0)
+            delete[] i_vector;
+
+        i_vector = new_array;
+        i_capacity = p_amount;
+        return p_amount - old_memory_size;
     }
 
-    unsigned shrink()
+    size_t shrink()
     {
         int old_memory_size = i_capacity;
         if (i_capacity > i_size)
@@ -267,6 +266,76 @@ public:
         }
         else
             return 0;
+    }
+
+    void push(const type& p_obj)
+    {
+        if (i_size < i_capacity)
+        {
+            i_vector[i_size] = p_obj;
+            i_size++;
+            sorted_guarantee = false;
+        }
+        else
+        {
+            if (i_capacity == 0)
+                reserve(1);
+            else if (reserve(i_capacity * i_growth_multiplier) == 0)
+                throw std::runtime_error("Exceeded maximum capacity");
+            push(p_obj);
+        }
+    }
+    void push(const type* p_objs, const long& p_size)
+    {
+        for (size_t _i = 0; _i < p_size; _i++)
+            push(p_objs[_i]);
+    }
+
+    void insert(const type& p_obj, const long& p_index)
+    {
+        type obj_swap1;
+        type obj_swap2;
+        if (i_capacity < MAX_CAPACITY)
+        {
+            if (i_size == i_capacity)
+                reserve(i_size * i_growth_multiplier);
+            obj_swap1 = at(p_index);
+            at(p_index) = p_obj;
+            i_size++;
+            sorted_guarantee = false;
+        }
+        else
+            throw std::runtime_error("Exceeded maximum capacity");
+
+        for (size_t _i = p_index + 1; _i < i_size; _i++)
+        {
+            obj_swap2 = i_vector[_i];
+            i_vector[_i] = obj_swap1;
+            obj_swap1 = obj_swap2;
+        }
+    }
+
+    type pull()
+    {
+        type& obj;
+        if (i_size != 0)
+            obj = i_vector[--i_size];
+        else
+            throw std::runtime_error("TVector is empty");
+        return obj;
+    }
+
+    type erase(const size_t& p_index)
+    {
+        type obj;
+        if (i_size > 0)
+            obj = at(p_index);
+        else
+            throw std::runtime_error("TVector is empty");
+        for (size_t _i = p_index; _i < i_size - 1; _i++)
+            i_vector[_i] = i_vector[_i + 1];
+        i_size--;
+        return obj;
     }
 
     long find(const type& p_searched, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary) const
@@ -308,64 +377,7 @@ public:
         else
             return false;
     }
-
-    void push(const type& p_obj)
-    {
-        if (i_size < i_capacity)
-        {
-            i_vector[i_size] = p_obj;
-            i_size++;
-            sorted_guarantee = false;
-        }
-        else
-        {
-            if (i_capacity == 0)
-                reserve(1);
-            else if (reserve(i_capacity * i_growth_multiplier) == 0)
-                throw std::runtime_error("Exceeded maximum capacity");
-            push(p_obj);
-        }
-    }
-    void push(const type* p_objs, const long& p_size)
-    {
-        for (size_t _i = 0; _i < p_size; _i++)
-            push(p_objs[_i]);
-    }
-
-    type pull()
-    {
-        type& obj;
-        if (i_size != 0)
-            obj = i_vector[--i_size];
-        else
-            throw std::runtime_error("TVector is empty");
-        return obj;
-    }
-
-    void insert(const type& p_obj, const long& p_index)
-    {
-        type obj_swap1;
-        type obj_swap2;
-        if (i_capacity < MAX_CAPACITY)
-        {
-            if (i_size == i_capacity)
-                reserve(i_size * i_growth_multiplier);
-            obj_swap1 = at(p_index);
-            at(p_index) = p_obj;
-            i_size++;
-            sorted_guarantee = false;
-        }
-        else
-            throw std::runtime_error("Exceeded maximum capacity");
-
-        for (size_t _i = p_index + 1; _i < i_size; _i++)
-        {
-            obj_swap2 = i_vector[_i];
-            i_vector[_i] = obj_swap1;
-            obj_swap1 = obj_swap2;
-        }
-    }
-
+    
     void emplace(const type& p_obj, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary)
     {
         long sorted_index = find(p_obj, p_sorted, p_searching_method);
@@ -379,19 +391,6 @@ public:
         if (sorted_index < 0)
             sorted_index = (sorted_index + 1) * -1;
         insert(p_obj, sorted_index);
-    }
-
-    type erase(const long& p_index)
-    {
-        type obj;
-        if (i_size > 0)
-            obj = at(p_index);
-        else
-            throw std::runtime_error("TVector is empty");
-        for (size_t _i = p_index; _i < i_size - 1; _i++)
-            i_vector[_i] = i_vector[_i + 1];
-        i_size--;
-        return obj;
     }
 
     type extract(const type& p_searched, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary)
@@ -434,6 +433,9 @@ public:
     }
 
 };
+
+template<typename type>
+const size_t TVector<type>::MAX_CAPACITY;
 
 explspec short TVector<bool>::                  compare(const bool& p_obj1,                 const bool& p_obj2)                 const
 {

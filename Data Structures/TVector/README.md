@@ -53,7 +53,7 @@ Replace all instances of "myType" with the name of the type/class.
 (s/s): uses searching and/or sorting
 
 ---
-### TVector(const unsigned& initial_capacity = 0, const float& growth_multiplier = 2.0f) *(c)*
+### TVector(const size_t& initial_capacity = 0, const float& growth_multiplier = 2.0f) *(c)*
 
 Initializes the vector.
 
@@ -83,7 +83,7 @@ parameters:
 - other: the TVector to copy
 
 ---
-### type& at(const long& index) const
+### type& at(const size_t& index) const
 
 Returns value at index. Throws error if index is out of range.
 
@@ -91,7 +91,7 @@ parameters:
 - index: the index at which the vector is accessed.
 
 ---
-### type& operator[](const long& index) const *(o)*
+### type& operator[](const size_t& index) const *(o)*
 
 Returns value at index. Throws error if index is out of range.
 
@@ -99,7 +99,7 @@ parameters:
 - index: the index at which the vector is accessed.
 
 ---
-### unsigned size() const
+### size_t size() const
 
 Returns current amount of objects in vector.
 
@@ -121,7 +121,7 @@ parameters:
 Returns the growth_multiplier.
 
 ---
-### unsigned reserve(const long& amount)
+### size_t reserve(const size_t& amount)
 
 Manually expands the vector's capacity. Returns the amount of new spaces in the vector's capacity. Trying to reserve more than the vector's maximum capacity does not throw an error, but simply reserves the maximum capacity. Any call to reserve when the vector's capacity is at maximum will immediately return 0.
 
@@ -129,7 +129,7 @@ parameters:
 - amount: the new capacity of the vector.
 
 ---
-### unsigned shrink()
+### size_t shrink()
 
 Shrinks the capacity of the vector to the size of the vector.
 
@@ -273,7 +273,7 @@ parameters:
 - searching_method: the searching method to use.
 
 ---
-### type erase(const long& index)
+### type erase(const size_t& index)
 
 Removes the object at index and shifts further objects once torward the front.
 
