@@ -2,7 +2,13 @@
 .DS_Store
 
 # Environment Variables
-/.vscode/
+.vscode
+
+# Code Analyzers
+cov-int
+
+# Temporary
+temp
 
 # Miscellaneous
 todo.*
