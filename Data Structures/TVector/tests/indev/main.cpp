@@ -49,27 +49,27 @@ int main()
     tvl.insert(32L, 0);
     tvl.insert(12L, 4);
 
-    for (int _i = 0; _i < tvl.size(); _i++)
+    for (size_t _i = 0; _i < tvl.size(); _i++)
     {
         cout << tvl[_i] << endl; 
     }
     cout << "-----" << endl;
 
-    int loc11 = tvl.find(23L);
-    int loc12 = tvl.find(13L);
-    int loc21 = tvl.find(14L);
-    int loc22 = tvl.find(25L);
+    cout << tvl.find(23L) << endl;
+    cout << tvl.find(13L) << endl;
+    cout << tvl.find(14L) << endl;
+    cout << tvl.find(25L) << endl;
 
     tvl.sort();
 
-    int loc111 = tvl.find(23L);
-    int loc122 = tvl.find(13L);
-    int loc211 = tvl.find(14L);
-    int loc221 = tvl.find(25L);
+    cout << tvl.find(23L) << endl;
+    cout << tvl.find(13L) << endl;
+    cout << tvl.find(14L) << endl;
+    cout << tvl.find(25L) << endl;
 
-    int location = tvl.find(37L);
+    cout << tvl.find(37L) << endl;
 
-    for (int _i = 0; _i < tvl.size(); _i++)
+    for (size_t _i = 0; _i < tvl.size(); _i++)
     {
         cout << tvl[_i] << endl; 
     }
@@ -87,7 +87,7 @@ int main()
     tvl.emplace(667L);
     tvl.emplace(854L);
 
-    for (int _i = 0; _i < tvl.size(); _i++)
+    for (size_t _i = 0; _i < tvl.size(); _i++)
     {
         cout << tvl[_i] << endl; 
     }

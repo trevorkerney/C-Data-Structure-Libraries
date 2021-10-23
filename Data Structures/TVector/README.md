@@ -17,7 +17,7 @@ Maximum capacity (MAX_CAPACITY) of TVector is 65535.
 ### Sorting Algorithms
 - quick (single pivot, found with median of 3)
 
-The use of searching and sorting functions with TVectors of non-[fundamental types](https://www.cplusplus.com/reference/type_traits/is_fundamental/) requires explicit specialization of the private compare() method. The template is as follows:
+The use of searching and sorting functions with TVectors of non-[fundamental types](https://www.cplusplus.com/reference/type_traits/is_fundamental/) (except strings) requires explicit specialization of the private compare() method. The template is as follows:
 ```
 explspec short TVector<myType>::compare(const myType& obj1, const myType& obj2) const
 {
@@ -53,16 +53,16 @@ Replace all instances of "myType" with the name of the type/class.
 (s/s): uses searching and/or sorting
 
 ---
-### TVector(const unsigned int& initial_size = 0, const float& growth_multiplier = 2); (c)
+### TVector(const unsigned& initial_capacity = 0, const float& growth_multiplier = 2.0f) *(c)*
 
 Initializes the vector.
 
 parameters:
-- initial_size: the memory capacity initally allocated for the list. The default is 0. Throws error if less than 0 or greater than the maximum capacity.
-- growth_multiplier: the capacity multiplier used for automatic resizing. The default is 2. (*READ void set_growth_multiplier(float p_multiplier);*).
+- initial_capacity: the memory capacity initally allocated for the list. The default is 0. Throws error if less than 0 or greater than the maximum capacity.
+- growth_multiplier: the capacity multiplier used for automatic resizing. The default is 2.0. (*READ void set_growth_multiplier(float p_multiplier);*).
 
 ---
-### TVector(const TVector& other); (c)
+### TVector(const TVector& other) *(c)*
 
 Initializes the vector and copies another vector's contents to itself.
 
@@ -70,12 +70,12 @@ parameters:
 - other: the TVector to copy.
 
 ---
-### ~TVector(); (d)
+### ~TVector() *(d)*
 
 Deallocates the memory allocated to the vector, if any.
 
 ---
-### TVector& operator=(const TVector& p_other); (=)
+### TVector& operator=(const TVector& other) *(=)*
 
 Copies another vector's contents into itself.
 
@@ -83,7 +83,7 @@ parameters:
 - other: the TVector to copy
 
 ---
-### type& at(const long& index) const;
+### type& at(const long& index) const
 
 Returns value at index. Throws error if index is out of range.
 
@@ -91,7 +91,7 @@ parameters:
 - index: the index at which the vector is accessed.
 
 ---
-### type& operator[](const long& index) const; (o)
+### type& operator[](const long& index) const *(o)*
 
 Returns value at index. Throws error if index is out of range.
 
@@ -99,40 +99,42 @@ parameters:
 - index: the index at which the vector is accessed.
 
 ---
-### unsigned int size() const;
+### unsigned size() const
 
 Returns current amount of objects in vector.
 
 ---
-### void set_growth_multiplier(const float& multiplier);
+### void set_growth_multiplier(const float& multiplier)
 
 Sets the value the vector's capacity is multiplied by to obtain the size of the new array to be allocated when automatically resizing.
 
+The multiplier is obtained by rounding down the product to the nearest whole number.
+
 parameters:
-- multiplier: the capacity multiplier of the vector
+- multiplier: the capacity multiplier of the vector. If negative, it is converted to its positive counterpart.
 
 ---
-### float growth_multiplier() const;
+### float growth_multiplier() const
 
-*READ void set_growth_multiplier(float p_multiplier);*
+*READ void set_growth_multiplier(float p_multiplier)*
 
 Returns the growth_multiplier.
 
 ---
-### unsigned int reserve(const long& amount);
+### unsigned reserve(const long& amount)
 
-Manually expands the vector's capacity. Returns the amount of new spaces in the vector's capacity. Trying to reserve more than the vector's maximum capacity does not throw an error, but simply reserves the maximum capacity. Any call to reserve when the vector's capacity is at maximum capacity will immediately return 0.
+Manually expands the vector's capacity. Returns the amount of new spaces in the vector's capacity. Trying to reserve more than the vector's maximum capacity does not throw an error, but simply reserves the maximum capacity. Any call to reserve when the vector's capacity is at maximum will immediately return 0.
 
 parameters:
 - amount: the new capacity of the vector.
 
 ---
-### unsigned int shrink();
+### unsigned shrink()
 
 Shrinks the capacity of the vector to the size of the vector.
 
 ---
-### long find(const type& searched, bool sorted = false, const searchingMethod& searching_method = searchingMethod::binary) const;
+### long find(const type& searched, bool sorted = false, const searchingMethod& searching_method = searchingMethod::binary) const
 
 Finds and returns the index of the value referred to by searched. If sorted is true, the searching method provided is used. If false, linear search is used.
 
@@ -144,7 +146,7 @@ parameters:
 - searching_method: the searching method to use if the list is sorted. The default is binary search.
 
 ---
-### long find(const type& searched, const sortingMethod& sorting_method, const searchingMethod& searching_method) const; (s/s)
+### long find(const type& searched, const sortingMethod& sorting_method, const searchingMethod& searching_method) const *(s/s)*
 
 Sorts the vector, then finds and returns the index of the value referred to by searched.
 
@@ -156,7 +158,7 @@ parameters:
 - searching_method: the searching method to use.
 
 ---
-### bool contains(const type& searched, bool sorted = false, const searchingMethod& searching_method = searchingMethod::binary) const;
+### bool contains(const type& searched, bool sorted = false, const searchingMethod& searching_method = searchingMethod::binary) const
 
 Returns whether or not the vector contains the value referred to by searched. If sorted is true, the searching method provided is used. If false, linear search is used.
 
@@ -175,7 +177,7 @@ parameters:
 - searching_method: the searching method to use if the list is sorted. The default is binary search.
 
 ---
-### bool contains(const type& searched, const sortingMethod& sorting_method, const searchingMethod& searching_method) const; (s/s)
+### bool contains(const type& searched, const sortingMethod& sorting_method, const searchingMethod& searching_method) const *(s/s)*
 
 Sorts the vector, then returns whether or not the vector contains the value referred to by searched.
 
@@ -194,7 +196,7 @@ parameters:
 - searching_method: the searching method to use.
 
 ---
-### void push(const type& obj);
+### void push(const type& obj)
 
 Inserts a new object at the back of the vector. Throws error if vector is at maximum size.
 
@@ -202,7 +204,7 @@ parameters:
 - obj: the object to be inserted into the vector.
 
 ---
-### void push(const type* objs, const long& size);
+### void push(const type* objs, const long& size)
 
 Traverses through an array pushing every object into the array.
 
@@ -217,12 +219,12 @@ parameters:
 - size: the size of the array.
 
 ---
-### type pull();
+### type pull()
 
 Removes the object at the back of the vector. Returns removed object. Throws error if vector is empty.
 
 ---
-### void insert(const type& obj, const long& index);
+### void insert(const type& obj, const long& index)
 
 Inserts a new object at index and shifts further objects once torward the back. Throws error if vector is at maximum size.
 
@@ -271,7 +273,7 @@ parameters:
 - searching_method: the searching method to use.
 
 ---
-### type erase(const long& index);
+### type erase(const long& index)
 
 Removes the object at index and shifts further objects once torward the front.
 
@@ -279,7 +281,7 @@ parameters:
 - index: the index at which the obj will be erased from the vector.
 
 ---
-### type extract(const type& searched, bool sorted = false, const searchingMethod& searching_method = searchingMethod::binary);
+### type extract(const type& searched, bool sorted = false, const searchingMethod& searching_method = searchingMethod::binary)
 
 Finds, removes, and returns the value referred to by searched, and shifts all further elements once torward the front. Throws error if value referred to by searched isn't present in the array. If sorted is true, the searching method provided is used. If false, linear search is used.
 
@@ -296,7 +298,7 @@ parameters:
 - searching_method: the searching method to use if the list is sorted. The default is binary search.
 
 ---
-### type extract(const type& searched, const sortingMethod& sorting_method, const searchingMethod& searching_method); (s/s)
+### type extract(const type& searched, const sortingMethod& sorting_method, const searchingMethod& searching_method) *(s/s)*
 
 Sorts the vector, then finds, removes, and returns the value referred to by searched, and shifts all further elements once torward the front. Throws error if value referred to by searched isn't present in the array.
 
@@ -313,9 +315,9 @@ parameters:
 - searching_method: the searching method to use.
 
 ---
-### void sort(const sortingMethod& method = sortingMethod::quick); (s/s)
+### void sort(const sortingMethod& method = sortingMethod::quick) *(s/s)*
 
-Sorts the vector using the provided sorting and comparison methods. Throws error if sorting method provided is invalid.
+Sorts the vector using the provided sorting and comparison methods. Throws error if the sorting method provided is invalid.
 
 paramters:
 - method: the sorting method to use. The default is quick sort.

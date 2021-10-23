@@ -26,50 +26,51 @@ class TVector
 {
 private:
 
-    type* i_vector;
+    type* i_vector = nullptr;
 
-    unsigned int i_capacity;
-    unsigned int i_size;
+    unsigned i_capacity;
+    unsigned i_size = 0;
 
     float i_growth_multiplier;
 
     bool sorted_guarantee = true;
 
-    static const unsigned int MAX_CAPACITY = 65535;
+    static const unsigned MAX_CAPACITY = 65535;
 
     void copy(const TVector& p_other)
     {
+        if (i_capacity > 0)
+        {
+            delete[] this->i_vector;
+            this->i_vector = nullptr;
+            this->i_capacity = 0;
+            this->i_size = 0;
+        }
+
         if (p_other.i_capacity > 0)
         {
-            if (i_capacity > 0)
-            {
-                delete[] i_vector;
-            }
-            i_vector = new type[p_other.i_capacity];
-
-            for (unsigned int _i = 0; _i < p_other.i_size; _i++)
-            {
-                i_vector[_i] = p_other[_i];;
-            }
+            this->reserve(p_other.i_capacity);
+            for (size_t _i = 0; _i < p_other.i_size; _i++)
+                this->i_vector[_i] = p_other[_i];
         }
-        i_capacity = p_other.i_capacity;
-        i_size = p_other.i_size;
-        i_growth_multiplier = p_other.i_growth_multiplier;
-        sorted_guarantee = p_other.sorted_guarantee;
+        
+        this->i_size = p_other.i_size;
+        this->i_growth_multiplier = p_other.i_growth_multiplier;
+        this->sorted_guarantee = p_other.sorted_guarantee;
     }
 
     inline short compare(const type& p_obj1, const type& p_obj2) const
     {
         throw std::runtime_error("There is no comparison function provided for this type.");
     }
-    inline unsigned int min(const unsigned int& p_index1, const unsigned int& p_index2) const
+    inline unsigned min(const unsigned& p_index1, const unsigned& p_index2) const
     {
         if (compare(i_vector[p_index2], i_vector[p_index1]) < 0)
             return p_index2;
         else
             return p_index1;
     }
-    inline unsigned int max(const unsigned int& p_index1, const unsigned int& p_index2) const
+    inline unsigned max(const unsigned& p_index1, const unsigned& p_index2) const
     {
         if (compare(i_vector[p_index1], i_vector[p_index2]) < 0)
             return p_index2;
@@ -77,7 +78,7 @@ private:
             return p_index1;
     }
 
-    inline void swap(const unsigned int& p_index1, const unsigned int& p_index2)
+    inline void swap(const unsigned& p_index1, const unsigned& p_index2)
     {
         type obj = i_vector[p_index1];
         i_vector[p_index1] = i_vector[p_index2];
@@ -87,7 +88,7 @@ private:
     long linear_search(const type& p_searched) const
     {
         long num_of_lesser = -1;
-        for (unsigned int _i = 0; _i < i_size; _i++)
+        for (size_t _i = 0; _i < i_size; _i++)
         {
             int comparison = compare(p_searched, i_vector[_i]);
             if ((comparison) == 0)
@@ -102,7 +103,6 @@ private:
         if (p_high >= p_low)
         {
             long mid = (p_high - p_low) / 2 + p_low;
-
             short comparison = compare(i_vector[mid], p_searched);
             if (comparison != 0)
                 if (comparison < 0)
@@ -141,9 +141,7 @@ private:
                 if (_i < _j)
                 {
                     if (_j == pivot_index)
-                    {
                         pivot_index = _i;
-                    }
                     swap(_i, _j);
                 }
             }
@@ -161,28 +159,22 @@ private:
 
 public:
 
-    TVector(const unsigned int& p_initial_capacity = 0, const float& p_growth_multiplier = 2)
+    TVector(const unsigned& p_initial_capacity = 0, const float& p_growth_multiplier = 2.0f)
+    : i_capacity(p_initial_capacity)
+    , i_growth_multiplier(p_growth_multiplier)
     {
-        if (p_initial_capacity >= 0 && p_initial_capacity < MAX_CAPACITY)
+        if (p_initial_capacity < MAX_CAPACITY)
         {
-            i_size = 0;
-            i_capacity = 0;
-            i_growth_multiplier = p_growth_multiplier;
             if (p_initial_capacity > 0)
-            {
                 reserve(p_initial_capacity);
-            }
+            if (p_growth_multiplier < 0.0f)
+                i_growth_multiplier *= -1.0f;
         }
         else
-        {
-            throw std::runtime_error("Out of allowed TArray range: 0 - " + to_string(MAX_CAPACITY));
-        }
+            throw std::invalid_argument("parameter initial_capacity out of allowed TVector range: 0 - " + to_string(MAX_CAPACITY));
     }
     TVector(const TVector& p_other)
     {
-        i_capacity = 0;
-        i_size = 0;
-        i_growth_multiplier = 2;
         copy(p_other);
     }
     ~TVector()
@@ -197,18 +189,14 @@ public:
     TVector& operator=(const TVector& p_other)
     {
         if (this != &p_other)
-        {
             copy(p_other);
-        }    
         return *this;
     }
 
     type& at(const long& p_index) const
     {
         if (p_index < 0 || p_index > i_size)
-        {
-            throw std::runtime_error("Out of range");
-        }
+            throw std::invalid_argument("Parameter index out of range. ATT 0 - " + to_string(i_size));
         return i_vector[p_index];
     }
     type& operator[](const long& p_index) const
@@ -216,7 +204,7 @@ public:
         return at(p_index);
     }
 
-    unsigned int size() const
+    unsigned size() const
     {
         return i_size;
     }
@@ -224,6 +212,8 @@ public:
     void set_growth_multiplier(const float& p_multiplier)
     {
         i_growth_multiplier = p_multiplier;
+        if (p_multiplier < 0.0f)
+            i_growth_multiplier *= -1.0f;
     }
 
     float growth_multiplier() const
@@ -231,23 +221,18 @@ public:
         return i_growth_multiplier;
     }
 
-    unsigned int reserve(const long& p_amount)
+    unsigned reserve(const long& p_amount)
     {
-        unsigned int old_memory_size = i_capacity;
-
+        unsigned old_memory_size = i_capacity;
         if ((p_amount == MAX_CAPACITY && i_capacity == MAX_CAPACITY) || p_amount <= i_capacity)
-        {
             return 0;
-        }
         else if (p_amount <= MAX_CAPACITY)
         {
             type* new_array = new type[p_amount];
             if (i_capacity > 0)
             {
-                for (unsigned int _i = 0; _i < i_size; _i++)
-                {
+                for (size_t _i = 0; _i < i_size; _i++)
                     new_array[_i] = i_vector[_i];
-                }
                 delete[] i_vector;
             }
             i_vector = new_array;
@@ -255,12 +240,10 @@ public:
             return p_amount - old_memory_size;
         }
         else
-        {
             return reserve(MAX_CAPACITY);
-        }
     }
 
-    unsigned int shrink()
+    unsigned shrink()
     {
         int old_memory_size = i_capacity;
         if (i_capacity > i_size)
@@ -269,11 +252,8 @@ public:
             if (i_size > 0)
             {
                 new_array = new type[i_size];
-                
-                for (unsigned int _i = 0; _i < i_size; _i++)
-                {
+                for (size_t _i = 0; _i < i_size; _i++)
                     new_array[_i] = i_vector[_i];
-                }
                 delete[] i_vector;
                 i_vector = new_array;
             }
@@ -286,9 +266,7 @@ public:
             return old_memory_size - i_size;
         }
         else
-        {
             return 0;
-        }
     }
 
     long find(const type& p_searched, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary) const
@@ -304,13 +282,11 @@ public:
             case searchingMethod::binary:
                 return binary_search(p_searched, 0, i_size);
             default:
-                throw std::runtime_error("Invalid searching method.");
+                throw std::invalid_argument("Parameter searched is not a valid searching method.");
             }
         }
         else
-        {
             return linear_search(p_searched);
-        }
     }
     long find(const type& p_searched, const sortingMethod& p_sorting_method, const searchingMethod& p_searching_method) const
     {
@@ -344,35 +320,26 @@ public:
         else
         {
             if (i_capacity == 0)
-            {
                 reserve(1);
-            }
             else if (reserve(i_capacity * i_growth_multiplier) == 0)
-            {
                 throw std::runtime_error("Exceeded maximum capacity");
-            }
             push(p_obj);
         }
     }
     void push(const type* p_objs, const long& p_size)
     {
-        for (int _i = 0; _i < p_size; _i++)
-        {
+        for (size_t _i = 0; _i < p_size; _i++)
             push(p_objs[_i]);
-        }
     }
 
     type pull()
     {
+        type& obj;
         if (i_size != 0)
-        {
-            type& obj = i_vector[--i_size];
-            return obj;
-        }
+            obj = i_vector[--i_size];
         else
-        {
             throw std::runtime_error("TVector is empty");
-        }
+        return obj;
     }
 
     void insert(const type& p_obj, const long& p_index)
@@ -382,19 +349,16 @@ public:
         if (i_capacity < MAX_CAPACITY)
         {
             if (i_size == i_capacity)
-            {
                 reserve(i_size * i_growth_multiplier);
-            }
             obj_swap1 = at(p_index);
             at(p_index) = p_obj;
             i_size++;
             sorted_guarantee = false;
         }
         else
-        {
             throw std::runtime_error("Exceeded maximum capacity");
-        }
-        for (int _i = p_index + 1; _i < i_size; _i++)
+
+        for (size_t _i = p_index + 1; _i < i_size; _i++)
         {
             obj_swap2 = i_vector[_i];
             i_vector[_i] = obj_swap1;
@@ -421,34 +385,28 @@ public:
     {
         type obj;
         if (i_size > 0)
-        {
             obj = at(p_index);
-        }
         else
-        {
             throw std::runtime_error("TVector is empty");
-        }
-        for (int _i = p_index; _i < i_size - 1; _i++)
-        {
+        for (size_t _i = p_index; _i < i_size - 1; _i++)
             i_vector[_i] = i_vector[_i + 1];
-        }
         i_size--;
         return obj;
     }
 
     type extract(const type& p_searched, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary)
     {
-        short index = find(p_searched, p_sorted, p_searching_method);
+        long index = find(p_searched, p_sorted, p_searching_method);
         if (index < 0)
-            throw std::runtime_error("Object not present in TVector.");
+            throw std::invalid_argument("Parameter searched not present in TVector.");
         else
             return erase(index);
     }
     type extract(const type& p_searched, const sortingMethod& p_sorting_method, const searchingMethod& p_searching_method)
     {
-        short index = find(p_searched, p_sorting_method, p_searching_method);
+        long index = find(p_searched, p_sorting_method, p_searching_method);
         if (index < 0)
-            throw std::runtime_error("Object not present in TVector.");
+            throw std::invalid_argument("Parameter searched not present in TVector.");
         else
             return erase(index);
     }
@@ -460,19 +418,15 @@ public:
         case sortingMethod::quick:
             quick_sort(0, i_size);
             break;
-        
         case sortingMethod::insertion:
             //insertion_sort();
             break;
-        
         case sortingMethod::merge:
             // merge_sort();
             break;
-        
         case sortingMethod::shell:
             // shell_sort();
             break;
-
         default:
             throw std::runtime_error("Invalid sorting method.");
         }
@@ -503,39 +457,6 @@ explspec short TVector<char>::                  compare(const char& p_obj1,     
     else
         return 0;
 }
-explspec short TVector<char16_t>::              compare(const char16_t& p_obj1,             const char16_t& p_obj2)             const
-{
-    short comparison = p_obj1 - p_obj2;
-    if (comparison != 0)
-        if (comparison > 0)
-            return 1;
-        else
-            return -1;
-    else
-        return 0;
-}
-explspec short TVector<char32_t>::              compare(const char32_t& p_obj1,             const char32_t& p_obj2)             const
-{
-    short comparison = p_obj1 - p_obj2;
-    if (comparison != 0)
-        if (comparison > 0)
-            return 1;
-        else
-            return -1;
-    else
-        return 0;
-}
-explspec short TVector<wchar_t>::               compare(const wchar_t& p_obj1,              const wchar_t& p_obj2)              const
-{
-    short comparison = p_obj1 - p_obj2;
-    if (comparison != 0)
-        if (comparison > 0)
-            return 1;
-        else
-            return -1;
-    else
-        return 0;
-}
 explspec short TVector<signed char>::           compare(const signed char& p_obj1,          const signed char& p_obj2)          const
 {
     int comparison = p_obj1 - p_obj2;
@@ -549,7 +470,7 @@ explspec short TVector<signed char>::           compare(const signed char& p_obj
 }
 explspec short TVector<short>::                 compare(const short& p_obj1,                const short& p_obj2)                const
 {
-    short comparison = p_obj1 - p_obj2;
+    int comparison = p_obj1 - p_obj2;
     if (comparison != 0)
         if (comparison > 0)
             return 1;
@@ -560,7 +481,7 @@ explspec short TVector<short>::                 compare(const short& p_obj1,    
 }
 explspec short TVector<int>::                   compare(const int& p_obj1,                  const int& p_obj2)                  const
 {
-    int comparison = p_obj1 - p_obj2;
+    long comparison = p_obj1 - p_obj2;
     if (comparison != 0)
         if (comparison > 0)
             return 1;
@@ -582,9 +503,8 @@ explspec short TVector<long>::                  compare(const long& p_obj1,     
 }
 explspec short TVector<long long>::             compare(const long long& p_obj1,            const long long& p_obj2)            const
 {
-    long long comparison = p_obj1 - p_obj2;
-    if (comparison != 0)
-        if (comparison > 0)
+    if (p_obj1 != p_obj2)
+        if (p_obj1 > p_obj2)
             return 1;
         else
             return -1;
@@ -638,12 +558,12 @@ explspec short TVector<unsigned long>::         compare(const unsigned long& p_o
 explspec short TVector<unsigned long long>::    compare(const unsigned long long& p_obj1,   const unsigned long long& p_obj2)   const
 {
     unsigned long long num1 = p_obj1;
-    int num1_digits = 1;
+    unsigned num1_digits = 1;
     while (num1 /= 10)
         num1_digits++;
 
     unsigned long long num2 = p_obj2;
-    int num2_digits = 1;
+    unsigned num2_digits = 1;
     while (num2 /= 10)
         num2_digits++;
 
@@ -657,8 +577,7 @@ explspec short TVector<unsigned long long>::    compare(const unsigned long long
     }
     else
     {
-        unsigned short highest_digit = 0;
-        for (int _i = 0; _i < num1_digits; _i++)
+        for (size_t _i = 0; _i < num1_digits; _i++)
         {
             unsigned long long current_power = pow(10, num1_digits) - _i;
             unsigned short num1_digit = (p_obj1 - p_obj1 % current_power) / current_power;

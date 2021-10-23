@@ -25,7 +25,7 @@ endif
 all: $(BINDIR) $(BINDIR)/$(NAME)
 
 $(BINDIR)/$(NAME): $(BINDIR)/main.o
-	$(CC) $(CXXFLAGS) -o $@$(XX) $^
+	$(CC) $(CXXFLAGS) $(VERS) $(CXXWARN) -o $@$(XX) $^
 
 $(BINDIR)/main.o: main.cpp ../../inc/TVector.h
 	$(CC) -c $(CXXFLAGS) $(VERS) $(CXXWARN) -o $@ $<
