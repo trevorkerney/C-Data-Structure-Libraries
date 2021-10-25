@@ -1,6 +1,6 @@
 # TVector
 
-version beta-1.0.1
+version beta-1.1
 
 My C++ Vector implementation.
 
