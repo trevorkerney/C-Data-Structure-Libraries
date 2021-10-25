@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../TVector/inc/TVector.h"
-
 #include <iostream>
 #include <exception>
+
+#include "../../TVector/inc/TVector.h"
 
 template <typename type>
 struct TUDLListNode
@@ -12,10 +12,7 @@ struct TUDLListNode
     type value;
     TUDLListNode<type>* next = nullptr;
 
-    TUDLListNode(type p_value) 
-    {
-        value = p_value;
-    }
+    TUDLListNode(type p_value) : value(p_value) {}
 
 };
 
@@ -28,8 +25,8 @@ class TUDLList
 friend class TUDLListIterator<type>;
 private:
 
-    TUDLListNode<type>* i_front = nullptr;
-    TUDLListNode<type>* i_back = nullptr;
+    TUDLListNode<type>* front = nullptr;
+    TUDLListNode<type>* back = nullptr;
 
     TVector<TUDLListIterator<type>*> i_iterators;
 
@@ -39,10 +36,10 @@ public:
     ~TUDLList()
     {
         TUDLListNode<type>* prev = nullptr;
-        while(i_front)
+        while(front)
         {
-            prev = i_front;
-            i_front = i_front->next;
+            prev = front;
+            front = front->next;
             delete prev;
         }
 
@@ -55,16 +52,16 @@ public:
     void push_back(const type& p_obj)
     {
         TUDLListNode<type>* node = new TUDLListNode<type>(p_obj);
-        if (i_back)
+        if (back)
         {
-            i_back->next = node;
-            node->prev = i_back;
-            i_back = node;
+            back->next = node;
+            node->prev = back;
+            back = node;
         }
         else
         {
-            i_front = node;
-            i_back = node;
+            front = node;
+            back = node;
         }
     }
     void push_back(const type* p_objs, const long& p_size)
@@ -76,16 +73,16 @@ public:
     void push_front(const type& p_obj)
     {
         TUDLListNode<type>* node = new TUDLListNode<type>(p_obj);
-        if (i_front)
+        if (front)
         {
-            i_front->prev = node;
-            node->next = i_front;
-            i_front = node;
+            front->prev = node;
+            node->next = front;
+            front = node;
         }
         else
         {
-            i_front = node;
-            i_back = node;
+            front = node;
+            back = node;
         }
     }
     void push_front(const type* p_objs, const long& p_size)
@@ -93,72 +90,47 @@ public:
         for (unsigned int _i = 0; _i < p_size; _i++)
             push_front(p_objs[_i]);
     }
-    
-    type pop_back()
+
+    type pull_back()
     {
-        type value;
-        if (i_back)
+        type value = back->value;
+        if (back)
         {
-            value = i_back->value;
-            if (i_front == i_back)
-            {
-                delete i_back;
-                i_front = nullptr;
-                i_back = nullptr;
-                for (unsigned int _i = 0; _i < i_iterators.size(); _i++)
-                {
-                    delete i_iterators[_i];
-                }
-            }
-            else
-            {
-                i_back = i_back->prev;
-                delete i_back->next;
-                i_back->next = nullptr;
-            }
+            back = back->prev;
+            back->next = nullptr;
         }
         else
         {
-            throw std::runtime_error("TUDLList is empty");
+            throw std::runtime_error("List is empty.");
         }
         return value;
     }
 
-    type pop_front()
+    type pull_front()
     {
-        type value;
-        if (i_front)
+        type value = front->value;
+        if (front)
         {
-            value = i_front->value;
-            if (i_front == i_back)
-            {
-                delete i_front;
-                i_front = nullptr;
-                i_back = nullptr;
-                for (unsigned int _i = 0; _i < i_iterators.size(); _i++)
-                {
-                    delete i_iterators[_i];
-                }
-            }
-            else
-            {
-                i_front = i_front->next;
-                delete i_front->prev;
-                i_front->prev = nullptr;
-            }
+            front = front->next;
+            front->prev = nullptr;
         }
         else
         {
-            throw std::runtime_error("TUDLList is empty");
+            throw std::runtime_error("List is empty.");
         }
         return value;
     }
 
     TUDLListIterator<type>* iterator(const short& p_start = 0)
     {
-        TUDLListIterator<type>* iter = new TUDLListIterator<type>(this, p_start);
-        i_iterators.push(iter);
-        return iter;
+        if (front)
+        {
+            TUDLListIterator<type>* iter = new TUDLListIterator<type>(this, p_start);
+            i_iterators.push(iter);
+            return iter;
+        }
+        else
+            return nullptr;
     }
 
 };
@@ -169,24 +141,19 @@ class TUDLListIterator
 friend class TUDLList<type>;
 private:
 
-    TUDLList<type>* i_master;
+    TUDLList<type>* master;
 
-    TUDLListNode<type>* i_prev;
     TUDLListNode<type>* node = nullptr;
-    TUDLListNode<type>* i_next;
 
-    TUDLListIterator(TUDLList<type>* p_tudllist, const short& p_start = 0)
+    TUDLListIterator(TUDLList<type>* p_tudllist, const short& p_start = 0) : master(p_tudllist)
     {
-        i_master = p_tudllist;
         if (p_start >= 0)
         {
-            i_prev = nullptr;
-            i_next = i_master->i_front;
+            node = master->front;
         }
         else
         {
-            i_next = nullptr;
-            i_prev = i_master->i_back;
+            node = master->back;
         }
     }
     ~TUDLListIterator() {}
@@ -195,33 +162,29 @@ public:
 
     bool has_next() const
     {
-        if (i_next)
+        if (node->next)
         {
             return true;
         }
         return false;
     }
-    type next()
+    type& next()
     {
-        i_prev = node;
-        node = i_next;
-        i_next = node->next;
+        node = node->next;
         return node->value;
     }
 
     bool has_prev() const
     {
-        if (i_prev)
+        if (node->prev)
         {
             return true;
         }
         return false;
     }
-    type prev()
+    type& prev()
     {
-        i_next = node;
-        node = i_prev;
-        i_prev = node->prev;
+        node = node->prev;
         return node->value;
     }
 
@@ -232,7 +195,7 @@ public:
 
     void clear()
     {
-        i_master->i_iterators.extract(this);
+        master->i_iterators.extract(this);
         delete this;
     }
 
