@@ -242,7 +242,7 @@ parameters:
 - searching_method: the searching method to use if the list is sorted. The default is binary search.
 
 ---
-### void emplace(const type& obj, const sortingMethod& sorting_method, const searchingMethod& searching_method)
+### void emplace(const type& obj, const sortingMethod& sorting_method, const searchingMethod& searching_method) *(s/s)*
 
 Sorts the vector, then inserts a new object at the correct position in the list, and shifts further objects once torwards the back.
 
