@@ -1,6 +1,6 @@
 # TVector
 
-version beta-1.0
+version beta-1.0.1
 
 My C++ Vector implementation.
 
@@ -17,23 +17,12 @@ Maximum capacity (MAX_CAPACITY) of TVector is 65535.
 ### Sorting Algorithms
 - quick (single pivot, found with median of 3)
 
-The use of searching and sorting functions with TVectors of non-[fundamental types](https://www.cplusplus.com/reference/type_traits/is_fundamental/) (except strings) requires explicit specialization of the private compare() method. The template is as follows:
+The use of searching and sorting functions with TVectors of non-[fundamental types](https://www.cplusplus.com/reference/type_traits/is_fundamental/) (except strings) requires explicit specialization of the private compare() method. The declaration is as follows:
 ```
 explspec short TVector<myType>::compare(const myType& obj1, const myType& obj2) const
-{
-    int comparison =    /* DO COMPARISON HERE */;
-
-                /* COMPARISON SHOULD BE POSITIVE IF obj1 IS LARGER */
-    
-    if (comparison != 0)
-        if (comparison > 0)
-            return 1;
-        else
-            return -1;
-    else
-        return 0;
-}
 ```
+The body of this function should return 1 if obj1 is greater than obj2, 0 if equal, and -1 if lesser.
+
 This must be implemented after the inclusion of TVector and before the use of any function that uses searching/sorting methods.
 
 Replace all instances of "myType" with the name of the type/class.
@@ -204,7 +193,7 @@ parameters:
 - obj: the object to be inserted into the vector.
 
 ---
-### void push(const type* objs, const long& size)
+### void push(const type* objs, const size_t& size)
 
 Traverses through an array pushing every object into the array.
 
@@ -224,7 +213,7 @@ parameters:
 Removes the object at the back of the vector. Returns removed object. Throws error if vector is empty.
 
 ---
-### void insert(const type& obj, const long& index)
+### void insert(const type& obj, const size_t& index)
 
 Inserts a new object at index and shifts further objects once torward the back. Throws error if vector is at maximum size.
 
