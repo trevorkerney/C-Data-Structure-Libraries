@@ -39,14 +39,6 @@ private:
 
     void copy(const TVector& p_other)
     {
-        if (i_capacity > 0)
-        {
-            delete[] this->i_vector;
-            this->i_vector = nullptr;
-            this->i_capacity = 0;
-            this->i_size = 0;
-        }
-
         if (p_other.i_capacity > 0)
         {
             this->reserve(p_other.i_capacity);
@@ -191,7 +183,16 @@ public:
     TVector& operator=(const TVector& p_other)
     {
         if (this != &p_other)
+        {
+            if (i_capacity > 0)
+            {
+                delete[] this->i_vector;
+                this->i_vector = nullptr;
+                this->i_capacity = 0;
+                this->i_size = 0;
+            }
             copy(p_other);
+        }
         return *this;
     }
 
@@ -274,10 +275,12 @@ public:
     void push(const type& p_obj)
     {
         if (i_size == i_capacity)
+        {
             if (i_size == 0)
                 reserve(1);
             else if (reserve(i_capacity * i_growth_multiplier) == 0)
                 throw std::runtime_error("Exceeded maximum capacity");
+        }
         i_vector[i_size++] = p_obj;
         sorted_guarantee = false;
     }
