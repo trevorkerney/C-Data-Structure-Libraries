@@ -188,7 +188,7 @@ public:
         return node->value;
     }
 
-    type value()
+    type value() const
     {
         return node->value;
     }
