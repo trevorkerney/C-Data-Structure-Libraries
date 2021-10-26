@@ -4,11 +4,17 @@ version beta-1.1
 
 My C++ Vector implementation.
 
+Multipurpose sequential array with lots of access methods and optimizations for specialized use.
+
+---
+
 Positioning: Objects pushed to back and pulled from back.
 
 Memory format: Sequential.
 
 Maximum capacity (MAX_CAPACITY) of TVector is 65535.
+
+---
 
 ### Searching Algorithms
 - linear
@@ -28,6 +34,8 @@ This must be implemented after the inclusion of TVector and before the use of an
 Replace all instances of "myType" with the name of the type/class.
 
 *explspec* is a #define that expands to "template<>". You don't have to use it, but I think it improves readability.
+
+---
 
 ## Public Methods:
 
