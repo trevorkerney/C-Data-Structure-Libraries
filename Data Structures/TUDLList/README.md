@@ -48,9 +48,23 @@ Replace all instances of "myType" with the name of the type/class.
 Initializes the list.
 
 ---
+### TUDLList(const TUDLList& other) *(c)*
+
+Initializes the list and copies another list's contents to itself.
+
+parameters:
+- other: the TUDLList to copy.
+
 ### ~TUDLList() *(d)*
 
 Deallocates the memory allocated to the list, if any.
+
+### TUDLList& operator=(const TUDLList& other) *(=)*
+
+Copies another list's contents into itself.
+
+parameters:
+- other: the TUDLList to copy
 
 ---
 ### void push_back(const type& obj)

@@ -30,9 +30,31 @@ private:
 
     TVector<TUDLListIterator<type>*> i_iterators;
 
+    void copy()
+    {
+        if (p_other.front)
+        {
+            TUDLListNode<type>* other_node = p_other.front;
+            this->front = new TUDLListNode<type>(p_other.front->value);
+            TUDLListNode<type>* this_node = this->front;
+            while (other_node->next)
+            {
+                other_node = other_node->next;
+                this_node->next = new TUDLListNode<type>(other_node->value);
+                this_node->next->prev = this_node;
+                this_node = this_node->next;
+            }
+            this->back = this_node;
+        }
+    }
+
 public:
 
     TUDLList() {}
+    TUDLList(const TUDLList& p_other)
+    {
+        copy(p_other);
+    }
     ~TUDLList()
     {
         TUDLListNode<type>* prev = nullptr;
@@ -44,9 +66,20 @@ public:
         }
 
         for (unsigned int _i = 0; _i < i_iterators.size(); _i++)
-        {
             delete i_iterators[_i];
+    }
+
+    TUDLList& operator=(const TUDLList& p_other)
+    {
+        TUDLListNode<type>* prev = nullptr;
+        TUDLListNode<type>* node = this->front;
+        while (node)
+        {
+            prev = node;
+            node = node->next;
+            delete prev;
         }
+        copy(p_other);
     }
 
     void push_back(const type& p_obj)
