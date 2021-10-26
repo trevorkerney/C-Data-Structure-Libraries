@@ -53,6 +53,8 @@ private:
 
     inline short compare(const type& p_obj1, const type& p_obj2) const
     {
+        (void)p_obj1;
+        (void)p_obj2;
         throw std::runtime_error("There is no comparison function provided for this type.");
     }
     inline size_t min(const size_t& p_index1, const size_t& p_index2) const
