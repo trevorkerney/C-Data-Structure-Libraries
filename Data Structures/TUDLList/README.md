@@ -55,10 +55,12 @@ Initializes the list and copies another list's contents to itself.
 parameters:
 - other: the TUDLList to copy.
 
+---
 ### ~TUDLList() *(d)*
 
 Deallocates the memory allocated to the list, if any.
 
+---
 ### TUDLList& operator=(const TUDLList& other) *(=)*
 
 Copies another list's contents into itself.
@@ -103,7 +105,6 @@ parameters:
 - start: whether the iterator should start at the front or back of the list. Starts at back if start is negative. Default is 0, therefore, by default, the iterator starts at the front of the list.
 
 ---
-
 ## TUDLListIterator Public Methods:
 
 ### bool has_next() const
@@ -112,7 +113,7 @@ Returns whether or not the iterator's current node has a node after it.
 
 ### type& next()
 
-Sets iterator to the node after the current node and returns its value.
+Sets current node to the node after the current node and returns its value.
 
 ### bool has_prev() const
 
@@ -120,7 +121,7 @@ Returns whether or not the iterator's current node has a node before it.
 
 ### type& prev()
 
-Sets iterator to the node before the current node and returns its value.
+Sets current node to the node before the current node and returns its value.
 
 ### type value() const
 
