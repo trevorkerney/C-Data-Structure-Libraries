@@ -8,8 +8,8 @@
 template <typename type>
 struct TUDLListNode
 {
-    TUDLListNode<type>* prev = nullptr;
     type value;
+    TUDLListNode<type>* prev = nullptr;
     TUDLListNode<type>* next = nullptr;
 
     TUDLListNode(type p_value) : value(p_value) {}
@@ -30,7 +30,7 @@ private:
 
     TVector<TUDLListIterator<type>*> i_iterators;
 
-    void copy()
+    void copy(const TUDLList& p_other)
     {
         if (p_other.front)
         {
