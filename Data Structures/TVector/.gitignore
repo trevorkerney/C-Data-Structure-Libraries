@@ -1,8 +1,0 @@
-# OS File Structure
-.DS_Store
-
-# Environment variables
-!/.vscode/tasks.json
-
-# Binary
-bin/

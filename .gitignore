@@ -4,6 +4,9 @@
 # Environment Variables
 .vscode
 
+# Binary
+bin
+
 # Code Analyzers
 cov-int
 
