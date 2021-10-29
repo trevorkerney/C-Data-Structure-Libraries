@@ -11,7 +11,7 @@ All of these fall under the MIT license unless there is a different license with
 Essentially a basic array with resizing functions.
 
 - Positioning: unmanaged.
-- Parallelism: N/A (will be synchronized per-index).
+- Parallelism: N/A
 - Memory Format: Sequential.
 - Searching: Linear.
 - Sorting: None.
@@ -20,7 +20,7 @@ Essentially a basic array with resizing functions.
 Doubly linked list with no maximum size or random access.
 
 - Positioning: managed, objects can be pushed and pulled from front and back.
-- Parallelism: N/A (will be synchronized per-node).
+- Parallelism: N/A
 - Memory Format: Nonsequential, linear.
 - Searching: Linear.
 - Sorting: None (possibly coming).
@@ -31,7 +31,7 @@ Objects can be inserted and erased from within the list using **TUDLListIterator
 Multipurpose sequential array with lots of access methods and optimizations for specialized use.
 
 - Positioning: managed, objects pushed to end and pulled from end.
-- Parallelism: N/A (will be synchronized).
+- Parallelism: N/A
 - Memory Format: Sequential.
 - Searching: Linear, Binary.
 - Sorting: Quick.

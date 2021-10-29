@@ -4,7 +4,7 @@
 Essentially a basic array with resizing functions.
 
 - Positioning: unmanaged.
-- Parallelism: N/A (will be per-index synchronized).
+- Parallelism: N/A
 - Memory Format: Sequential.
 
 ### Searching Methods
@@ -22,7 +22,7 @@ Essentially a basic array with resizing functions.
 Doubly linked list with no maximum size or random access.
 
 - Positioning: managed, objects pushed and pulled from front and back.
-- Parallelism: N/A (will be per-index synchronized).
+- Parallelism: N/A
 - Memory Format: Nonsequential, linear.
 
 ### Searching Methods
@@ -48,7 +48,7 @@ Doubly linked list with no maximum size or random access.
 Multipurpose sequential array implementation with lots of access methods and optimizations for specialized use.
 
 - Positioning: managed, objects pushed to end and pulled from end.
-- Parallelism: N/A (will be synchronized).
+- Parallelism: N/A
 - Memory Format: Sequential.
 
 ### Searching Methods
