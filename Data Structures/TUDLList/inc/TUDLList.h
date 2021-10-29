@@ -82,6 +82,13 @@ public:
         copy(p_other);
     }
 
+    bool is_empty() const
+    {
+        if (!front)
+            return true;
+        return false;
+    }
+
     void push_back(const type& p_obj)
     {
         TUDLListNode<type>* node = new TUDLListNode<type>(p_obj);
