@@ -82,15 +82,15 @@ private:
         }
     }
 
-    TBinaryTreeNode<type>* aux_find(const type& p_obj, TBinaryTreeNode<type>* p_node, TBinaryTreeNode<type>* p_prev = nullptr, const short& p_parent = 0) const
+    TBinaryTreeNode<type>* aux_find(const type& p_obj, TBinaryTreeNode<type>* p_node, const short& p_parent = 0, TBinaryTreeNode<type>* p_prev = nullptr) const
     {
         if (p_node)
         {
             short comparison = compare(p_obj, p_node->value);
             if (comparison > 0)
-                return aux_find(p_obj, p_node->greater, p_node, p_parent);
+                return aux_find(p_obj, p_node->greater, p_parent, p_prev);
             else if (comparison < 0)
-                return aux_find(p_obj, p_node->lesser, p_node, p_parent);
+                return aux_find(p_obj, p_node->lesser, p_parent, p_prev);
             else
             {
                 if (p_parent >= 0)
@@ -149,7 +149,7 @@ public:
 
     bool erase(const type& p_obj)
     {
-        TBinaryTreeNode<type>* parent = aux_find(p_obj, root, nullptr, -1);
+        TBinaryTreeNode<type>* parent = aux_find(p_obj, root, -1, nullptr);
         if (!parent) return false;
         TBinaryTreeNode<type>* tbd; // to be deleted
         bool direction;
