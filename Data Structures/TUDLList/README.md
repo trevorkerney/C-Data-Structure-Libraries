@@ -42,7 +42,6 @@ Replace all instances of "myType" with the name of the type/class.
 (=): assignment operator
 
 ---
-
 ### TUDLList() *(c)*
 
 Initializes the list.
@@ -104,7 +103,6 @@ TUDLList keeps track of these iterators, so you are not required to delete them 
 parameters:
 - start: whether the iterator should start at the front or back of the list. Starts at back if start is negative. Default is 0, therefore, by default, the iterator starts at the front of the list.
 
----
 ## TUDLListIterator Public Methods:
 
 ### bool has_next() const
