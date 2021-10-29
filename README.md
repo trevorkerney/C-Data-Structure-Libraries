@@ -32,7 +32,7 @@ Doubly linked list with no maximum size or random access.
 - Parallelism: N/A
 - Memory Format: Nonsequential, linear.
 - Searching: Linear.
-- Sorting: None (possibly coming).
+- Sorting: None
 
 Objects can be inserted and erased from within the list using **TUDLListIterator**.
 
