@@ -16,6 +16,15 @@ Essentially a basic array with resizing functions.
 - Searching: Linear.
 - Sorting: None.
 
+### TBinaryTree
+Binary tree with mostly recursive methods.
+
+- Positioning: Objects inserted in order and erased by value.
+- Parallelism: N/A
+- Memory Format: Binary tree.
+- Searching: Implicitly binary.
+- Sorting: Implicitly automatic binary.
+
 ### TUDLList (Unbounded Doubly Linked List)
 Doubly linked list with no maximum size or random access.
 

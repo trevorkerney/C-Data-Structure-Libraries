@@ -12,6 +12,8 @@ Access to objects within the list is provided by **TBinaryTreeIterator**.
 
 Positioning: Objects inserted in order and erased by value.
 
+Parallelism: N/A
+
 Memory format: Binary tree.
 
 ---
