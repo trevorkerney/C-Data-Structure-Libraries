@@ -25,6 +25,8 @@ Binary tree with mostly recursive methods.
 - Searching: Implicitly binary.
 - Sorting: Implicitly automatic binary.
 
+Access to objects within the list is provided by **TBinaryTreeIterator**.
+
 ### TUDLList (Unbounded Doubly Linked List)
 Doubly linked list with no maximum size or random access.
 
