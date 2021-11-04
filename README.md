@@ -8,7 +8,7 @@ All of these fall under the MIT license unless there is a different license with
 ## Data Structures
 
 ### TArray
-Essentially a basic array with resizing functions.
+Essentially a basic array with resizing methods.
 
 - Positioning: unmanaged.
 - Parallelism: N/A

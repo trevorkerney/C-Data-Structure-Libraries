@@ -22,7 +22,7 @@ The use of TBinaryTree with non-[fundamental types](https://www.cplusplus.com/re
 ```
 explspec short TBinaryTree<myType>::compare(const myType& obj1, const myType& obj2) const
 ```
-The body of this function should return 1 if obj1 is greater than obj2, 0 if equal, and -1 if lesser.
+The body of this method should return 1 if obj1 is greater than obj2, 0 if equal, and -1 if lesser.
 
 This must be implemented after the inclusion of TBinaryTree and before the use of any of TBinaryTree's methods.
 

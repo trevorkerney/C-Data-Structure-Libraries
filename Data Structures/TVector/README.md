@@ -23,13 +23,13 @@ Maximum capacity (MAX_CAPACITY) of TVector is 65535.
 ### Sorting Algorithms
 - quick (single pivot, found with median of 3)
 
-The use of searching and sorting functions with TVectors of non-[fundamental types](https://www.cplusplus.com/reference/type_traits/is_fundamental/) (except strings) requires explicit specialization of the private compare() method. The declaration is as follows:
+The use of searching and sorting methods with TVectors of non-[fundamental types](https://www.cplusplus.com/reference/type_traits/is_fundamental/) (except strings) requires explicit specialization of the private compare() method. The declaration is as follows:
 ```
 explspec short TVector<myType>::compare(const myType& obj1, const myType& obj2) const
 ```
-The body of this function should return 1 if obj1 is greater than obj2, 0 if equal, and -1 if lesser.
+The body of this method should return 1 if obj1 is greater than obj2, 0 if equal, and -1 if lesser.
 
-This must be implemented after the inclusion of TVector and before the use of any function that uses searching/sorting methods.
+This must be implemented after the inclusion of TVector and before the use of any method that uses searching/sorting methods.
 
 Replace all instances of "myType" with the name of the type/class.
 
@@ -135,7 +135,7 @@ Shrinks the capacity of the vector to the size of the vector.
 
 Finds and returns the index of the value referred to by searched. If sorted is true, the searching method provided is used. If false, linear search is used.
 
-Use this find() function when the list doesn't need to be sorted beforehand. (i.e. it either already is sorted or doesn't need to be)
+Use this find() method when the list doesn't need to be sorted beforehand. (i.e. it either already is sorted or doesn't need to be)
 
 parameters:
 - searched: the object to find.
@@ -147,7 +147,7 @@ parameters:
 
 Sorts the vector, then finds and returns the index of the value referred to by searched.
 
-Use this find() function when you want the list to be sorted beforehand to optimize the search.
+Use this find() method when you want the list to be sorted beforehand to optimize the search.
 
 parameters:
 - searched: the object to find.
@@ -166,7 +166,7 @@ if (find(searched) >= 0)
 return false;
 ```
 
-Use this contains() function when the list doesn't need to be sorted beforehand. (i.e. it either already is sorted or doesn't need to be)
+Use this contains() method when the list doesn't need to be sorted beforehand. (i.e. it either already is sorted or doesn't need to be)
 
 parameters:
 - searched: the object to find.
@@ -185,7 +185,7 @@ if (find(searched, sorting_method, searching_method) >= 0)
 return false;
 ```
 
-Use this contains() function when you want the list to be sorted beforehand to optimize the search.
+Use this contains() method when you want the list to be sorted beforehand to optimize the search.
 
 parameters:
 - searched: the object to find.
@@ -242,7 +242,7 @@ if (index < 0)
 insert(obj, index)
 ```
 
-Use this emplace() function when the list doesn't need to be sorted beforehand. (i.e. it either already is sorted or doesn't need to be)
+Use this emplace() method when the list doesn't need to be sorted beforehand. (i.e. it either already is sorted or doesn't need to be)
 
 parameters:
 - obj: the object to find.
@@ -262,7 +262,7 @@ if (index < 0)
 insert(obj, index)
 ```
 
-Use this emplace() function when you want the list to be sorted beforehand to optimize the search.
+Use this emplace() method when you want the list to be sorted beforehand to optimize the search.
 
 parameters:
 - obj: the object to find.
@@ -287,7 +287,7 @@ Essentially:
 erase(find(searched));
 ```
 
-Use this extract() function when the list doesn't need to be sorted beforehand. (i.e. it either already is sorted or doesn't need to be)
+Use this extract() method when the list doesn't need to be sorted beforehand. (i.e. it either already is sorted or doesn't need to be)
 
 parameters:
 - searched: the object to find.
@@ -304,7 +304,7 @@ Essentially:
 erase(find(searched, sorting_method, searching_method));
 ```
 
-Use this extract() function when you want the list to be sorted beforehand to optimize the search.
+Use this extract() method when you want the list to be sorted beforehand to optimize the search.
 
 parameters:
 - searched: the object to find.

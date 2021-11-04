@@ -1,12 +1,20 @@
 # TArray
 
+version beta-1.0
+
 My C++ Array implementation.
+
+Essentially a basic array with resizing methods.
+
+---
 
 Positioning: None.
 
 Memory format: Sequential.
 
 Maximum capacity (MAX_CAPACITY) of TArray is 65535.
+
+---
 
 ### Searching Algorithms
 - linear
@@ -28,11 +36,13 @@ explspec short TArray<myType>::compare(const myType& obj1, const myType& obj2) c
         return 0;
 }
 ```
-This must be implemented after the inclusion of TVector and before the use of any function that uses searching/sorting methods.
+This must be implemented after the inclusion of TVector and before the use of any method that uses searching/sorting methods.
 
 Replace all instances of "myType" with the name of the type/class.
 
 *explspec* is a #define that expands to "template<>". You don't have to use it, but I think it improves readability.
+
+---
 
 ## Public Methods:
 

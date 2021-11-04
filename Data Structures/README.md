@@ -1,7 +1,7 @@
 # Data Structures
 
 ## TArray
-Essentially a basic array with resizing functions.
+Essentially a basic array with resizing methods.
 
 - Positioning: unmanaged.
 - Parallelism: N/A
