@@ -135,6 +135,8 @@ Shrinks the capacity of the vector to the size of the vector.
 
 Finds and returns the index of the value referred to by searched. If sorted is true, the searching method provided is used. If false, linear search is used.
 
+If the searched value is not in the list, a negative number corresponding to where the value should be is returned.
+
 Use this find() method when the list doesn't need to be sorted beforehand. (i.e. it either already is sorted or doesn't need to be)
 
 parameters:
@@ -146,6 +148,8 @@ parameters:
 ### long find(const type& searched, const sortingMethod& sorting_method, const searchingMethod& searching_method) const *(s/s)*
 
 Sorts the vector, then finds and returns the index of the value referred to by searched.
+
+If the searched value is not in the list, a negative number corresponding to where the value should be is returned.
 
 Use this find() method when you want the list to be sorted beforehand to optimize the search.
 
