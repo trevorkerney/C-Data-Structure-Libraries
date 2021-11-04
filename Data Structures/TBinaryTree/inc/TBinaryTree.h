@@ -139,7 +139,7 @@ public:
         aux_copy(p_other);
     }
 
-    void insert(const type& p_obj)
+    virtual void insert(const type& p_obj)
     {
         if (root)
             aux_insert(p_obj, root);
@@ -147,7 +147,7 @@ public:
             root = new TBinaryTreeNode<type>(p_obj);
     }
 
-    bool erase(const type& p_obj)
+    virtual bool erase(const type& p_obj)
     {
         TBinaryTreeNode<type>* parent = aux_find(p_obj, root, -1, nullptr);
         if (!parent) return false;
