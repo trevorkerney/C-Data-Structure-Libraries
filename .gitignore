@@ -12,6 +12,7 @@ cov-int
 
 # Temporary
 temp
+temp.*
 
 # Miscellaneous
 todo.*
