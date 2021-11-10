@@ -63,6 +63,41 @@ private:
         return node;
     }
 
+    TBinaryTreeNode<type>* aux_min(const TBinaryTreeNode<type>* p_node)
+    {
+        if (p_node->lesser)
+            aux_min(p_node = p_node->lesser);
+        else
+            return p_node;
+    }
+
+    TBinaryTreeNode<type>* aux_max(const TBinaryTreeNode<type>* p_node)
+    {
+        if (p_node->greater)
+            aux_min(p_node = p_node->greater);
+        else
+            return p_node;
+    }
+
+    void aux_find(const type& p_obj, TBinaryTreeNode<type>* p_begin, TBinaryTreeNode<type>*& p_searched, TBinaryTreeNode<type>*& p_parent) const
+    {
+        if (p_begin)
+        {
+            short comparison = compare(p_obj, p_begin->value);
+            if (comparison == 0)
+                p_searched = p_begin;
+            else
+            {
+                if (p_parent)
+                    p_parent = p_begin;
+                if (comparison > 0)
+                    aux_find(p_obj, p_begin->greater, p_searched, p_parent);
+                else
+                    aux_find(p_obj, p_begin->lesser, p_searched, p_parent);
+            }
+        }
+    }
+
     void aux_insert(const type& p_obj, TBinaryTreeNode<type>* p_node)
     {
         short comparison = compare(p_obj, p_node->value);
@@ -80,27 +115,6 @@ private:
             else
                 p_node->lesser = new TBinaryTreeNode<type>(p_obj);
         }
-    }
-
-    TBinaryTreeNode<type>* aux_find(const type& p_obj, TBinaryTreeNode<type>* p_node, const short& p_parent = 0, TBinaryTreeNode<type>* p_prev = nullptr) const
-    {
-        if (p_node)
-        {
-            short comparison = compare(p_obj, p_node->value);
-            if (comparison > 0)
-                return aux_find(p_obj, p_node->greater, p_parent, p_prev);
-            else if (comparison < 0)
-                return aux_find(p_obj, p_node->lesser, p_parent, p_prev);
-            else
-            {
-                if (p_parent >= 0)
-                    return p_node;
-                else
-                    return p_prev;
-            }
-        }
-        else
-            return nullptr;
     }
 
     void aux_destroy(TBinaryTreeNode<type>* p_node)
@@ -136,8 +150,15 @@ public:
     TBinaryTree<type>& operator=(const TBinaryTree<type>& p_other)
     {
         aux_destroy(root);
-        aux_copy(p_other);
+        for (size_t _i = 0; _i < i_iterators.size(); _i++)
+        {
+            delete i_iterators[_i];
+        }
+
+        root = aux_copy(p_other);
     }
+
+    
 
     void insert(const type& p_obj)
     {
@@ -147,8 +168,11 @@ public:
             root = new TBinaryTreeNode<type>(p_obj);
     }
 
+    /*
+
     bool erase(const type& p_obj)
     {
+
         TBinaryTreeNode<type>* parent = aux_find(p_obj, root, -1, nullptr);
         if (!parent) return false;
         TBinaryTreeNode<type>* tbd; // to be deleted
@@ -174,9 +198,7 @@ public:
             greatest_child->greater = tbd->greater;
         }
         else if (tbd->greater)
-        {
             replacement = tbd->greater;
-        }
 
         if (direction)
             parent->greater = replacement;
@@ -184,11 +206,16 @@ public:
             parent->lesser = replacement;
         delete tbd;
         return true;
+
     }
+
+    */
 
     bool contains(const type& p_obj) const
     {
-        if (aux_find(p_obj, root))
+        TBinaryTreeNode<type> *tbd, *parent = nullptr;
+        aux_find(p_obj, root, tbd, parent);
+        if (tbd)
             return true;
         return false;
     }

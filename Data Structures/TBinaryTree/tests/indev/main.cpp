@@ -10,8 +10,8 @@ int main()
     TBinaryTree<int> tbt;
 
     cout << "----- empty erase -----" << endl;
-    cout << tbt.erase(4) << endl;
-    cout << tbt.erase(24) << endl;
+    //cout << tbt.erase(4) << endl;
+    //cout << tbt.erase(24) << endl;
     cout << "--- end empty erase ---" << endl;
 
     tbt.insert(5);
@@ -45,13 +45,13 @@ int main()
     cout << tbt.contains(33) << endl;
     cout << "--- end contains ---" << endl;
 
-    cout << tbt.erase(4) << endl;
-    cout << tbt.erase(24) << endl;
-    cout << tbt.erase(1337) << endl;
-    cout << tbt.erase(83) << endl;
-    cout << tbt.erase(69) << endl;
-    cout << tbt.erase(-42) << endl;
-    cout << tbt.erase(29) << endl;
+    //cout << tbt.erase(4) << endl;
+    //cout << tbt.erase(24) << endl;
+    //cout << tbt.erase(1337) << endl;
+    //cout << tbt.erase(83) << endl;
+    //cout << tbt.erase(69) << endl;
+    //cout << tbt.erase(-42) << endl;
+    //cout << tbt.erase(29) << endl;
     
     cout << "hello" << endl;
 }
