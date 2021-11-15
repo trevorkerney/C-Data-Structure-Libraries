@@ -24,7 +24,7 @@ private:
 
     type value;
 
-    TBinaryTreeNode<type> *lesser  = nullptr, *greater = nullptr;
+    TBinaryTreeNode<type> *lesser = nullptr, *greater = nullptr;
 
     TBinaryTreeNode(type p_value) : value(p_value) {}
 
@@ -66,20 +66,42 @@ private:
         return node;
     }
 
-    TBinaryTreeNode<type>* aux_min(TBinaryTreeNode<type>* p_node) const
+    void aux_find(const type& p_obj, TBinaryTreeNode<type>* p_begin, TBinaryTreeNode<type>*& p_searched, TBinaryTreeNode<type>*& p_parent) const
     {
-        if (p_node->lesser)
-            return aux_min(p_node->lesser);
-        else
-            return p_node;
+        if (p_begin)
+        {
+            short comparison = compare(p_obj, p_begin->value);
+            if (comparison == 0)
+                p_searched = p_begin;
+            else
+            {
+                p_parent = p_begin;
+                if (comparison > 0)
+                    aux_find(p_obj, p_begin->greater, p_searched, p_parent);
+                else
+                    aux_find(p_obj, p_begin->lesser, p_searched, p_parent);
+            }
+        }
     }
-
-    TBinaryTreeNode<type>* aux_max(TBinaryTreeNode<type>* p_node) const
+    void aux_min(TBinaryTreeNode<type>* p_begin, TBinaryTreeNode<type>*& p_searched, TBinaryTreeNode<type>*& p_parent) const
     {
-        if (p_node->greater)
-            return aux_max(p_node->greater);
+        if (p_begin->lesser)
+        {
+            p_parent = p_begin;
+            aux_min(p_begin->lesser, p_searched, p_parent);
+        }
         else
-            return p_node;
+            p_searched = p_begin;
+    }
+    void aux_max(TBinaryTreeNode<type>* p_begin, TBinaryTreeNode<type>*& p_searched, TBinaryTreeNode<type>*& p_parent) const
+    {
+        if (p_begin->greater)
+        {
+            p_parent = p_begin;
+            aux_max(p_begin->greater, p_searched, p_parent);
+        }
+        else
+            p_searched = p_begin;
     }
 
     void aux_print_inorder(TBinaryTreeNode<type>* p_node) const
@@ -92,7 +114,7 @@ private:
     }
 
     #ifdef _DEBUG
-    void aux_print_tree(TBinaryTreeNode<int>* p_node, string*& p_lines, int p_rows, int pi_depth = 0) const
+    void aux_print_tree(TBinaryTreeNode<int>* p_node, string* p_lines, int p_max_length, int p_depth, int i_depth = 0) const
     {
         throw std::runtime_error("Tree printing is not supported for this type");
     }
@@ -113,41 +135,11 @@ private:
         }
     }
 
-    void aux_find(const type& p_obj, TBinaryTreeNode<type>* p_begin, TBinaryTreeNode<type>*& p_searched, TBinaryTreeNode<type>*& p_parent) const
+    void replace_values(TBinaryTreeNode<type>* p_node1, TBinaryTreeNode<type>* p_node2)
     {
-        if (p_begin)
-        {
-            short comparison = compare(p_obj, p_begin->value);
-            if (comparison == 0)
-                p_searched = p_begin;
-            else
-            {
-                p_parent = p_begin;
-                if (comparison > 0)
-                    aux_find(p_obj, p_begin->greater, p_searched, p_parent);
-                else
-                    aux_find(p_obj, p_begin->lesser, p_searched, p_parent);
-            }
-        }
-    }
-
-    void aux_insert(const type& p_obj, TBinaryTreeNode<type>* p_node)
-    {
-        short comparison = compare(p_obj, p_node->value);
-        if (comparison > 0)
-        {
-            if (p_node->greater)
-                aux_insert(p_obj, p_node->greater);
-            else
-                p_node->greater = new TBinaryTreeNode<type>(p_obj);
-        }
-        else if (comparison < 0)
-        {
-            if (p_node->lesser)
-                aux_insert(p_obj, p_node->lesser);
-            else
-                p_node->lesser = new TBinaryTreeNode<type>(p_obj);
-        }
+        type temp = p_node1->value;
+        p_node1->value = p_node2->value;
+        p_node2->value = temp;
     }
 
     void aux_destroy(TBinaryTreeNode<type>* p_node)
@@ -208,49 +200,78 @@ public:
     virtual void insert(const type& p_obj)
     {
         if (root)
-            aux_insert(p_obj, root);
+        {
+            TBinaryTreeNode<type> *tbi = nullptr, *tbi_parent = nullptr;
+            aux_find(p_obj, root, tbi, tbi_parent);
+            if (tbi) return;
+            short comparison = compare(p_obj, tbi_parent->value);
+            if (comparison > 0)
+                tbi_parent->greater = new TBinaryTreeNode<type>(p_obj);
+            else
+                tbi_parent->lesser = new TBinaryTreeNode<type>(p_obj);
+        }
         else
             root = new TBinaryTreeNode<type>(p_obj);
     }
 
-    /* bool delete(const type& p_obj)
+    bool erase(const type& p_obj)
     {
+        TBinaryTreeNode<type> pseudo_root(0), *tbd = nullptr, *tbd_parent = &pseudo_root;
+        pseudo_root.greater = root;
+        aux_find(p_obj, root, tbd, tbd_parent);
+        if (!tbd) return false;
 
-        TBinaryTreeNode<type>* parent = aux_find(p_obj, root, -1, nullptr);
-        if (!parent) return false;
-        TBinaryTreeNode<type>* tbd; // to be deleted
-        bool direction;
-        if (compare(p_obj, parent->greater->value) == 0)
-        {
-            direction = true;
-            tbd = parent->greater;
-        }
-        else
-        {
-            direction = false;
-            tbd = parent->lesser;
-        }
-
-        TBinaryTreeNode<type>* replacement = nullptr;
         if (tbd->lesser)
         {
-            replacement = tbd->lesser;
-            TBinaryTreeNode<type>* greatest_child = tbd->lesser;
-            while (greatest_child->greater)
-                greatest_child = greatest_child->greater;
-            greatest_child->greater = tbd->greater;
+            TBinaryTreeNode<type> *tbd_lmax = nullptr, *tbd_lmax_parent = tbd;
+            aux_max(tbd->lesser, tbd_lmax, tbd_lmax_parent);
+
+            if (tbd_lmax_parent == tbd)
+            {
+                if (tbd_lmax->lesser)
+                    tbd_lmax_parent->lesser = tbd_lmax->lesser;
+                else
+                    tbd_lmax_parent->lesser = nullptr;
+            }
+            else
+            {
+                if (tbd_lmax->lesser)
+                    tbd_lmax_parent->greater = tbd_lmax->lesser;
+                else
+                    tbd_lmax_parent->greater = nullptr;
+            }
+            replace_values(tbd, tbd_lmax);
+            tbd = tbd_lmax;
         }
         else if (tbd->greater)
-            replacement = tbd->greater;
+        {
+            TBinaryTreeNode<type> *tbd_rmin = nullptr, *tbd_rmin_parent = tbd;
+            aux_min(tbd->greater, tbd_rmin, tbd_rmin_parent);
+            if (tbd_rmin_parent == tbd)
+            {
+                if (tbd_rmin->greater)
+                    tbd_rmin_parent->greater = tbd_rmin->greater;
+            }
+            else
+            {
+                if (tbd_rmin->greater)
+                    tbd_rmin_parent->lesser = tbd_rmin->greater;
+            }
 
-        if (direction)
-            parent->greater = replacement;
+            replace_values(tbd, tbd_rmin);
+            tbd = tbd_rmin;
+        }
         else
-            parent->lesser = replacement;
+        {
+            if (compare(tbd->value, tbd_parent->value) > 0)
+                tbd_parent->greater = nullptr;
+            else
+                tbd_parent->lesser = nullptr;
+        }
         delete tbd;
+        root = pseudo_root.greater;
         return true;
-
-    } */
+    }
 
     bool contains(const type& p_obj) const
     {
@@ -269,8 +290,7 @@ public:
             i_iterators.push(iter);
             return iter;
         }
-        else
-            return nullptr;
+        return nullptr;
     }
 
 };
@@ -497,37 +517,80 @@ explspec short TBinaryTree<string>::                compare(const string& p_obj1
 #include <iostream>
 using std::cout;
 using std::endl;
+#include <iomanip>
+using std::setw;
+using std::setfill;
 #include <cmath>
-using std::pow;
+using std::abs;
+#include <sstream>
+using std::stringstream;
 
-/* explspec void TBinaryTree<int>::aux_print_tree(TBinaryTreeNode<int>* p_node, string*& p_lines, int p_rows, int pi_depth) const
+using std::to_string;
+
+explspec void TBinaryTree<int>::aux_print_tree(TBinaryTreeNode<int>* p_node, string* p_lines, int p_max_length, int p_depth, int i_depth) const
 {
-    if (!p_node) return;
-
     if (p_node->lesser)
-        aux_print_tree(p_node->lesser, p_lines, p_rows, pi_depth++);
+        aux_print_tree(p_node->lesser, p_lines, p_max_length, p_depth, i_depth + 1);
+    
+    stringstream ss;
+    if (p_node->value < 0)
+        ss << setw(p_max_length - 1) << setfill('0') << to_string(abs(p_node->value));
+    else
+    {
+        ss << setw(p_max_length) << setfill('0') << to_string(p_node->value);
+    }
+    for (int _i = 0; _i <= p_depth; _i++)
+    {
+        if (_i == i_depth)
+            if (p_node->value < 0)
+                p_lines[_i].append('-' + ss.str());
+            else
+                p_lines[_i].append(ss.str());
+        else
+        {
+            for (int _j = 0; _j < p_max_length; _j++)
+                p_lines[_i].append(" ");
+        }
+    }
 
-} */
+    if (p_node->greater)
+        aux_print_tree(p_node->greater, p_lines, p_max_length, p_depth, i_depth + 1);
+}
 
 explspec void TBinaryTree<int>::print_tree() const
 {
-
     int depth = aux_depth(root);
     if (depth < 0) return;
 
-    short max_int_length = 1;
-    int max_value = aux_max(root)->value;
+    short max_int_length = 1, min_int_length = 1;
+    TBinaryTreeNode<int> *max_node = nullptr, *max_node_parent = nullptr, *min_node = nullptr, *min_node_parent = nullptr;
+    aux_max(root, max_node, max_node_parent);
+    aux_min(root, min_node, min_node_parent);
+    int max_value = max_node->value, min_value = min_node->value;
     while (max_value >= 10)
     {
         max_int_length++;
         max_value/=10;
     }
+    if (min_value < 0) // accounting for negative sign character
+        min_int_length++;
+    min_value = abs(min_value);
+    while (min_value >= 10)
+    {
+        min_int_length++;
+        min_value/=10;
+    }
+    if (min_int_length > max_int_length)
+        max_int_length = min_int_length;
 
-    unsigned int
-    columns = (int)pow(2.0f, depth) * 2 * max_int_length - max_int_length,
-    rows = depth * 2 + 1;
+    string lines[depth + 1];
 
-    string lines[rows];
-    
+    aux_print_tree(root, lines, max_int_length, depth);
+
+    for (int _i = 0; _i < depth + 1; _i++)
+    {
+        cout << lines[_i] << '\n' << '\n';
+    }
+    cout << endl;
 }
 #endif
