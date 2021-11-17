@@ -214,7 +214,7 @@ public:
             root = new TBinaryTreeNode<type>(p_obj);
     }
 
-    bool erase(const type& p_obj)
+    virtual bool erase(const type& p_obj)
     {
         TBinaryTreeNode<type> pseudo_root(0), *tbd = nullptr, *tbd_parent = &pseudo_root;
         pseudo_root.greater = root;
