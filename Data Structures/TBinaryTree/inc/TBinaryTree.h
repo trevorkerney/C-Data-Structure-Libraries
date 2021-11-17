@@ -114,24 +114,24 @@ private:
     }
 
     #ifdef _DEBUG
-    void aux_print_tree(TBinaryTreeNode<int>* p_node, string* p_lines, int p_max_length, int p_depth, int i_depth = 0) const
+    void aux_print_tree(TBinaryTreeNode<int>* p_node, string* p_lines, int p_max_length, int p_height, int i_height = 0) const
     {
         throw std::runtime_error("Tree printing is not supported for this type");
     }
     #endif
 
-    int aux_depth(const TBinaryTreeNode<type>* p_node) const
+    int aux_height(const TBinaryTreeNode<type>* p_node) const
     {
         if (p_node == nullptr) return -1;
         else
         {
-            int left_depth = aux_depth(p_node->lesser);
-            int right_depth = aux_depth(p_node->greater);
+            int left_height = aux_height(p_node->lesser);
+            int right_height = aux_height(p_node->greater);
 
-            if (left_depth > right_depth)
-                return ++left_depth;
+            if (left_height > right_height)
+                return ++left_height;
             else
-                return ++right_depth;
+                return ++right_height;
         }
     }
 
@@ -213,8 +213,10 @@ public:
             return new_node;
         }
         else
+        {
             root = new TBinaryTreeNode<type>(p_obj);
             return root;
+        }
     }
 
     virtual bool erase(const type& p_obj)
@@ -530,10 +532,10 @@ using std::stringstream;
 
 using std::to_string;
 
-explspec void TBinaryTree<int>::aux_print_tree(TBinaryTreeNode<int>* p_node, string* p_lines, int p_max_length, int p_depth, int i_depth) const
+explspec void TBinaryTree<int>::aux_print_tree(TBinaryTreeNode<int>* p_node, string* p_lines, int p_max_length, int p_height, int i_height) const
 {
     if (p_node->lesser)
-        aux_print_tree(p_node->lesser, p_lines, p_max_length, p_depth, i_depth + 1);
+        aux_print_tree(p_node->lesser, p_lines, p_max_length, p_height, i_height + 1);
     
     stringstream ss;
     if (p_node->value < 0)
@@ -542,9 +544,9 @@ explspec void TBinaryTree<int>::aux_print_tree(TBinaryTreeNode<int>* p_node, str
     {
         ss << setw(p_max_length) << setfill('0') << to_string(p_node->value);
     }
-    for (int _i = 0; _i <= p_depth; _i++)
+    for (int _i = 0; _i <= p_height; _i++)
     {
-        if (_i == i_depth)
+        if (_i == i_height)
             if (p_node->value < 0)
                 p_lines[_i].append('-' + ss.str());
             else
@@ -557,13 +559,13 @@ explspec void TBinaryTree<int>::aux_print_tree(TBinaryTreeNode<int>* p_node, str
     }
 
     if (p_node->greater)
-        aux_print_tree(p_node->greater, p_lines, p_max_length, p_depth, i_depth + 1);
+        aux_print_tree(p_node->greater, p_lines, p_max_length, p_height, i_height + 1);
 }
 
 explspec void TBinaryTree<int>::print_tree() const
 {
-    int depth = aux_depth(root);
-    if (depth < 0) return;
+    int height = aux_height(root);
+    if (height < 0) return;
 
     short max_int_length = 1, min_int_length = 1;
     TBinaryTreeNode<int> *max_node = nullptr, *max_node_parent = nullptr, *min_node = nullptr, *min_node_parent = nullptr;
@@ -586,11 +588,11 @@ explspec void TBinaryTree<int>::print_tree() const
     if (min_int_length > max_int_length)
         max_int_length = min_int_length;
 
-    string lines[depth + 1];
+    string lines[height + 1];
 
-    aux_print_tree(root, lines, max_int_length, depth);
+    aux_print_tree(root, lines, max_int_length, height);
 
-    for (int _i = 0; _i < depth + 1; _i++)
+    for (int _i = 0; _i < height + 1; _i++)
     {
         cout << lines[_i] << '\n' << '\n';
     }
