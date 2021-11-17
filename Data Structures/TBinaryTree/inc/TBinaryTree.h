@@ -43,7 +43,7 @@ class TBinaryTreeIterator;
 template <typename type>
 class TBinaryTree
 {
-private:
+protected:
 
     TBinaryTreeNode<type>* root = nullptr;
 
