@@ -197,21 +197,24 @@ public:
     }
     #endif
 
-    virtual void insert(const type& p_obj)
+    virtual TBinaryTreeNode<type>* insert(const type& p_obj)
     {
         if (root)
         {
             TBinaryTreeNode<type> *tbi = nullptr, *tbi_parent = nullptr;
             aux_find(p_obj, root, tbi, tbi_parent);
-            if (tbi) return;
+            if (tbi) return tbi;
             short comparison = compare(p_obj, tbi_parent->value);
+            TBinaryTreeNode<type>* new_node = new TBinaryTreeNode<type>(p_obj);
             if (comparison > 0)
-                tbi_parent->greater = new TBinaryTreeNode<type>(p_obj);
+                tbi_parent->greater = new_node;
             else
-                tbi_parent->lesser = new TBinaryTreeNode<type>(p_obj);
+                tbi_parent->lesser = new_node;
+            return new_node;
         }
         else
             root = new TBinaryTreeNode<type>(p_obj);
+            return root;
     }
 
     virtual bool erase(const type& p_obj)
