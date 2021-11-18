@@ -14,26 +14,15 @@ using std::string;
 #include "../../TVector/inc/TVector.h"
 
 template <typename type>
-class TBinaryTree;
-
-template <typename type>
 class TBinaryTreeNode
 {
-friend class TBinaryTree<type>;
-private:
+public:
 
     type value;
 
     TBinaryTreeNode<type> *lesser = nullptr, *greater = nullptr;
 
     TBinaryTreeNode(type p_value) : value(p_value) {}
-
-public:
-
-    type& getValue()
-    {
-        return value;
-    }
 
 };
 
