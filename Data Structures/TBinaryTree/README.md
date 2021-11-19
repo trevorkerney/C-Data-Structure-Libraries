@@ -4,8 +4,6 @@ My C++ Binary Tree implementation.
 
 Binary tree with mostly recursive methods.
 
-Access to objects within the list is provided by **TBinaryTreeIterator**.
-
 ---
 
 Positioning: Objects inserted in order and erased by value.
@@ -87,36 +85,3 @@ Finds whether or not the tree contains the object.
 
 parameters:
 - obj: the value of the searched object
-
----
-### TBinaryTreeIterator<type>* iterator() const
-
-Returns a heap-allocated iterator of the tree.
-
-TBinaryTree keeps track of these iterators, so you are not required to delete them manually. TBinaryTree does not, however, keep track of when iterators become lost due to the nodes they point to being erased. You are encouraged to keep track of those yourself, and call the clear() method on them whenever they become lost. The clear() method will preemptively destroy the iterator and remove it from its master's list of iterators. You do not have to do this though; all iterators obtained from this method will be destroyed upon the destruction of their master TBinaryTree.
-
-## TBinaryTreeIterator Public Methods:
-
-### bool has_lesser() const
-
-Returns whether or not the iterator's current node has a lesser node.
-
-### type& lesser()
-
-Sets the iterator's current node to it's lesser node and returns its value.
-
-### bool has_greater() const
-
-Returns whether or not the iterator's current node has a greater node.
-
-### type& greater()
-
-Sets the iterator's current node to it's greater node and returns its value.
-
-### type value() const
-
-Returns the value of the iterator's current node.
-
-### void clear()
-
-Removes the iterator from its master's list of iterators, then destroys it. Useful for when the iterator becomes lost.
