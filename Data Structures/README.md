@@ -18,8 +18,8 @@ Essentially a basic array with resizing methods.
 - find - finds and returns the index of a value.
 
 ---
-## TBinaryTree
-Binary tree with mostly recursive methods.
+## TAVLTree
+Self balancing binary tree with recursive methods.
 
 - Positioning: Objects inserted in order and erased by value.
 - Parallelism: N/A
@@ -29,16 +29,19 @@ Binary tree with mostly recursive methods.
 - insert - inserts an object into its ordered position in the tree.
 - erase - erases an object from the tree.
 - contains - returns whether or not the object is in the tree.
-- iterator - returns an iterator for the tree.
 
-### TBinaryTreeIterator Public Methods:
+---
+## TBinaryTree
+Binary tree with recursive methods.
 
-- has_lesser - returns whether or not the node has a lesser node.
-- lesser - sets the iterator's current node to its lesser node and returns its value.
-- has_greater - returns whether or not the node has a greater node.
-- greater - sets the iterator's current node to its greater node and returns its value.
-- value - returns the value of the iterator's current node.
-- clear - removes the iterator from its master's iterator list and destroys itself.
+- Positioning: Objects inserted in order and erased by value.
+- Parallelism: N/A
+- Memory format: Binary tree.
+
+### Public Methods
+- insert - inserts an object into its ordered position in the tree.
+- erase - erases an object from the tree.
+- contains - returns whether or not the object is in the tree.
 
 ---
 ## TUDLList

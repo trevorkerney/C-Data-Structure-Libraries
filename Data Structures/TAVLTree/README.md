@@ -1,8 +1,10 @@
-# TBinaryTree
+# TAVLTree
 
-My C++ Binary Tree implementation.
+My C++ AVL Tree implementation.
 
-Binary tree with recursive methods.
+Self balancing binary tree with recursive methods.
+
+Derives from **TBinaryTree**.
 
 ---
 
@@ -14,13 +16,13 @@ Memory format: Binary tree.
 
 ---
 
-The use of TBinaryTree with non-[fundamental types](https://www.cplusplus.com/reference/type_traits/is_fundamental/) (except strings) requires explicit specialization of the private compare() method. The declaration is as follows:
+The use of TAVLTree with non-[fundamental types](https://www.cplusplus.com/reference/type_traits/is_fundamental/) (except strings) requires explicit specialization of the private compare() method. The declaration is as follows:
 ```
-explspec short TBinaryTree<myType>::compare(const myType& obj1, const myType& obj2) const
+explspec short TAVLTree<myType>::compare(const myType& obj1, const myType& obj2) const
 ```
 The body of this method should return 1 if obj1 is greater than obj2, 0 if equal, and -1 if lesser.
 
-This must be implemented after the inclusion of TBinaryTree and before the use of any of TBinaryTree's methods.
+This must be implemented after the inclusion of TAVLTree and before the use of any of TAVLTree's methods.
 
 Replace all instances of "myType" with the name of the type/class.
 
@@ -37,30 +39,30 @@ Replace all instances of "myType" with the name of the type/class.
 (=): assignment operator
 
 ---
-### TBinaryTree() *(c)*
+### TAVLTree() *(c)*
 
 Initializes the tree.
 
 ---
-### TBinaryTree(const TBinaryTree<type>& other) *(c)*
+### TAVLTree(const TAVLTree<type>& other) *(c)*
 
 Initializes the tree and copies another tree's contents to itself.
 
 parameters:
-- other: the TBinaryTree to copy.
+- other: the TAVLTree to copy.
 
 ---
-### ~TBinaryTree() *(d)*
+### ~TAVLTree() *(d)*
 
 Deallocates the memory allocated to the tree, if any.
 
 ---
-### TBinaryTree<type>& operator=(const TBinaryTree<type>& other)
+### TAVLTree<type>& operator=(const TAVLTree<type>& other)
 
 Copies another tree's contents into itself.
 
 parameters:
-- other: the TBinaryTree to copy
+- other: the TAVLTree to copy
 
 ---
 ### void insert(const type& obj)
@@ -85,3 +87,4 @@ Finds whether or not the tree contains the object.
 
 parameters:
 - obj: the value of the searched object
+
