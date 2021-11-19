@@ -57,7 +57,7 @@ parameters:
 Deallocates the memory allocated to the tree, if any.
 
 ---
-### TAVLTree<type>& operator=(const TAVLTree<type>& other)
+### TAVLTree<type>& operator=(const TAVLTree<type>& other) *(=)*
 
 Copies another tree's contents into itself.
 

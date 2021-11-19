@@ -55,7 +55,7 @@ parameters:
 Deallocates the memory allocated to the tree, if any.
 
 ---
-### TBinaryTree<type>& operator=(const TBinaryTree<type>& other)
+### TBinaryTree<type>& operator=(const TBinaryTree<type>& other) *(=)*
 
 Copies another tree's contents into itself.
 
