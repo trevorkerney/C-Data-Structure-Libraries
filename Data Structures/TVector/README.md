@@ -1,7 +1,5 @@
 # TVector
 
-version beta-1.1
-
 My C++ Vector implementation.
 
 Multipurpose sequential array with lots of access methods and optimizations for specialized use.

@@ -1,7 +1,5 @@
 # TUDLList
 
-version beta-1.0
-
 My C++ Unbounded Doubly Linked List implementation.
 
 Doubly linked list with no maximum size or random access.

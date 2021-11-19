@@ -1,7 +1,5 @@
 # TBinaryTree
 
-version beta-1.0
-
 My C++ Binary Tree implementation.
 
 Binary tree with mostly recursive methods.

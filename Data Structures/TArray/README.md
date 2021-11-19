@@ -1,7 +1,5 @@
 # TArray
 
-version beta-1.0
-
 My C++ Array implementation.
 
 Essentially a basic array with resizing methods.
