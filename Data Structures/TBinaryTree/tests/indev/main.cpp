@@ -24,25 +24,26 @@ int main()
     tbt.insert(-265);
     tbt.insert(-31);
 
-    #ifdef _DEBUG
     tbt.print_tree();
-    #endif
 
-    cout << "----- tbt erase -----" << endl;
-    cout << tbt.erase(4) << endl;
-    cout << tbt.erase(24) << endl;
-    cout << tbt.erase(1337) << endl;
-    cout << tbt.erase(83) << endl;
-    cout << tbt.erase(69) << endl;
-    cout << tbt.erase(-42) << endl;
-    cout << tbt.erase(29) << endl;
-    cout << "--- tbt end erase ---" << endl;
+    tbt.erase(4);
+    tbt.print_tree();
+    tbt.erase(24);
+    tbt.print_tree();
+    tbt.erase(1337);
+    tbt.print_tree();
+    tbt.erase(83);
+    tbt.print_tree();
+    tbt.erase(69);
+    tbt.print_tree();
+    tbt.erase(-42);
+    tbt.print_tree();
+    tbt.erase(29);
+    tbt.print_tree();
 
     cout << endl;
 
-    #ifdef _DEBUG
     tbt.print_tree();
-    #endif
 
     cout << "----- tbt contains -----" << endl;
     cout << tbt.contains(13) << endl;
@@ -80,7 +81,5 @@ int main()
     tbt2.insert(46);
     tbt2.insert(855);
 
-    #ifdef _DEBUG
     tbt2.print_tree();
-    #endif
 }
