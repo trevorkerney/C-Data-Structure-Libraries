@@ -101,7 +101,7 @@ protected:
         throw std::runtime_error("Tree printing is not supported for this type");
     }
 
-    TBinaryTreeNode<type>* aux_insert(const type& p_obj, TBinaryTreeNode<type>*& p_node)
+    virtual TBinaryTreeNode<type>* aux_insert(const type& p_obj, TBinaryTreeNode<type>*& p_node)
     {
         if (!p_node)
             p_node = new TBinaryTreeNode<type>(p_obj);
@@ -116,7 +116,7 @@ protected:
         return p_node;
     }
 
-    TBinaryTreeNode<type>* aux_erase(const type& p_obj, TBinaryTreeNode<type>*& p_node)
+    virtual TBinaryTreeNode<type>* aux_erase(const type& p_obj, TBinaryTreeNode<type>*& p_node)
     {
         if (!p_node)
             return p_node;
@@ -177,12 +177,15 @@ protected:
 
     void aux_destroy(TBinaryTreeNode<type>* p_node)
     {
-        if (p_node->lesser)
-            aux_destroy(p_node->lesser);
-        if (p_node->greater)
-            aux_destroy(p_node->greater);
-        delete p_node;
-        p_node = nullptr;
+        if (p_node)
+        {
+            if (p_node->lesser)
+                aux_destroy(p_node->lesser);
+            if (p_node->greater)
+                aux_destroy(p_node->greater);
+            delete p_node;
+            p_node = nullptr;
+        }
     }
 
 public:
@@ -214,12 +217,12 @@ public:
         throw std::runtime_error("Tree printing is not supported for this type");
     }
 
-    virtual void insert(const type& p_obj)
+    void insert(const type& p_obj)
     {
         root = aux_insert(p_obj, root);
     }
 
-    virtual void erase(const type& p_obj)
+    void erase(const type& p_obj)
     {
         root = aux_erase(p_obj, root);
     }
