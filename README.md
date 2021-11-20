@@ -11,7 +11,7 @@ All of these fall under the MIT license unless there is a different license with
 Essentially a basic array with resizing methods.
 
 - Positioning: unmanaged.
-- Parallelism: N/A
+- Parallelism: None, thread safe.
 - Memory Format: Sequential.
 - Searching: Linear.
 - Sorting: None.
@@ -20,7 +20,7 @@ Essentially a basic array with resizing methods.
 Self balancing binary tree with recursive methods.
 
 - Positioning: Objects inserted in order and erased by value.
-- Parallelism: N/A
+- Parallelism: None, thread safe.
 - Memory Format: Binary tree.
 - Searching: Implicitly binary.
 - Sorting: Implicitly automatic binary.
@@ -29,7 +29,7 @@ Self balancing binary tree with recursive methods.
 Binary tree with recursive methods.
 
 - Positioning: Objects inserted in order and erased by value.
-- Parallelism: N/A
+- Parallelism: None, thread safe.
 - Memory Format: Binary tree.
 - Searching: Implicitly binary.
 - Sorting: Implicitly automatic binary.
@@ -38,7 +38,7 @@ Binary tree with recursive methods.
 Doubly linked list with no maximum size or random access.
 
 - Positioning: managed, objects can be pushed and pulled from front and back.
-- Parallelism: N/A
+- Parallelism: None, thread safe.
 - Memory Format: Nonsequential, linear.
 - Searching: Linear.
 - Sorting: None
@@ -49,7 +49,7 @@ Objects can be inserted and erased from within the list using **TUDLListIterator
 Multipurpose sequential array with lots of access methods and optimizations for specialized use.
 
 - Positioning: managed, objects pushed to end and pulled from end.
-- Parallelism: N/A
+- Parallelism: None, thread safe.
 - Memory Format: Sequential.
 - Searching: Linear, Binary.
 - Sorting: Quick.

@@ -10,6 +10,8 @@ Access to objects within the list is provided by **TUDLListIterator**.
 
 Positioning: Objects pushed and pulled from front and back.
 
+Parallelism: None, thread safe.
+
 Memory format: Nonsequential, linear.
 
 ---

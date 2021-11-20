@@ -8,6 +8,8 @@ Multipurpose sequential array with lots of access methods and optimizations for 
 
 Positioning: Objects pushed to back and pulled from back.
 
+Parallelism: None, thread safe.
+
 Memory format: Sequential.
 
 Maximum capacity (MAX_CAPACITY) of TVector is 65535.

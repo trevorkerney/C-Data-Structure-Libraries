@@ -8,7 +8,7 @@ Binary tree with recursive methods.
 
 Positioning: Objects inserted in order and erased by value.
 
-Parallelism: N/A
+Parallelism: None, thread safe.
 
 Memory format: Binary tree.
 

@@ -4,7 +4,7 @@
 Essentially a basic array with resizing methods.
 
 - Positioning: unmanaged.
-- Parallelism: N/A
+- Parallelism: None, thread safe.
 - Memory Format: Sequential.
 
 ### Searching Methods
@@ -22,7 +22,7 @@ Essentially a basic array with resizing methods.
 Self balancing binary tree with recursive methods.
 
 - Positioning: Objects inserted in order and erased by value.
-- Parallelism: N/A
+- Parallelism: None, thread safe.
 - Memory format: Binary tree.
 
 ### Public Methods
@@ -35,7 +35,7 @@ Self balancing binary tree with recursive methods.
 Binary tree with recursive methods.
 
 - Positioning: Objects inserted in order and erased by value.
-- Parallelism: N/A
+- Parallelism: None, thread safe.
 - Memory format: Binary tree.
 
 ### Public Methods
@@ -48,7 +48,7 @@ Binary tree with recursive methods.
 Doubly linked list with no maximum size or random access.
 
 - Positioning: managed, objects pushed and pulled from front and back.
-- Parallelism: N/A
+- Parallelism: None, thread safe.
 - Memory Format: Nonsequential, linear.
 
 ### Searching Methods
@@ -74,7 +74,7 @@ Doubly linked list with no maximum size or random access.
 Multipurpose sequential array implementation with lots of access methods and optimizations for specialized use.
 
 - Positioning: managed, objects pushed to end and pulled from end.
-- Parallelism: N/A
+- Parallelism: None, thread safe.
 - Memory Format: Sequential.
 
 ### Searching Methods

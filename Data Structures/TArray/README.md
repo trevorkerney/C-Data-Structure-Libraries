@@ -8,6 +8,8 @@ Essentially a basic array with resizing methods.
 
 Positioning: None.
 
+Parallelism: None, thread safe.
+
 Memory format: Sequential.
 
 Maximum capacity (MAX_CAPACITY) of TArray is 65535.

@@ -5,11 +5,14 @@
 #include <string>
 using std::string;
 using std::to_string;
-
 #include <stdexcept>
-
 #include <cmath>
 using std::pow;
+#include <mutex>
+using std::mutex;
+using std::lock_guard;
+
+mutex TArray_thread_guard;
 
 template <typename type>
 class TArray
@@ -87,6 +90,7 @@ public:
 
     TArray& operator=(const TArray& p_other)
     {
+        lock_guard<mutex> lock(TArray_thread_guard);
         if (this != &p_other)
         {
             copy(p_other);
@@ -96,6 +100,7 @@ public:
 
     type& at(const unsigned& p_index) const
     {
+        lock_guard<mutex> lock(TArray_thread_guard);
         if (!(p_index < i_capacity))
             throw std::runtime_error("Out of range");
         return i_array[p_index];
@@ -107,13 +112,14 @@ public:
 
     size_t capacity() const
     {
+        lock_guard<mutex> lock(TArray_thread_guard);
         return i_capacity;
     }
 
     size_t reserve(const unsigned& p_amount)
     {
+        lock_guard<mutex> lock(TArray_thread_guard);
         const size_t old_memory_size = i_capacity;
-
         if ((p_amount == MAX_CAPACITY && i_capacity == MAX_CAPACITY) || p_amount <= i_capacity)
             return 0;
         else if (p_amount <= MAX_CAPACITY)
@@ -137,6 +143,7 @@ public:
 
     long find(const type& p_searched) const
     {
+        lock_guard<mutex> lock(TArray_thread_guard);
         return linear_search(p_searched);
     }
 };
@@ -146,6 +153,7 @@ const size_t TArray<type>::MAX_CAPACITY;
 
 explspec short TArray<bool>::                  compare(const bool& p_obj1,                 const bool& p_obj2)                 const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -156,6 +164,7 @@ explspec short TArray<bool>::                  compare(const bool& p_obj1,      
 }
 explspec short TArray<char>::                  compare(const char& p_obj1,                 const char& p_obj2)                 const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -166,6 +175,7 @@ explspec short TArray<char>::                  compare(const char& p_obj1,      
 }
 explspec short TArray<signed char>::           compare(const signed char& p_obj1,          const signed char& p_obj2)          const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -176,6 +186,7 @@ explspec short TArray<signed char>::           compare(const signed char& p_obj1
 }
 explspec short TArray<short>::                 compare(const short& p_obj1,                const short& p_obj2)                const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -186,6 +197,7 @@ explspec short TArray<short>::                 compare(const short& p_obj1,     
 }
 explspec short TArray<int>::                   compare(const int& p_obj1,                  const int& p_obj2)                  const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -196,6 +208,7 @@ explspec short TArray<int>::                   compare(const int& p_obj1,       
 }
 explspec short TArray<long>::                  compare(const long& p_obj1,                 const long& p_obj2)                 const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -206,6 +219,7 @@ explspec short TArray<long>::                  compare(const long& p_obj1,      
 }
 explspec short TArray<long long>::             compare(const long long& p_obj1,            const long long& p_obj2)            const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -216,6 +230,7 @@ explspec short TArray<long long>::             compare(const long long& p_obj1, 
 }
 explspec short TArray<unsigned char>::         compare(const unsigned char& p_obj1,        const unsigned char& p_obj2)        const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -226,6 +241,7 @@ explspec short TArray<unsigned char>::         compare(const unsigned char& p_ob
 }
 explspec short TArray<unsigned short>::        compare(const unsigned short& p_obj1,       const unsigned short& p_obj2)       const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -236,6 +252,7 @@ explspec short TArray<unsigned short>::        compare(const unsigned short& p_o
 }
 explspec short TArray<unsigned>::              compare(const unsigned& p_obj1,             const unsigned& p_obj2)             const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -246,6 +263,7 @@ explspec short TArray<unsigned>::              compare(const unsigned& p_obj1,  
 }
 explspec short TArray<unsigned long>::         compare(const unsigned long& p_obj1,        const unsigned long& p_obj2)        const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -256,6 +274,7 @@ explspec short TArray<unsigned long>::         compare(const unsigned long& p_ob
 }
 explspec short TArray<unsigned long long>::    compare(const unsigned long long& p_obj1,   const unsigned long long& p_obj2)   const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -266,6 +285,7 @@ explspec short TArray<unsigned long long>::    compare(const unsigned long long&
 }
 explspec short TArray<float>::                 compare(const float& p_obj1,                const float& p_obj2)                const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -276,6 +296,7 @@ explspec short TArray<float>::                 compare(const float& p_obj1,     
 }
 explspec short TArray<double>::                compare(const double& p_obj1,               const double& p_obj2)               const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -286,6 +307,7 @@ explspec short TArray<double>::                compare(const double& p_obj1,    
 }
 explspec short TArray<long double>::           compare(const long double& p_obj1,          const long double& p_obj2)          const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -296,6 +318,7 @@ explspec short TArray<long double>::           compare(const long double& p_obj1
 }
 explspec short TArray<string>::                compare(const string& p_obj1,               const string& p_obj2)               const
 {
+    lock_guard<mutex> lock(TArray_thread_guard);
     int comparison = p_obj1.compare(p_obj2);
     if (comparison != 0)
         if (comparison > 0)
