@@ -1,4 +1,5 @@
-#pragma once
+#ifndef H_TVECTOR
+#define H_TVECTOR
 
 #define explspec template<>
 
@@ -643,3 +644,5 @@ explspec short TVector<string>::                compare(const string& p_obj1,   
     else
         return 0;
 }
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef H_TBINARYTREE
+#define H_TBINARYTREE
 
 #define explspec template<>
 
@@ -491,3 +492,5 @@ explspec void TBinaryTree<int>::print_tree() const
     }
     cout << endl;
 }
+
+#endif

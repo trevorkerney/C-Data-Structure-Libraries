@@ -1,6 +1,7 @@
-#pragma once
-
 #include "../../TBinaryTree/inc/TBinaryTree.h"
+
+#ifndef H_TAVLTREE
+#define H_TAVLTREE
 
 template <typename type>
 class TAVLTree : public TBinaryTree<type>
@@ -147,3 +148,5 @@ public:
     ~TAVLTree() {}
 
 };
+
+#endif

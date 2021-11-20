@@ -1,4 +1,5 @@
-#pragma once
+#ifndef H_TUDLLIST
+#define H_TUDLLIST
 
 #include <iostream>
 #include <exception>
@@ -255,3 +256,5 @@ public:
     }
 
 };
+
+#endif

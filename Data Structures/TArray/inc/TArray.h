@@ -1,4 +1,5 @@
-#pragma once
+#ifndef H_TARRAY
+#define H_TARRAY
 
 #define explspec template<>
 
@@ -328,3 +329,5 @@ explspec short TArray<string>::                compare(const string& p_obj1,    
     else
         return 0;
 }
+
+#endif
