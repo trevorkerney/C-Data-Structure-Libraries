@@ -14,23 +14,6 @@ Memory format: Nonsequential, linear.
 
 ---
 
-### Searching Algorithms
-- linear
-
-The use of searching and sorting functions with TUDLList of non-[fundamental types](https://www.cplusplus.com/reference/type_traits/is_fundamental/) (except strings) requires explicit specialization of the private compare() method. The declaration is as follows:
-```
-explspec short TUDLList<myType>::compare(const myType& obj1, const myType& obj2) const
-```
-The body of this function should return 1 if obj1 is greater than obj2, 0 if equal, and -1 if lesser.
-
-This must be implemented after the inclusion of TUDLList and before the use of any function that uses searching/sorting methods.
-
-Replace all instances of "myType" with the name of the type/class.
-
-*explspec* is a #define that expands to "template<>". You don't have to use it, but I think it improves readability.
-
----
-
 ## Public Methods:
 
 (c): constructor
