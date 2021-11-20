@@ -1,16 +1,12 @@
+#include "../../TVector/inc/TVector.h"
+
 #ifndef H_TUDLLIST
 #define H_TUDLLIST
 
-#include <iostream>
 #include <exception>
-
 #include <mutex>
 using std::mutex;
 using std::lock_guard;
-
-#include "../../TVector/inc/TVector.h"
-
-mutex TUDLList_thread_guard;
 
 template <typename type>
 struct TUDLListNode
@@ -31,6 +27,8 @@ class TUDLList
 {
 friend class TUDLListIterator<type>;
 private:
+
+    mutable mutex TUDLList_thread_guard;
 
     TUDLListNode<type>* front = nullptr;
     TUDLListNode<type>* back = nullptr;

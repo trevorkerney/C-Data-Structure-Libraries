@@ -6,17 +6,12 @@
 #include <string>
 using std::string;
 using std::to_string;
-
 #include <stdexcept>
-
 #include <cmath>
 using std::pow;
-
 #include <mutex>
 using std::mutex;
 using std::lock_guard;
-
-mutex TVector_thread_guard;
 
 enum searchingMethod
 {
@@ -32,6 +27,8 @@ template<typename type>
 class TVector
 {
 private:
+
+    mutable mutex TVector_thread_guard;
 
     type* i_vector = nullptr;
 
@@ -469,7 +466,6 @@ const size_t TVector<type>::MAX_CAPACITY;
 
 explspec short TVector<bool>::                  compare(const bool& p_obj1,                 const bool& p_obj2)                 const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -480,7 +476,6 @@ explspec short TVector<bool>::                  compare(const bool& p_obj1,     
 }
 explspec short TVector<char>::                  compare(const char& p_obj1,                 const char& p_obj2)                 const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -491,7 +486,6 @@ explspec short TVector<char>::                  compare(const char& p_obj1,     
 }
 explspec short TVector<signed char>::           compare(const signed char& p_obj1,          const signed char& p_obj2)          const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -502,7 +496,6 @@ explspec short TVector<signed char>::           compare(const signed char& p_obj
 }
 explspec short TVector<short>::                 compare(const short& p_obj1,                const short& p_obj2)                const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -513,7 +506,6 @@ explspec short TVector<short>::                 compare(const short& p_obj1,    
 }
 explspec short TVector<int>::                   compare(const int& p_obj1,                  const int& p_obj2)                  const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -524,7 +516,6 @@ explspec short TVector<int>::                   compare(const int& p_obj1,      
 }
 explspec short TVector<long>::                  compare(const long& p_obj1,                 const long& p_obj2)                 const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -535,7 +526,6 @@ explspec short TVector<long>::                  compare(const long& p_obj1,     
 }
 explspec short TVector<long long>::             compare(const long long& p_obj1,            const long long& p_obj2)            const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -546,7 +536,6 @@ explspec short TVector<long long>::             compare(const long long& p_obj1,
 }
 explspec short TVector<unsigned char>::         compare(const unsigned char& p_obj1,        const unsigned char& p_obj2)        const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -557,7 +546,6 @@ explspec short TVector<unsigned char>::         compare(const unsigned char& p_o
 }
 explspec short TVector<unsigned short>::        compare(const unsigned short& p_obj1,       const unsigned short& p_obj2)       const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -568,7 +556,6 @@ explspec short TVector<unsigned short>::        compare(const unsigned short& p_
 }
 explspec short TVector<unsigned>::              compare(const unsigned& p_obj1,             const unsigned& p_obj2)             const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -579,7 +566,6 @@ explspec short TVector<unsigned>::              compare(const unsigned& p_obj1, 
 }
 explspec short TVector<unsigned long>::         compare(const unsigned long& p_obj1,        const unsigned long& p_obj2)        const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -590,7 +576,6 @@ explspec short TVector<unsigned long>::         compare(const unsigned long& p_o
 }
 explspec short TVector<unsigned long long>::    compare(const unsigned long long& p_obj1,   const unsigned long long& p_obj2)   const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -601,7 +586,6 @@ explspec short TVector<unsigned long long>::    compare(const unsigned long long
 }
 explspec short TVector<float>::                 compare(const float& p_obj1,                const float& p_obj2)                const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -612,7 +596,6 @@ explspec short TVector<float>::                 compare(const float& p_obj1,    
 }
 explspec short TVector<double>::                compare(const double& p_obj1,               const double& p_obj2)               const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -623,7 +606,6 @@ explspec short TVector<double>::                compare(const double& p_obj1,   
 }
 explspec short TVector<long double>::           compare(const long double& p_obj1,          const long double& p_obj2)          const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -634,7 +616,6 @@ explspec short TVector<long double>::           compare(const long double& p_obj
 }
 explspec short TVector<string>::                compare(const string& p_obj1,               const string& p_obj2)               const
 {
-    lock_guard<mutex> lock(TVector_thread_guard);
     int comparison = p_obj1.compare(p_obj2);
     if (comparison != 0)
         if (comparison > 0)

@@ -21,8 +21,6 @@ using std::stringstream;
 using std::mutex;
 using std::lock_guard;
 
-mutex TBinaryTree_thread_guard;
-
 template <typename type>
 class TBinaryTreeNode
 {
@@ -39,6 +37,8 @@ public:
 template <typename type>
 class TBinaryTree
 {
+private:
+    mutable mutex TBinaryTree_thread_guard;
 protected:
 
     TBinaryTreeNode<type>* root = nullptr;
@@ -190,8 +190,8 @@ protected:
             if (p_node->greater)
                 p_node->lesser = aux_destroy(p_node->greater);
             delete p_node;
-            return nullptr;
         }
+        return nullptr;
     }
 
 public:
@@ -249,7 +249,6 @@ public:
 
 explspec short TBinaryTree<bool>::                  compare(const bool& p_obj1,                 const bool& p_obj2)                 const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -260,7 +259,6 @@ explspec short TBinaryTree<bool>::                  compare(const bool& p_obj1, 
 }
 explspec short TBinaryTree<char>::                  compare(const char& p_obj1,                 const char& p_obj2)                 const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -271,7 +269,6 @@ explspec short TBinaryTree<char>::                  compare(const char& p_obj1, 
 }
 explspec short TBinaryTree<signed char>::           compare(const signed char& p_obj1,          const signed char& p_obj2)          const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -282,7 +279,6 @@ explspec short TBinaryTree<signed char>::           compare(const signed char& p
 }
 explspec short TBinaryTree<short>::                 compare(const short& p_obj1,                const short& p_obj2)                const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -293,7 +289,6 @@ explspec short TBinaryTree<short>::                 compare(const short& p_obj1,
 }
 explspec short TBinaryTree<int>::                   compare(const int& p_obj1,                  const int& p_obj2)                  const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -304,7 +299,6 @@ explspec short TBinaryTree<int>::                   compare(const int& p_obj1,  
 }
 explspec short TBinaryTree<long>::                  compare(const long& p_obj1,                 const long& p_obj2)                 const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -315,7 +309,6 @@ explspec short TBinaryTree<long>::                  compare(const long& p_obj1, 
 }
 explspec short TBinaryTree<long long>::             compare(const long long& p_obj1,            const long long& p_obj2)            const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -326,7 +319,6 @@ explspec short TBinaryTree<long long>::             compare(const long long& p_o
 }
 explspec short TBinaryTree<unsigned char>::         compare(const unsigned char& p_obj1,        const unsigned char& p_obj2)        const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -337,7 +329,6 @@ explspec short TBinaryTree<unsigned char>::         compare(const unsigned char&
 }
 explspec short TBinaryTree<unsigned short>::        compare(const unsigned short& p_obj1,       const unsigned short& p_obj2)       const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -348,7 +339,6 @@ explspec short TBinaryTree<unsigned short>::        compare(const unsigned short
 }
 explspec short TBinaryTree<unsigned>::              compare(const unsigned& p_obj1,             const unsigned& p_obj2)             const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -359,7 +349,6 @@ explspec short TBinaryTree<unsigned>::              compare(const unsigned& p_ob
 }
 explspec short TBinaryTree<unsigned long>::         compare(const unsigned long& p_obj1,        const unsigned long& p_obj2)        const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -370,7 +359,6 @@ explspec short TBinaryTree<unsigned long>::         compare(const unsigned long&
 }
 explspec short TBinaryTree<unsigned long long>::    compare(const unsigned long long& p_obj1,   const unsigned long long& p_obj2)   const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -381,7 +369,6 @@ explspec short TBinaryTree<unsigned long long>::    compare(const unsigned long 
 }
 explspec short TBinaryTree<float>::                 compare(const float& p_obj1,                const float& p_obj2)                const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -392,7 +379,6 @@ explspec short TBinaryTree<float>::                 compare(const float& p_obj1,
 }
 explspec short TBinaryTree<double>::                compare(const double& p_obj1,               const double& p_obj2)               const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -403,7 +389,6 @@ explspec short TBinaryTree<double>::                compare(const double& p_obj1
 }
 explspec short TBinaryTree<long double>::           compare(const long double& p_obj1,          const long double& p_obj2)          const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     if (p_obj1 != p_obj2)
         if (p_obj1 > p_obj2)
             return 1;
@@ -414,7 +399,6 @@ explspec short TBinaryTree<long double>::           compare(const long double& p
 }
 explspec short TBinaryTree<string>::                compare(const string& p_obj1,               const string& p_obj2)               const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     int comparison = p_obj1.compare(p_obj2);
     if (comparison != 0)
         if (comparison > 0)
