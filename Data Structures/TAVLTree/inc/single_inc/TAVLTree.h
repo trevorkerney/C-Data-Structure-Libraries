@@ -199,18 +199,18 @@ public:
     TBinaryTree() {}
     TBinaryTree(const TBinaryTree<type>& p_other)
     {
-        root = aux_copy(p_other.root);
+        root = aux_copy(p_other.root, root);
     } 
     virtual ~TBinaryTree()
     {
-        aux_destroy(root);
+        root = aux_destroy(root);
     }
 
     TBinaryTree<type>& operator=(const TBinaryTree<type>& p_other)
     {
         lock_guard<mutex> lock(TBinaryTree_thread_guard);
-        aux_destroy(root);
-        root = aux_copy(p_other.root);
+        root = aux_destroy(root);
+        root = aux_copy(p_other.root, root);
     }
 
     void print_inorder() const

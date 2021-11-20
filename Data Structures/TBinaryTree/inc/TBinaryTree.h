@@ -181,16 +181,16 @@ protected:
         p_node2->value = temp;
     }
 
-    void aux_destroy(TBinaryTreeNode<type>* p_node)
+    TBinaryTreeNode<type>* aux_destroy(TBinaryTreeNode<type>* p_node)
     {
         if (p_node)
         {
             if (p_node->lesser)
-                aux_destroy(p_node->lesser);
+                p_node->lesser = aux_destroy(p_node->lesser);
             if (p_node->greater)
-                aux_destroy(p_node->greater);
+                p_node->lesser = aux_destroy(p_node->greater);
             delete p_node;
-            p_node = nullptr;
+            return nullptr;
         }
     }
 
@@ -199,18 +199,18 @@ public:
     TBinaryTree() {}
     TBinaryTree(const TBinaryTree<type>& p_other)
     {
-        root = aux_copy(p_other.root);
+        root = aux_copy(p_other.root, root);
     } 
     virtual ~TBinaryTree()
     {
-        aux_destroy(root);
+        root = aux_destroy(root);
     }
 
     TBinaryTree<type>& operator=(const TBinaryTree<type>& p_other)
     {
         lock_guard<mutex> lock(TBinaryTree_thread_guard);
-        aux_destroy(root);
-        root = aux_copy(p_other.root);
+        root = aux_destroy(root);
+        root = aux_copy(p_other.root, root);
     }
 
     void print_inorder() const
