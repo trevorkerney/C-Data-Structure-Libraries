@@ -34,6 +34,15 @@ Binary tree with recursive methods.
 - Searching: Implicitly binary.
 - Sorting: Implicitly automatic binary.
 
+### TCombination (untested)
+Map-like structure offering lightning fast searches and insertions, albeit very expensive erases. Very inefficient, regarding size, with small amounts of data.
+
+- Positioning: Objects inserted and erased by key.
+- Parallelism: None, thread safe (actually not yet).
+- Memory Format: Tree, though it behaves like a map.
+- Searching: Linear (sounds bad but it's not in this case).
+- Sorting: Implicitly automatic linear.
+
 ### TUDLList (Unbounded Doubly Linked List)
 Doubly linked list with no maximum size or random access.
 

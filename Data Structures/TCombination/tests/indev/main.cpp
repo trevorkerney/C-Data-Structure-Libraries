@@ -8,9 +8,15 @@ using std::endl;
 
 int main()
 {
-    TCombination combo;
+    TCombination<int> combo;
 
-    combo.insert("cat");
+    combo.insert("cat", 42);
+    combo.insert("cab", 69);
+    combo.insert("dog", 29);
+    combo.insert("catacombs", 101);
+    combo.insert("", 111);
 
-    cout << "Done" << endl;
+    combo.print_keys_inorder();
+
+    cout << "------------\nDone" << endl;
 }

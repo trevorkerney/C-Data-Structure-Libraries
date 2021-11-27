@@ -44,6 +44,22 @@ Binary tree with recursive methods.
 - contains - returns whether or not the object is in the tree.
 
 ---
+## TCombination
+Map-like structure offering lightning fast searches and insertions even with a very large amount of data, albeit very expensive erases. Very inefficient regarding size, with small amounts of data.
+
+- Positioning: Objects inserted and erased by key.
+- Parallelism: None, thread safe (actually not yet).
+- Memory Format: Tree, though it behaves like a map.
+
+### Public Methods
+- insert - inserts a value into the combination.
+- erase - removes a value from the combination.
+- get - returns a pointer to a specified value in the combination.
+- contains_key - returns where or not a specified key is in the combination.
+- is_empty - returns whether or not the combination is empty.
+- print_keys_inorder - prints keys in alphabetical order.
+
+---
 ## TUDLList
 Doubly linked list with no maximum size or random access.
 
