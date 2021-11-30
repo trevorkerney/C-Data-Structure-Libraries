@@ -39,7 +39,7 @@ Map-like structure offering lightning fast searches and insertions with very lar
 
 - Positioning: Objects inserted and erased by key.
 - Parallelism: None, unsafe.
-- Memory Format: Tree, though it behaves like a map.
+- Memory Format: Tree.
 - Searching: Constant.
 - Sorting: Unneccessary.
 
