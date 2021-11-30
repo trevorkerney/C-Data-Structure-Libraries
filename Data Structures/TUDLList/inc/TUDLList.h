@@ -4,9 +4,6 @@
 #define H_TUDLLIST
 
 #include <exception>
-#include <mutex>
-using std::mutex;
-using std::lock_guard;
 
 template <typename type>
 struct TUDLListNode
@@ -27,8 +24,6 @@ class TUDLList
 {
 friend class TUDLListIterator<type>;
 private:
-
-    mutable mutex TUDLList_thread_guard;
 
     TUDLListNode<type>* front = nullptr;
     TUDLListNode<type>* back = nullptr;
@@ -76,7 +71,6 @@ public:
 
     TUDLList& operator=(const TUDLList& p_other)
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         TUDLListNode<type>* prev = nullptr;
         TUDLListNode<type>* node = this->front;
         while (node)
@@ -90,7 +84,6 @@ public:
 
     bool is_empty() const
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         if (!front)
             return true;
         return false;
@@ -98,7 +91,6 @@ public:
 
     void push_back(const type& p_obj)
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         TUDLListNode<type>* node = new TUDLListNode<type>(p_obj);
         if (back)
         {
@@ -114,14 +106,12 @@ public:
     }
     void push_back(const type* p_objs, const long& p_size)
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         for (unsigned int _i = 0; _i < p_size; _i++)
             push_back(p_objs[_i]);
     }
 
     void push_front(const type& p_obj)
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         TUDLListNode<type>* node = new TUDLListNode<type>(p_obj);
         if (front)
         {
@@ -137,14 +127,12 @@ public:
     }
     void push_front(const type* p_objs, const long& p_size)
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         for (unsigned int _i = 0; _i < p_size; _i++)
             push_front(p_objs[_i]);
     }
 
     type pull_back()
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         type value = back->value;
         if (back)
         {
@@ -160,7 +148,6 @@ public:
 
     type pull_front()
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         type value = front->value;
         if (front)
         {
@@ -176,7 +163,6 @@ public:
 
     TUDLListIterator<type>* iterator(const short& p_start = 0)
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         if (front)
         {
             TUDLListIterator<type>* iter = new TUDLListIterator<type>(this, p_start);

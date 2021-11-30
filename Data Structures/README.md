@@ -4,7 +4,7 @@
 Essentially a basic array with resizing methods.
 
 - Positioning: unmanaged.
-- Parallelism: None, thread safe.
+- Parallelism: None, unsafe.
 - Memory Format: Sequential.
 
 ### Searching Methods
@@ -22,8 +22,8 @@ Essentially a basic array with resizing methods.
 Self balancing binary tree with recursive methods.
 
 - Positioning: Objects inserted in order and erased by value.
-- Parallelism: None, thread safe.
-- Memory format: Binary tree.
+- Parallelism: None, unsafe.
+- Memory format: Tree.
 
 ### Public Methods
 - insert - inserts an object into its ordered position in the tree.
@@ -35,8 +35,8 @@ Self balancing binary tree with recursive methods.
 Binary tree with recursive methods.
 
 - Positioning: Objects inserted in order and erased by value.
-- Parallelism: None, thread safe.
-- Memory format: Binary tree.
+- Parallelism: None, unsafe.
+- Memory format: Tree.
 
 ### Public Methods
 - insert - inserts an object into its ordered position in the tree.
@@ -48,7 +48,7 @@ Binary tree with recursive methods.
 Map-like structure offering lightning fast searches and insertions even with a very large amount of data, albeit very expensive erases. Very inefficient regarding size, with small amounts of data.
 
 - Positioning: Objects inserted and erased by key.
-- Parallelism: None, thread safe.
+- Parallelism: None, unsafe.
 - Memory Format: Tree.
 
 ### Public Methods
@@ -65,7 +65,7 @@ Map-like structure offering lightning fast searches and insertions even with a v
 Doubly linked list with no maximum size or random access.
 
 - Positioning: managed, objects pushed and pulled from front and back.
-- Parallelism: None, thread safe.
+- Parallelism: None, unsafe.
 - Memory Format: Nonsequential, linear.
 
 ### Searching Methods
@@ -91,7 +91,7 @@ Doubly linked list with no maximum size or random access.
 Multipurpose sequential array implementation with lots of access methods and optimizations for specialized use.
 
 - Positioning: managed, objects pushed to end and pulled from end.
-- Parallelism: None, thread safe.
+- Parallelism: None, unsafe.
 - Memory Format: Sequential.
 
 ### Searching Methods

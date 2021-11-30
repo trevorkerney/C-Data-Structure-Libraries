@@ -11,9 +11,6 @@ using std::cout;
 using std::endl;
 #include <stdexcept>
 using std::invalid_argument;
-#include <mutex>
-using std::mutex;
-using std::lock_guard;
 
 #define COMBINATION_SIZE 26
 
@@ -45,8 +42,6 @@ template <typename type>
 class TCombination
 {
 private:
-
-    mutable mutex TCombination_thread_guard;
 
     TCombinationIndex<type>* root = nullptr;
 
@@ -203,38 +198,30 @@ private:
 
 public:
 
-    TCombination()
-    {
-        lock_guard<mutex> lock(TCombination_thread_guard);
-    }
+    TCombination() {}
     TCombination(const TCombination<type>& p_other)
     {
-        lock_guard<mutex> lock(TCombination_thread_guard);
         root = aux_copy(root, p_other.root);
     }
     ~TCombination()
     {
-        lock_guard<mutex> lock(TCombination_thread_guard);
         root = aux_destroy(root);
     }
 
     TCombination<type>& operator=(const TCombination<type> p_other)
     {
-        lock_guard<mutex> lock(TCombination_thread_guard);
         root = aux_destroy(root);
         root = aux_copy(root, p_other.root);
     }
 
     void insert(const string p_key, const type p_value)
     {
-        lock_guard<mutex> lock(TCombination_thread_guard);
         check_input(p_key);
         root = aux_insert(root, p_key, p_value, p_key.length(), 0);
     }
 
     void erase(const string p_key)
     {
-        lock_guard<mutex> lock(TCombination_thread_guard);
         check_input(p_key);
         bool preserve = false;
         root = aux_erase(root, p_key, p_key.length(), 0, preserve);
@@ -242,7 +229,6 @@ public:
 
     type& get(const string p_key)
     {
-        lock_guard<mutex> lock(TCombination_thread_guard);
         check_input(p_key);
         type* value = aux_get(root, p_key, p_key.length(), 0);
         if (value)
@@ -253,7 +239,6 @@ public:
 
     bool contains_key(const string p_key) const
     {
-        lock_guard<mutex> lock(TCombination_thread_guard);
         if (get(p_key))
             return true;
         return false;
@@ -261,7 +246,6 @@ public:
 
     bool is_empty() const
     {
-        lock_guard<mutex> lock(TCombination_thread_guard);
         if (root)
             return false;
         return true;
@@ -269,13 +253,11 @@ public:
 
     void print_keys_inorder()
     {
-        lock_guard<mutex> lock(TCombination_thread_guard);
         aux_print_keys_inorder(root);
     }
 
     void print_keys_preorder()
     {
-        lock_guard<mutex> lock(TCombination_thread_guard);
         aux_print_keys_preorder(root);
     }
 };

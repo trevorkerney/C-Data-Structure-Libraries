@@ -8,7 +8,7 @@ Essentially a basic array with resizing methods.
 
 Positioning: None.
 
-Parallelism: None, thread safe.
+Parallelism: None, unsafe.
 
 Memory format: Sequential.
 
@@ -116,6 +116,8 @@ parameters:
 ### long find(const type& searched) const;
 
 Finds and returns the value referred to by searched.
+
+This is potentially unreliable if you don't set all unused indexes to a null value beforehand.
 
 parameters:
 - searched: the object to find.

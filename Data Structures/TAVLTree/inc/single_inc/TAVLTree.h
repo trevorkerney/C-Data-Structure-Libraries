@@ -17,9 +17,6 @@ using std::abs;
 #include <sstream>
 using std::stringstream;
 #include <stdexcept>
-#include <mutex>
-using std::mutex;
-using std::lock_guard;
 
 template <typename type>
 class TBinaryTreeNode
@@ -37,8 +34,6 @@ public:
 template <typename type>
 class TBinaryTree
 {
-private:
-    mutable mutex TBinaryTree_thread_guard;
 protected:
 
     TBinaryTreeNode<type>* root = nullptr;
@@ -208,14 +203,12 @@ public:
 
     TBinaryTree<type>& operator=(const TBinaryTree<type>& p_other)
     {
-        lock_guard<mutex> lock(TBinaryTree_thread_guard);
         root = aux_destroy(root);
         root = aux_copy(p_other.root, root);
     }
 
     void print_inorder() const
     {
-        lock_guard<mutex> lock(TBinaryTree_thread_guard);
         aux_print_inorder(root);
         cout << endl;
     }
@@ -227,19 +220,16 @@ public:
 
     void insert(const type& p_obj)
     {
-        lock_guard<mutex> lock(TBinaryTree_thread_guard);
         root = aux_insert(p_obj, root);
     }
 
     void erase(const type& p_obj)
     {
-        lock_guard<mutex> lock(TBinaryTree_thread_guard);
         root = aux_erase(p_obj, root);
     }
 
     bool contains(const type& p_obj) const
     {
-        lock_guard<mutex> lock(TBinaryTree_thread_guard);
         if (aux_find(p_obj, root))
             return true;
         return false;
@@ -440,7 +430,6 @@ explspec void TBinaryTree<int>::aux_print_tree(TBinaryTreeNode<int>* p_node, str
 }
 explspec void TBinaryTree<int>::print_tree() const
 {
-    lock_guard<mutex> lock(TBinaryTree_thread_guard);
     int height = aux_height(root);
     if (height < 0) return;
 

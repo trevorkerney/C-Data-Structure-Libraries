@@ -9,9 +9,6 @@ using std::to_string;
 #include <stdexcept>
 #include <cmath>
 using std::pow;
-#include <mutex>
-using std::mutex;
-using std::lock_guard;
 
 enum searchingMethod
 {
@@ -27,8 +24,6 @@ template<typename type>
 class TVector
 {
 private:
-
-    mutable mutex TVector_thread_guard;
 
     type* i_vector = nullptr;
 
@@ -188,7 +183,6 @@ public:
 
     TVector& operator=(const TVector& p_other)
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         if (this != &p_other)
         {
             if (i_capacity > 0)
@@ -205,7 +199,6 @@ public:
 
     type& at(const size_t& p_index) const
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         if (p_index > i_size)
             throw std::invalid_argument("Parameter index out of range. 0 - " + to_string(i_size));
         return i_vector[p_index];
@@ -217,26 +210,22 @@ public:
 
     size_t size() const
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         return i_size;
     }
 
     void set_growth_multiplier(const float& p_multiplier)
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         i_growth_multiplier = p_multiplier;
         if (p_multiplier < 0.0f)
             i_growth_multiplier *= -1.0f;
     }
     float growth_multiplier() const
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         return i_growth_multiplier;
     }
 
     size_t reserve(const size_t& p_amount)
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         size_t old_memory_size = i_capacity;
         if ((p_amount == MAX_CAPACITY && i_capacity == MAX_CAPACITY) || p_amount <= i_capacity)
             return 0;
@@ -259,7 +248,6 @@ public:
 
     size_t shrink()
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         int old_memory_size = i_capacity;
         if (i_capacity > i_size)
         {
@@ -286,7 +274,6 @@ public:
 
     void push(const type& p_obj)
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         if (i_size == i_capacity)
         {
             if (i_size == 0)
@@ -299,14 +286,12 @@ public:
     }
     void push(const type* p_objs, const size_t& p_size)
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         for (size_t _i = 0; _i < p_size; _i++)
             push(p_objs[_i]);
     }
 
     void insert(const type& p_obj, const size_t& p_index)
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         if (p_index < i_size)
         {
             type obj_swap1;
@@ -337,7 +322,6 @@ public:
 
     type pull()
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         type obj = 0;
         if (i_size > 0)
             obj = i_vector[--i_size];
@@ -348,7 +332,6 @@ public:
 
     type erase(const size_t& p_index)
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         type obj;
         if (i_size > 0)
             obj = at(p_index);
@@ -361,7 +344,6 @@ public:
 
     long find(const type& p_searched, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary) const
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         if (p_sorted == true || sorted_guarantee == true)
         {
             switch(p_searching_method)
@@ -379,14 +361,12 @@ public:
     }
     long find(const type& p_searched, const sortingMethod& p_sorting_method, const searchingMethod& p_searching_method) const
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         sort(p_sorting_method);
         return find(p_searched, true, p_searching_method);
     }
 
     bool contains(const type& p_searched, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary) const
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         if (find(p_searched, p_sorted, p_searching_method) >= 0)
             return true;
         else
@@ -394,7 +374,6 @@ public:
     }
     bool contains(const type& p_searched, const sortingMethod& p_sorting_method, const searchingMethod& p_searching_method) const
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         if (find(p_searched, p_sorting_method, p_searching_method) >= 0)
             return true;
         else
@@ -403,7 +382,6 @@ public:
     
     void emplace(const type& p_obj, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary)
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         long sorted_index = find(p_obj, p_sorted, p_searching_method);
         if (sorted_index < 0)
             sorted_index = (sorted_index + 1) * -1;
@@ -412,7 +390,6 @@ public:
     }
     void emplace(const type& p_obj, const sortingMethod& p_sorting_method, const searchingMethod& p_searching_method)
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         long sorted_index = find(p_obj, p_sorting_method, p_searching_method);
         if (sorted_index < 0)
             sorted_index = (sorted_index + 1) * -1;
@@ -422,7 +399,6 @@ public:
 
     type extract(const type& p_searched, bool p_sorted = false, const searchingMethod& p_searching_method = searchingMethod::binary)
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         long index = find(p_searched, p_sorted, p_searching_method);
         if (index < 0)
             throw std::invalid_argument("Parameter searched not present in TVector.");
@@ -431,7 +407,6 @@ public:
     }
     type extract(const type& p_searched, const sortingMethod& p_sorting_method, const searchingMethod& p_searching_method)
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         long index = find(p_searched, p_sorting_method, p_searching_method);
         if (index < 0)
             throw std::invalid_argument("Parameter searched not present in TVector.");
@@ -441,7 +416,6 @@ public:
 
     void sort(const sortingMethod& p_method = sortingMethod::quick)
     {
-        lock_guard<mutex> lock(TVector_thread_guard);
         switch(p_method)
         {
         case sortingMethod::quick:
@@ -632,9 +606,6 @@ explspec short TVector<string>::                compare(const string& p_obj1,   
 #define H_TUDLLIST
 
 #include <exception>
-#include <mutex>
-using std::mutex;
-using std::lock_guard;
 
 template <typename type>
 struct TUDLListNode
@@ -655,8 +626,6 @@ class TUDLList
 {
 friend class TUDLListIterator<type>;
 private:
-
-    mutable mutex TUDLList_thread_guard;
 
     TUDLListNode<type>* front = nullptr;
     TUDLListNode<type>* back = nullptr;
@@ -704,7 +673,6 @@ public:
 
     TUDLList& operator=(const TUDLList& p_other)
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         TUDLListNode<type>* prev = nullptr;
         TUDLListNode<type>* node = this->front;
         while (node)
@@ -718,7 +686,6 @@ public:
 
     bool is_empty() const
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         if (!front)
             return true;
         return false;
@@ -726,7 +693,6 @@ public:
 
     void push_back(const type& p_obj)
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         TUDLListNode<type>* node = new TUDLListNode<type>(p_obj);
         if (back)
         {
@@ -742,14 +708,12 @@ public:
     }
     void push_back(const type* p_objs, const long& p_size)
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         for (unsigned int _i = 0; _i < p_size; _i++)
             push_back(p_objs[_i]);
     }
 
     void push_front(const type& p_obj)
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         TUDLListNode<type>* node = new TUDLListNode<type>(p_obj);
         if (front)
         {
@@ -765,14 +729,12 @@ public:
     }
     void push_front(const type* p_objs, const long& p_size)
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         for (unsigned int _i = 0; _i < p_size; _i++)
             push_front(p_objs[_i]);
     }
 
     type pull_back()
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         type value = back->value;
         if (back)
         {
@@ -788,7 +750,6 @@ public:
 
     type pull_front()
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         type value = front->value;
         if (front)
         {
@@ -804,7 +765,6 @@ public:
 
     TUDLListIterator<type>* iterator(const short& p_start = 0)
     {
-        lock_guard<mutex> lock(TUDLList_thread_guard);
         if (front)
         {
             TUDLListIterator<type>* iter = new TUDLListIterator<type>(this, p_start);

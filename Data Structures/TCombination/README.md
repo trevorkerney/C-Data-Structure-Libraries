@@ -10,7 +10,7 @@ Deletions are typically very expensive. The only case I'm aware of where they ar
 
 Positioning: Objects inserted and erased by key.
 
-Parallelism: None, thread safe.
+Parallelism: None, unsafe.
 
 Memory format: Tree.
 
