@@ -10,7 +10,7 @@ Derives from **TBinaryTree**.
 
 Positioning: Objects inserted in order and erased by value.
 
-Parallelism: None, thread safe.
+Parallelism: None, unsafe.
 
 Memory format: Binary tree.
 

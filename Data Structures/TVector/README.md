@@ -8,7 +8,7 @@ Multipurpose sequential array with lots of access methods and optimizations for 
 
 Positioning: Objects pushed to back and pulled from back.
 
-Parallelism: None, thread safe.
+Parallelism: None, unsafe.
 
 Memory format: Sequential.
 
