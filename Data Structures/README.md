@@ -45,7 +45,7 @@ Binary tree with recursive methods.
 
 ---
 ## TCombination
-Map-like structure offering lightning fast searches and insertions even with a very large amount of data, albeit very expensive erases. Very inefficient regarding size, with small amounts of data.
+Map-like structure offering lightning fast searches and insertions even with a very large amount of data, albeit very expensive erases. Quite inefficient with memory usage; by design the combination uses much more memory than the data it holds, which is required to maintain it's search and insertion speed.
 
 - Positioning: Objects inserted and erased by key.
 - Parallelism: None, unsafe.
