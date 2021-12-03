@@ -306,10 +306,8 @@ explspec short TArray<string>::                compare(const string& p_obj1,    
 
 #endif
 
-#ifndef H_TCOMBINATION
-#define H_TCOMBINATION
-
-#include "../../TArray/inc/TArray.h"
+#ifndef H_TSTRIE
+#define H_TSTRIE
 
 #include <string>
 using std::string;
@@ -323,19 +321,19 @@ using std::invalid_argument;
 #define COMBINATION_SIZE 26
 
 template <typename type>
-class TCombination;
+class TSTrie;
 
 template <typename type>
-class TCombinationIndex
+class TSTrieIndex
 {
-friend class TCombination<type>;
+friend class TSTrie<type>;
 private:
 
-    TArray<TCombinationIndex<type>*> indexes;
+    TArray<TSTrieIndex<type>*> indexes;
 
     type* value = nullptr;
 
-    TCombinationIndex()
+    TSTrieIndex()
     {
         indexes.reserve(COMBINATION_SIZE);
 
@@ -347,11 +345,11 @@ private:
 };
 
 template <typename type>
-class TCombination
+class TSTrie
 {
 private:
 
-    TCombinationIndex<type>* root = nullptr;
+    TSTrieIndex<type>* root = nullptr;
 
     void check_input(const string p_input) const
     {
@@ -376,17 +374,17 @@ private:
         return p_dec + 97;
     }
 
-    TCombinationIndex<type>* aux_copy(const TCombinationIndex<type>*& p_TCIndex, const TCombinationIndex<type>* p_other)
+    TSTrieIndex<type>* aux_copy(const TSTrieIndex<type>*& p_TCIndex, const TSTrieIndex<type>* p_other)
     {
         if (p_other)
         {
-            p_TCIndex = new TCombinationIndex<type>(COMBINATION_SIZE);
+            p_TCIndex = new TSTrieIndex<type>(COMBINATION_SIZE);
             if (p_other->value)
                 p_TCIndex->value = new type(p_other->value);
             for (int _i = 0; _i < COMBINATION_SIZE; _i++)
             {
-                TCombinationIndex<type>*& other_char_index = p_other->indexes.at(_i);
-                TCombinationIndex<type>*& char_index = p_TCIndex->indexes.at(_i);
+                TSTrieIndex<type>*& other_char_index = p_other->indexes.at(_i);
+                TSTrieIndex<type>*& char_index = p_TCIndex->indexes.at(_i);
                 if (other_char_index)
                     char_index = aux_copy(p_other->indexes.at(_i), p_TCIndex->indexes.at(_i));
             }
@@ -396,21 +394,21 @@ private:
             return nullptr;
     }
 
-    TCombinationIndex<type>* aux_insert(TCombinationIndex<type>*& p_TCIndex, const string p_key, const type p_value, const unsigned p_length, unsigned p_index)
+    TSTrieIndex<type>* aux_insert(TSTrieIndex<type>*& p_TCIndex, const string p_key, const type p_value, const unsigned p_length, unsigned p_index)
     {
         if (!p_TCIndex)
-            p_TCIndex = new TCombinationIndex<type>;
+            p_TCIndex = new TSTrieIndex<type>;
         if (p_index == p_length)
             p_TCIndex->value = new type(p_value);
         else
         {
-            TCombinationIndex<type>*& char_index = p_TCIndex->indexes.at(ascii_to_index((unsigned)p_key.at(p_index)));
+            TSTrieIndex<type>*& char_index = p_TCIndex->indexes.at(ascii_to_index((unsigned)p_key.at(p_index)));
             char_index = aux_insert(char_index, p_key, p_value, p_length, p_index + 1);
         }
         return p_TCIndex;
     }
 
-    TCombinationIndex<type>* aux_erase(TCombinationIndex<type>*& p_TCIndex, const string p_key, const unsigned p_length, unsigned p_index, bool& p_preserve)
+    TSTrieIndex<type>* aux_erase(TSTrieIndex<type>*& p_TCIndex, const string p_key, const unsigned p_length, unsigned p_index, bool& p_preserve)
     {
         if (!p_TCIndex)
             return nullptr;
@@ -426,7 +424,7 @@ private:
         }
         else
         {
-            TCombinationIndex<type>*& char_index = p_TCIndex->indexes.at(ascii_to_index((unsigned)p_key.at(p_index)));
+            TSTrieIndex<type>*& char_index = p_TCIndex->indexes.at(ascii_to_index((unsigned)p_key.at(p_index)));
             char_index = aux_erase(char_index, p_key, p_length, p_index + 1, p_preserve);
         
             if (!p_preserve)
@@ -452,7 +450,7 @@ private:
         return p_TCIndex;
     }
 
-    type* aux_get(TCombinationIndex<type>*& p_TCIndex, const string p_key, const unsigned p_length, unsigned p_index = 0)
+    type* aux_get(TSTrieIndex<type>*& p_TCIndex, const string p_key, const unsigned p_length, unsigned p_index = 0)
     {
         if (!p_TCIndex)
             return nullptr;
@@ -462,7 +460,7 @@ private:
             return aux_get(p_TCIndex->indexes.at(ascii_to_index((unsigned)p_key.at(p_index))), p_key, p_length, p_index + 1);
     }
 
-    void aux_print_keys_inorder(TCombinationIndex<type>*& p_TCIndex, string i_key = "")
+    void aux_print_keys_inorder(TSTrieIndex<type>*& p_TCIndex, string i_key = "")
     {
         if (!p_TCIndex) return;
 
@@ -476,7 +474,7 @@ private:
             cout << i_key << endl;
     }
 
-    void aux_print_keys_preorder(TCombinationIndex<type>*& p_TCIndex, string i_key = "")
+    void aux_print_keys_preorder(TSTrieIndex<type>*& p_TCIndex, string i_key = "")
     {
         if (!p_TCIndex) return;
 
@@ -490,7 +488,7 @@ private:
         }
     }
 
-    TCombinationIndex<type>* aux_destroy(TCombinationIndex<type>*& p_TCIndex)
+    TSTrieIndex<type>* aux_destroy(TSTrieIndex<type>*& p_TCIndex)
     {
         if (!p_TCIndex)
             return nullptr;
@@ -506,17 +504,17 @@ private:
 
 public:
 
-    TCombination() {}
-    TCombination(const TCombination<type>& p_other)
+    TSTrie() {}
+    TSTrie(const TSTrie<type>& p_other)
     {
         root = aux_copy(root, p_other.root);
     }
-    ~TCombination()
+    ~TSTrie()
     {
         root = aux_destroy(root);
     }
 
-    TCombination<type>& operator=(const TCombination<type> p_other)
+    TSTrie<type>& operator=(const TSTrie<type> p_other)
     {
         root = aux_destroy(root);
         root = aux_copy(root, p_other.root);

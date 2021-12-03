@@ -27,7 +27,7 @@ all: $(BINDIR) $(BINDIR)/$(NAME)
 $(BINDIR)/$(NAME): $(BINDIR)/main.o
 	$(CC) $(CXXFLAGS) $(VERS) $(CXXWARN) -o $@$(XX) $^
 
-$(BINDIR)/main.o: main.cpp ../../inc/TCombination.h
+$(BINDIR)/main.o: main.cpp ../../inc/TSTrie.h
 	$(CC) -c $(CXXFLAGS) $(VERS) $(CXXWARN) -o $@ $<
 
 .PHONY: $(BINDIR) clean

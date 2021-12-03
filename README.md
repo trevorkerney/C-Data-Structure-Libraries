@@ -34,8 +34,8 @@ Binary tree with recursive methods.
 - Searching: Implicitly binary.
 - Sorting: Implicitly automatic binary.
 
-### TCombination
-Map-like structure offering lightning fast searches and insertions with very large datasets. Quite inefficient with memory usage; by design the combination uses much more memory than the data it holds, which is required to maintain it's search and insertion speed.
+### TSTrie (Sequential Tree)
+Sequential trie with recursive methods. Quite inefficient with memory usage; by design the combination uses much more memory than the data it holds, which is required to maintain true constant time complexity with searches and insertions.
 
 - Positioning: Objects inserted and erased by key.
 - Parallelism: None, unsafe.

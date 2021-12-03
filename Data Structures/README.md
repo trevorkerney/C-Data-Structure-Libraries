@@ -44,8 +44,8 @@ Binary tree with recursive methods.
 - contains - returns whether or not the object is in the tree.
 
 ---
-## TCombination
-Map-like structure offering lightning fast searches and insertions even with a very large amount of data, albeit very expensive erases. Quite inefficient with memory usage; by design the combination uses much more memory than the data it holds, which is required to maintain it's search and insertion speed.
+## STrie
+Sequential trie with recursive methods. Quite inefficient with memory usage; by design the combination uses much more memory than the data it holds, which is required to maintain true constant time complexity with searches and insertions.
 
 - Positioning: Objects inserted and erased by key.
 - Parallelism: None, unsafe.
