@@ -35,7 +35,7 @@ Binary tree with recursive methods.
 - Sorting: Implicitly automatic binary.
 
 ### TSTrie (Sequential Tree)
-Sequential trie with recursive methods. Quite inefficient with memory usage; by design the combination uses much more memory than the data it holds, which is required to maintain true constant time complexity with searches and insertions.
+Sequential trie with recursive methods. Quite inefficient with memory usage; by design the trie uses much more memory than the data it holds, which is required to maintain true constant time complexity with searches and insertions.
 
 - Positioning: Objects inserted and erased by key.
 - Parallelism: None, unsafe.
