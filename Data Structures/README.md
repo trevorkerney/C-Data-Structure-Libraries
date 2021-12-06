@@ -44,19 +44,19 @@ Binary tree with recursive methods.
 - contains - returns whether or not the object is in the tree.
 
 ---
-## STrie
-Sequential trie with recursive methods. Quite inefficient with memory usage; by design the combination uses much more memory than the data it holds, which is required to maintain true constant time complexity with searches and insertions.
+## TSTrie
+Sequential trie with recursive methods. Quite inefficient with memory usage; by design this implementation of a trie typically uses much more memory than the data it holds, which is required to maintain true constant time complexity with searches and insertions.
 
 - Positioning: Objects inserted and erased by key.
 - Parallelism: None, unsafe.
 - Memory Format: Tree.
 
 ### Public Methods
-- insert - inserts a value into the combination.
-- erase - removes a value from the combination.
-- get - returns a reference to a specified value in the combination.
-- contains_key - returns where or not a specified key is in the combination.
-- is_empty - returns whether or not the combination is empty.
+- insert - inserts a value into the trie.
+- erase - removes a value from the trie.
+- get - returns a reference to a specified value in the trie.
+- contains_key - returns where or not a specified key is in the trie.
+- is_empty - returns whether or not the trie is empty.
 - print_keys_inorder - prints keys in alphabetical order. Longer keys print first.
 - print_keys_preorder - prints keys in alphabetical order. Shorter keys print first.
 
